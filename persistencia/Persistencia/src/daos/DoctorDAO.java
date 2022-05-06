@@ -56,8 +56,6 @@ public class DoctorDAO implements IDoctorDAO{
     public boolean agregar(Doctor doctor) {
         MongoCollection <Doctor> coleccion = this.getColecion();
         coleccion.insertOne(doctor);
-        
-        
         return true;
     }
 

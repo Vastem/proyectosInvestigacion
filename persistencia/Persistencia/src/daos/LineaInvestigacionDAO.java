@@ -5,8 +5,12 @@
  */
 package daos;
 
+import Entidades.Doctor;
 import Entidades.LineaInvestigacion;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import interfaces.ILineaInvestigacionDAO;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -14,10 +18,17 @@ import java.util.List;
  * @author Vastem
  */
 public class LineaInvestigacionDAO implements ILineaInvestigacionDAO{
-
+    private MongoDatabase bd;
+    
+    private MongoCollection <LineaInvestigacion>getColecion(){
+        return this.bd.getCollection("lineasinvestigacion", LineaInvestigacion.class);
+    }
+    
     @Override
     public boolean agregar(LineaInvestigacion lInvestigacion) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        MongoCollection <LineaInvestigacion> coleccion = this.getColecion();
+        coleccion.insertOne(lInvestigacion);
+        return true;
     }
 
     @Override
@@ -32,7 +43,10 @@ public class LineaInvestigacionDAO implements ILineaInvestigacionDAO{
 
     @Override
     public List<LineaInvestigacion> cosultarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        MongoCollection <LineaInvestigacion> coleccion = this.getColecion();
+        List<LineaInvestigacion> linea = new LinkedList<>();
+        coleccion.find().into(linea);
+        return linea;
     }
     
 }
