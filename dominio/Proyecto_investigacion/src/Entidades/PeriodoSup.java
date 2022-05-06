@@ -25,6 +25,9 @@ public class PeriodoSup {
         this.fechaFin = fechaFin;
     }
 
+    public PeriodoSup() {
+    }
+
     
     
     

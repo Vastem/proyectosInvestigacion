@@ -26,6 +26,9 @@ public class LineaInvestigacion {
         this.publicaciones = publicaciones;
     }
 
+    public LineaInvestigacion() {
+    }
+
     
 
     public String getCodigo() {

@@ -24,6 +24,9 @@ public class ProfesorProyecto {
         this.fechaFin = fechaFin;
     }
 
+    public ProfesorProyecto() {
+    }
+
     
 
     public Profesor getProfesor() {

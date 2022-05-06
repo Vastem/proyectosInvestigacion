@@ -22,6 +22,9 @@ public class EnRevista extends Publicacion{
     public EnRevista(int numeroSecuencia, String titulo) {
         super(numeroSecuencia, titulo);
     }
+
+    public EnRevista() {
+    }
     
     public EnRevista(int numeroSecuencia, String titulo, String nombreRevista, String editorial, int volumen, int numero, int cantidadPaginas) {
         super(numeroSecuencia, titulo);

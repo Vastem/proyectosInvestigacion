@@ -18,6 +18,9 @@ public class Publicacion {
     protected Proyecto proyecto;
     protected List<LineaInvestigacion> lineas;
 
+    public Publicacion() {
+    }
+
     public Publicacion(int numeroSecuencia, String titulo) {
         this.numeroSecuencia = numeroSecuencia;
         this.titulo = titulo;

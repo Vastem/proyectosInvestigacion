@@ -22,6 +22,13 @@ public class EnCongreso extends Publicacion{
         Internacional,
         Nacional
     }
+
+    public EnCongreso(int numeroSecuencia, String titulo) {
+        super(numeroSecuencia, titulo);
+    }
+
+    public EnCongreso() {
+    }
     
     public EnCongreso(int numeroSecuencia, String titulo, String nombreCongreso, Date fechaInicio, Date fechaFin, String lugarCelebracion, String pais, String editorial) {
         super(numeroSecuencia, titulo);
