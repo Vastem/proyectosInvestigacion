@@ -3,12 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao;
+package daos;
 
 import Entidades.*;
-import com.mongodb.*;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import interfaces.IDoctorDAO;
+
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;

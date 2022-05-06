@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao;
+package daos;
 
 import Entidades.LineaInvestigacion;
+import interfaces.ILineaInvestigacionDAO;
 import java.util.List;
 
 /**
