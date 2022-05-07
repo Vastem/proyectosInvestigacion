@@ -35,52 +35,53 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
         else JOptionPane.showMessageDialog(this, "El profesor seleccionado ya está en la lista de integrantes");
     }
     
-    private void validarVacio(){
+    private boolean validarVacio(){
         
         //Validar que se elija un programa de investigacion
         if(cboProgInv.getSelectedIndex()==0){
             JOptionPane.showMessageDialog(this, "Seleccione un programa de investigación");
-            return;
+            return false;
         }
         //Validar que se elija una linea de investigacion
         if(cboLineaInv.getSelectedIndex()==0){
             JOptionPane.showMessageDialog(this, "Seleccione una línea de investigación");
-            return;
+            return false;
         }
         //Validar que se ingrese el nombre del proyecto
         if(txtNombreProyecto.getText().trim().isEmpty()){
             JOptionPane.showMessageDialog(this, "Ingrese el nombre del proyecto");
-            return;
+            return false;
         }
         //Validar que se ingrese el acronimo del proyecto
         if(txtAcronimo.getText().trim().isEmpty()){
             JOptionPane.showMessageDialog(this, "Ingrese el acrónimo del proyecto");
-            return;
+            return false;
         }
         //Validar que se ingrese la fecha de inicio del proyecto
         if(txtFechaInicio.getText().trim().isEmpty()){
             JOptionPane.showMessageDialog(this, "Ingrese la fecha inicial del proyecto");
-            return;
+            return false;
         }
         //Validar que se ingrese la fecha de fin del proyecto
         if(txtFechaFin.getText().trim().isEmpty()){
             JOptionPane.showMessageDialog(this, "Ingrese la fecha final del proyecto");
-            return;
+            return false;
         }
         //Validar que se ingrese el presupuesto del proyecto
         if(txtPresupuesto.getText().trim().isEmpty()){
             JOptionPane.showMessageDialog(this, "Ingrese el presupuesto del proyecto");
-            return;
+            return false;
         }
         //Validar que se ingrese la descripción del proyecto
         if(txtDescripcion.getText().trim().isEmpty()){
             JOptionPane.showMessageDialog(this, "Ingrese la descripción del proyecto");
-            return;
+            return false;
         }
+        return true;
         
     }
     
-    private void validarFormatos(){
+    private boolean validarFormatos(){
         //Pasar los txt a variables
         String  nombre=txtNombreProyecto.getText().trim();
         String  acronimo=txtAcronimo.getText().trim();
@@ -98,6 +99,7 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
             formatoFecha.parse(fechaInicio);
         } catch (ParseException e) {
             JOptionPane.showMessageDialog(this, "La fecha Inicio debe estar en el formato dd/mm/aaaa");
+            return false;
         }
         
         //Validar fecha fin
@@ -109,8 +111,15 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
             formatoFecha.parse(fechaFin);
         } catch (ParseException e) {
             JOptionPane.showMessageDialog(this, "La fecha final debe estar en el formato dd/mm/aaaa");
+            return false;
         }
         
+        if(modeloLista.getSize()<2){
+            JOptionPane.showMessageDialog(this, "Debe haber al menos 2 integrantes");
+            return false;
+        }
+        
+        return true;
         
         
     }
@@ -467,16 +476,38 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarIntegranteActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        validarVacio();
-        validarFormatos();
+        if(validarVacio() && validarFormatos()){
+            
+            //Logica para guardar en base de datos
+            //ObjetoNegocio oN=new lamadre()
+            //
+            /*
+                Proyecto p=new Proyecto(atributos);
+                oN.agregarProyecto(p) -> true
+            
+                persistencia.consultar(p) -> false entonces se puede agregar
+                persistencia.agregar(p) -> Si si se pudo 
+                
+            
+                
+            */
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        System.exit(0);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        // TODO add your handling code here:
+        //Pasar los txt a variables
+        cboLineaInv.setSelectedIndex(0);
+        cboProgInv.setSelectedIndex(0);
+        txtNombreProyecto.setText("");
+        txtAcronimo.setText("");
+        txtFechaInicio.setText("");
+        txtFechaFin.setText("");
+        txtPresupuesto.setText("");
+        txtDescripcion.setText("");
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnAgregarIntegranteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarIntegranteActionPerformed
