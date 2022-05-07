@@ -20,7 +20,7 @@ public class ConexionDB implements IConexionDB{
     
     private static final String HOST = "localhost";
     private static final int PUERTO = 27017;
-    private static final String BASE_DATOS = "restaurantesBD_10am";
+    private static final String BASE_DATOS = "proyectos_Investigacion";
     
     @Override
     public MongoDatabase crearConexion() {

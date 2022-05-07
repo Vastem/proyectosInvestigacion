@@ -21,6 +21,6 @@ public class Doctor extends Profesor{
         super(nombre, apellidos, despacho, telefono);
     }
     
-    //Doctor abstinencia
+    //ea
     
 }

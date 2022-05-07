@@ -12,6 +12,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import interfaces.IConexionDB;
 import interfaces.IDoctorDAO;
 
 import java.text.SimpleDateFormat;
@@ -23,28 +24,16 @@ import java.util.List;
  * @author Vastem
  */
 public class DoctorDAO implements IDoctorDAO{
-    DB database;
-    DBCollection collection;
+    
     private MongoDatabase bd;
+    private IConexionDB ea;
+    
+    public DoctorDAO(ConexionDB con){
+        this.ea = con;                      
+        this.bd = ea.crearConexion();
+    }
 
     public DoctorDAO() {
-        crearConexion();
-    }
-    
-    public void crearConexion(){
-        MongoClient mongo = null;
-        
-        try{
-            mongo = new MongoClient("localhost",27017);
-            System.out.println("Conectado");
-            
-            database=mongo.getDB("proyectosInvestigacion");
-            collection=database.getCollection("doctores");
-        }
-        catch(MongoException e){
-           
-            System.out.println("fallo");
-        }
         
     }
     
