@@ -6,10 +6,13 @@
 package prueba;
 
 import Entidades.Doctor;
+import Entidades.LineaInvestigacion;
 import daos.ConexionDB;
 import daos.DoctorDAO;
+import daos.LineaInvestigacionDAO;
 import interfaces.IConexionDB;
 import interfaces.IDoctorDAO;
+import interfaces.ILineaInvestigacionDAO;
 
 /**
  *
@@ -22,6 +25,7 @@ public class pruebas {
      */
     public static void main(String[] args) {
         IConexionDB c = new ConexionDB();
+        
         Doctor d = new Doctor();
         IDoctorDAO doc = new DoctorDAO((ConexionDB) c);
 
@@ -30,7 +34,16 @@ public class pruebas {
         d.setDespacho("itson");
         d.setTelefono("69");
         
-        doc.agregar(d);
+        //doc.agregar(d);
+        
+        LineaInvestigacion l = new LineaInvestigacion();
+        ILineaInvestigacionDAO lin = new LineaInvestigacionDAO((ConexionDB) c);
+        
+        l.setCodigo("2");
+        l.setConjuntoDescrip("nosè");
+        l.setNombre("name");
+        
+        lin.agregar(l);
         
     }
     

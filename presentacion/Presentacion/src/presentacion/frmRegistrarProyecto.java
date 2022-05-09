@@ -8,21 +8,35 @@ package presentacion;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+import Entidades.*;
+import daos.ConexionDB;
+import daos.DoctorDAO;
+import interfaces.IConexionDB;
+import interfaces.IDoctorDAO;
 
 /**
  *
  * @author Erick
  */
 public class frmRegistrarProyecto extends javax.swing.JFrame {
-
     DefaultListModel modeloLista = new DefaultListModel();
+    IConexionDB c = new ConexionDB();
+    
+    Doctor d = new Doctor();
+    IDoctorDAO doc;
+    
     /**
      * Creates new form frmRegistrarProyecto
      */
     public frmRegistrarProyecto() {
         initComponents();
+        doc = new DoctorDAO((ConexionDB) c);
+        consultarProfesores();
         lstIntegrantes.setModel(modeloLista);
     }
     private void borrarElementoLista(String valor){
@@ -33,6 +47,19 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
     private void agregarElementoLista(String valor){
         if(!modeloLista.contains(valor)) modeloLista.addElement(valor);
         else JOptionPane.showMessageDialog(this, "El profesor seleccionado ya está en la lista de integrantes");
+    }
+    
+    public void initTablas(){
+        
+    }
+    
+    public void consultarProfesores(){
+        List<Doctor> list = doc.cosultarTodos();
+        DefaultTableModel model = (DefaultTableModel) tblProfesores.getModel();
+        int rowCount = model.getRowCount();
+        
+        //Remove rows one by one from the end of the table
+              
     }
     
     private boolean validarVacio(){
@@ -325,15 +352,27 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
 
         tblProfesores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Erick Bernal Amparano"},
-                {"Marco Irineo Inzunza"},
-                {"Jorge Alan Vastem"},
-                {null}
+
             },
             new String [] {
                 "Profesores"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(tblProfesores);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

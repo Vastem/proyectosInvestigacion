@@ -24,7 +24,6 @@ import java.util.List;
  * @author Vastem
  */
 public class DoctorDAO implements IDoctorDAO{
-    
     private MongoDatabase bd;
     private IConexionDB ea;
     
@@ -36,7 +35,7 @@ public class DoctorDAO implements IDoctorDAO{
     public DoctorDAO() {
         
     }
-    
+
     private MongoCollection <Doctor>getColecion(){
         return this.bd.getCollection("doctores", Doctor.class);
     }

@@ -9,6 +9,7 @@ import Entidades.Doctor;
 import Entidades.LineaInvestigacion;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import interfaces.IConexionDB;
 import interfaces.ILineaInvestigacionDAO;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +20,12 @@ import java.util.List;
  */
 public class LineaInvestigacionDAO implements ILineaInvestigacionDAO{
     private MongoDatabase bd;
+    private IConexionDB con;
+
+    public LineaInvestigacionDAO(ConexionDB con) {
+        this.con = con;                      
+        this.bd = con.crearConexion();
+    }
     
     private MongoCollection <LineaInvestigacion>getColecion(){
         return this.bd.getCollection("lineasinvestigacion", LineaInvestigacion.class);
