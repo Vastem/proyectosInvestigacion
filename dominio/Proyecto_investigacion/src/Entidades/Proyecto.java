@@ -24,6 +24,7 @@ public class Proyecto {
     protected Date fechaFin;
     protected String descripcionObjeto;
     protected List<ProfesorProyecto> profesoresProyecto;
+    protected List<Profesor> profesores;
     protected Doctor investigadorPrincipal;
     protected String lineaInvestigacion;
     
@@ -71,7 +72,13 @@ public class Proyecto {
         this.lineaInvestigacion = lineaInvestigacion;
     }
 
-    
+    public List<Profesor> getProfesores() {
+        return profesores;
+    }
+
+    public void setProfesores(List<Profesor> profesores) {
+        this.profesores = profesores;
+    }
     
     public String getCodigo() {
         return codigo;

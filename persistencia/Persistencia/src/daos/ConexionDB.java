@@ -26,7 +26,7 @@ public class ConexionDB implements IConexionDB{
     public MongoDatabase crearConexion() {
        try{
             //CONFIGURACIÃ“N PARA QUE MONGODRIVE REALICE EL MAPEO DE POJOS AUMATICAMENTE
-z            CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
+            CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
             
             CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), pojoCodecRegistry);
             

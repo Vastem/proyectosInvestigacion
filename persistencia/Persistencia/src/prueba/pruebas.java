@@ -29,10 +29,10 @@ public class pruebas {
         Doctor d = new Doctor();
         IDoctorDAO doc = new DoctorDAO((ConexionDB) c);
 
-        d.setApellidos("Pendejon");
-        d.setNombre("Pendejin");
-        d.setDespacho("itson");
-        d.setTelefono("69");
+        d.setApellidos("a");
+        d.setNombre("a");
+        d.setDespacho("a");
+        d.setTelefono("1");
         
         doc.agregar(d);
         

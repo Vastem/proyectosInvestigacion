@@ -15,12 +15,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import Entidades.*;
-import daos.ConexionDB;
-import daos.DoctorDAO;
-import daos.NoDoctorDAO;
-import interfaces.IConexionDB;
-import interfaces.IDoctorDAO;
-import interfaces.INoDoctorDAO;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -47,10 +41,6 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
         pBO = new ProyectoBO();
         consultarProfesores();
         lstIntegrantes.setModel(modeloLista);
-    }
-    
-    public void initTablas(){
-        
     }
     
     public void consultarProfesores(){
@@ -89,16 +79,11 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
     
     private boolean validarVacio(){
         
-        //Validar que se elija un programa de investigacion
-        if(cboProgInv.getSelectedIndex()==0){
-            JOptionPane.showMessageDialog(this, "Seleccione un programa de investigación");
+        if(txtPrograma.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Programa vacio");
             return false;
         }
-        //Validar que se elija una linea de investigacion
-        if(cboLineaInv.getSelectedIndex()==0){
-            JOptionPane.showMessageDialog(this, "Seleccione una línea de investigación");
-            return false;
-        }
+        
         //Validar que se ingrese el nombre del proyecto
         if(txtNombreProyecto.getText().trim().isEmpty()){
             JOptionPane.showMessageDialog(this, "Ingrese el nombre del proyecto");
@@ -188,15 +173,12 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
         tblLineasInv = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblProgInv = new javax.swing.JTable();
-        cboProgInv = new javax.swing.JComboBox<>();
-        cboLineaInv = new javax.swing.JComboBox<>();
         txtNombreProyecto = new javax.swing.JTextField();
         txtAcronimo = new javax.swing.JTextField();
         txtFechaInicio = new javax.swing.JTextField();
         txtFechaFin = new javax.swing.JTextField();
         txtPresupuesto = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -218,39 +200,46 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         tblIntSelect = new javax.swing.JTable();
+        txtPrograma = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         tblLineasInv.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
+
             },
             new String [] {
-                "líneas de investigación"
+                "Lineas de investigación"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblLineasInv);
 
         tblProgInv.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
+
             },
             new String [] {
-                "programas de investigación"
+                "Programa"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tblProgInv);
-
-        cboProgInv.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        cboLineaInv.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         txtNombreProyecto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -310,9 +299,6 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel1.setText("Programa de investigación");
-
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel2.setText("Línea de investigación");
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel3.setText("Nombre del proyecto");
@@ -419,6 +405,12 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
         });
         jScrollPane6.setViewportView(tblIntSelect);
 
+        txtPrograma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtProgramaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -429,55 +421,58 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
                         .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addComponent(jLabel1)
                                 .addGap(38, 38, 38)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(cboProgInv, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(cboLineaInv, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtNombreProyecto)
-                                        .addComponent(txtAcronimo, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(txtFechaInicio)
-                                        .addComponent(txtFechaFin)
-                                        .addComponent(txtPresupuesto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txtPrograma, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(82, 82, 82)
+                        .addGap(92, 92, 92)
                         .addComponent(btnGuardar)
-                        .addGap(22, 22, 22)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLimpiar)
                         .addGap(18, 18, 18)
-                        .addComponent(btnCancelar)))
+                        .addComponent(btnCancelar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(38, 38, 38)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+                            .addComponent(txtNombreProyecto, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtAcronimo)
+                            .addComponent(txtFechaInicio, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtFechaFin, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPresupuesto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
-                        .addComponent(jLabel10)
-                        .addGap(76, 76, 76))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel10)
+                                .addGap(98, 98, 98)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(91, 91, 91)
+                                .addComponent(jLabel9))
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(272, 272, 272)
                         .addComponent(btnAgregarIntegrante)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEliminarIntegrante))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(91, 91, 91)
-                        .addComponent(jLabel9))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnEliminarIntegrante)))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -492,44 +487,37 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(21, 21, 21)
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(112, 112, 112)
-                                .addComponent(txtAcronimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(17, 17, 17)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtPresupuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(cboProgInv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(cboLineaInv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel4)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtPrograma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(11, 11, 11)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(txtAcronimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtPresupuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane4)))
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -574,34 +562,31 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if(validarVacio() && validarFormatos()){
             
-            //Logica para guardar en base de datos
-            //ObjetoNegocio oN=new lamadre()
-            //
-            /*
-                Proyecto p=new Proyecto(atributos);
-                oN.agregarProyecto(p) -> true
+            List<Profesor> pTemp = new ArrayList();
             
-                persistencia.consultar(p) -> false entonces se puede agregar
-                persistencia.agregar(p) -> Si si se pudo 
-                
+            for(int i = 0; i < modeloLista.getSize(); i++){
+                pTemp.add((Profesor) modeloLista.get(i));
+            }
             
-                
-            */
             
             Proyecto p = new Proyecto();
             p.setNombre(txtNombreProyecto.getText());
             p.setAcronimo(txtAcronimo.getText());
-            p.setCodigo("1");
-            p.setDesarrolloFinanza("aa");
+            //p.setCodigo("1");
+            //p.setDesarrolloFinanza("aa");
             p.setDescripcionObjeto(txtDescripcion.getText());
             p.setFechaInicio(new Date(txtFechaInicio.getText()));
             p.setFechaFin(new Date(txtFechaFin.getText()));
             p.setPresupuesto(Integer.parseInt(txtPresupuesto.getText()));
-            p.setProgramaInvestigacion("a");
-            p.setLineaInvestigacion("e");
+            p.setProfesores(pTemp);
+            p.setProgramaInvestigacion(txtPrograma.getText());
+            //p.setLineaInvestigacion("e");
             
             pBO.registrarProyecto(p);
             
+            
+            JOptionPane.showMessageDialog(this, "Se agregó el proyecto");
+            btnLimpiarActionPerformed(evt);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -611,14 +596,14 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         //Pasar los txt a variables
-        cboLineaInv.setSelectedIndex(0);
-        cboProgInv.setSelectedIndex(0);
+        txtPrograma.setText("");
         txtNombreProyecto.setText("");
         txtAcronimo.setText("");
         txtFechaInicio.setText("");
         txtFechaFin.setText("");
         txtPresupuesto.setText("");
         txtDescripcion.setText("");
+        modeloLista.clear();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void borrarElementoLista(String valor){
@@ -627,13 +612,13 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
     }
     
     private boolean agregarElementoLista(Profesor v){
-        for(int i=0;0 < modeloLista.size();i++){
-            Profesor temp = (Profesor) modeloLista.get(i);
-            if(temp.getNombre().equals(v.getNombre()) && temp.getApellidos().equals(v.getApellidos())){
-                JOptionPane.showMessageDialog(this, "El profesor seleccionado ya esta en la lista");
-                return false;
-            }
-        }    
+//        for(int i=0;0 < modeloLista.size();i++){
+//            Profesor temp = (Profesor) modeloLista.get(i);
+//            if(temp.getNombre().equals(v.getNombre()) && temp.getApellidos().equals(v.getApellidos())){
+//                JOptionPane.showMessageDialog(this, "El profesor seleccionado ya esta en la lista");
+//                return false;
+//            }
+//        }    
             
         modeloLista.addElement(v);
         return true;
@@ -691,6 +676,10 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
             evt.consume();
     }//GEN-LAST:event_txtPresupuestoKeyTyped
 
+    private void txtProgramaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProgramaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtProgramaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -732,11 +721,8 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminarIntegrante;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
-    private javax.swing.JComboBox<String> cboLineaInv;
-    private javax.swing.JComboBox<String> cboProgInv;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -761,5 +747,6 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
     private javax.swing.JTextField txtFechaInicio;
     private javax.swing.JTextField txtNombreProyecto;
     private javax.swing.JTextField txtPresupuesto;
+    private javax.swing.JTextField txtPrograma;
     // End of variables declaration//GEN-END:variables
 }
