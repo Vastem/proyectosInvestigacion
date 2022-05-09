@@ -29,5 +29,9 @@ public class NoDoctor extends Profesor{
         this.periodos = periodos;
     }
     
+    @Override
+    public String toString() {
+        return "No Doctor: " + nombre + " " + apellidos;
+    }
     
 }

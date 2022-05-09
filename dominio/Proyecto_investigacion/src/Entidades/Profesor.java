@@ -91,6 +91,12 @@ public class Profesor {
     public void setLineas(List<LineaInvestigacion> lineas) {
         this.lineas = lineas;
     }
+
+    @Override
+    public String toString() {
+        return nombre + " " +  apellidos;
+    }
+    
     
     
 }

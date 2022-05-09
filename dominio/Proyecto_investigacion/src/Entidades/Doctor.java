@@ -20,7 +20,12 @@ public class Doctor extends Profesor{
     public Doctor(String nombre, String apellidos, String despacho, String telefono) {
         super(nombre, apellidos, despacho, telefono);
     }
+
+    @Override
+    public String toString() {
+        return "Doctor: " + nombre + " " + apellidos;
+    }
     
-    //ea
+    
     
 }
