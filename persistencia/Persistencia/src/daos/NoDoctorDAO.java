@@ -7,8 +7,10 @@ package daos;
 
 import Entidades.Doctor;
 import Entidades.NoDoctor;
+import Entidades.Profesor;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import interfaces.IConexionDB;
 import interfaces.INoDoctorDAO;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +21,12 @@ import java.util.List;
  */
 public class NoDoctorDAO implements INoDoctorDAO{
     private MongoDatabase bd;
+    private IConexionDB con;
+    
+    public NoDoctorDAO(ConexionDB con){
+        this.con = con;                      
+        this.bd = con.crearConexion();
+    }
     
     private MongoCollection <NoDoctor>getColecion(){
         return this.bd.getCollection("nodoctores", NoDoctor.class);
@@ -42,9 +50,9 @@ public class NoDoctorDAO implements INoDoctorDAO{
     }
 
     @Override
-    public List<NoDoctor> cosultarTodos() {
+    public List<Profesor> cosultarTodos() {
         MongoCollection <NoDoctor> coleccion = this.getColecion();
-        List<NoDoctor> lDoc = new LinkedList<>();
+        List<Profesor> lDoc = new LinkedList<>();
         coleccion.find().into(lDoc);
         return lDoc;
     }

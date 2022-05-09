@@ -7,6 +7,7 @@ package Entidades;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -24,9 +25,14 @@ public class Proyecto {
     protected String descripcionObjeto;
     protected List<ProfesorProyecto> profesoresProyecto;
     protected Doctor investigadorPrincipal;
+    protected String lineaInvestigacion;
     
     
     public Proyecto() {
+    }
+
+    public Proyecto(String nombre) {
+        this.nombre = nombre;
     }
 
     public Proyecto(String codigo, String nombre, String acronimo, float presupuesto, String programaInvestigacion, String desarrolloFinanza, Date fechaInicio, Date fechaFin, String descripcionObjeto) {
@@ -55,6 +61,14 @@ public class Proyecto {
         this.descripcionObjeto = descripcionObjeto;
         this.profesoresProyecto = profesoresProyecto;
         this.investigadorPrincipal = investigadorPrincipal;
+    }
+
+    public String getLineaInvestigacion() {
+        return lineaInvestigacion;
+    }
+
+    public void setLineaInvestigacion(String lineaInvestigacion) {
+        this.lineaInvestigacion = lineaInvestigacion;
     }
 
     
@@ -148,6 +162,31 @@ public class Proyecto {
         this.investigadorPrincipal = investigadorPrincipal;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 79 * hash + Objects.hashCode(this.nombre);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Proyecto other = (Proyecto) obj;
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        return true;
+    }
+    
     @Override
     public String toString() {
         return "Proyecto{" + "codigo=" + codigo + ", nombre=" + nombre + ", acronimo=" + acronimo + ", presupuesto=" + presupuesto + ", programaInvestigacion=" + programaInvestigacion + ", desarrolloFinanza=" + desarrolloFinanza + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + ", descripcionObjeto=" + descripcionObjeto + ", profesoresProyecto=" + profesoresProyecto + ", investigadorPrincipal=" + investigadorPrincipal + '}';

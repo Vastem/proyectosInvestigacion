@@ -9,6 +9,7 @@ import Entidades.NoDoctor;
 import Entidades.Proyecto;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import interfaces.IConexionDB;
 import interfaces.IProyectoDAO;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +20,12 @@ import java.util.List;
  */
 public class ProyectoDAO implements IProyectoDAO{
     private MongoDatabase bd;
+    private IConexionDB con;
+    
+    public ProyectoDAO(ConexionDB con){
+        this.con = con;                      
+        this.bd = con.crearConexion();
+    }
     
     private MongoCollection <Proyecto>getColecion(){
         return this.bd.getCollection("proyectos", Proyecto.class);

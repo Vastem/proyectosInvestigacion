@@ -25,11 +25,11 @@ import java.util.List;
  */
 public class DoctorDAO implements IDoctorDAO{
     private MongoDatabase bd;
-    private IConexionDB ea;
+    private IConexionDB con;
     
     public DoctorDAO(ConexionDB con){
-        this.ea = con;                      
-        this.bd = ea.crearConexion();
+        this.con = con;                      
+        this.bd = con.crearConexion();
     }
 
     public DoctorDAO() {
@@ -58,9 +58,9 @@ public class DoctorDAO implements IDoctorDAO{
     }
 
     @Override
-    public List<Doctor> cosultarTodos() {
+    public List<Profesor> cosultarTodos() {
         MongoCollection <Doctor> coleccion = this.getColecion();
-        List<Doctor> lDoc = new LinkedList<>();
+        List<Profesor> lDoc = new LinkedList<>();
         coleccion.find().into(lDoc);
         return lDoc;
     }

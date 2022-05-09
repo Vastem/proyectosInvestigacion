@@ -5,6 +5,7 @@
  */
 package presentacion;
 
+import BOs.ProyectoBO;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,8 +17,12 @@ import javax.swing.table.DefaultTableModel;
 import Entidades.*;
 import daos.ConexionDB;
 import daos.DoctorDAO;
+import daos.NoDoctorDAO;
 import interfaces.IConexionDB;
 import interfaces.IDoctorDAO;
+import interfaces.INoDoctorDAO;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -26,9 +31,11 @@ import interfaces.IDoctorDAO;
 public class frmRegistrarProyecto extends javax.swing.JFrame {
     DefaultListModel modeloLista = new DefaultListModel();
     IConexionDB c = new ConexionDB();
+    ProyectoBO pBO ;
     
     Doctor d = new Doctor();
     IDoctorDAO doc;
+    INoDoctorDAO noDoc;
     
     /**
      * Creates new form frmRegistrarProyecto
@@ -36,6 +43,8 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
     public frmRegistrarProyecto() {
         initComponents();
         doc = new DoctorDAO((ConexionDB) c);
+        noDoc = new NoDoctorDAO((ConexionDB) c);
+        pBO = new ProyectoBO();
         consultarProfesores();
         lstIntegrantes.setModel(modeloLista);
     }
@@ -54,12 +63,38 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
     }
     
     public void consultarProfesores(){
-        List<Doctor> list = doc.cosultarTodos();
+        List<Profesor> listDoctor = doc.cosultarTodos();
+        List<Profesor> listProfesor = noDoc.cosultarTodos();
+        
+        List<Profesor> list = new ArrayList();
+
+        if(listDoctor.size() > 0){
+            for(int d = 0; d < listDoctor.size(); d++){
+                list.add(listDoctor.get(d));
+            }
+        }
+        
+        if(listProfesor.size() > 0){
+            for(int p = 0; p < listProfesor.size(); p++){
+                list.add(listProfesor.get(p));
+            }
+        }
+        
+        
         DefaultTableModel model = (DefaultTableModel) tblProfesores.getModel();
         int rowCount = model.getRowCount();
         
         //Remove rows one by one from the end of the table
-              
+        for (int i = rowCount - 1; i >= 0; i--) {
+          model.removeRow(i);
+        }
+        
+        Object rowData[]=new Object[2];
+        for(int i=0; i <list.size();i++){
+            rowData[0]=list.get(i).getNombre();
+            rowData[1]=list.get(i).getApellidos();
+            model.addRow(rowData);
+        }      
     }
     
     private boolean validarVacio(){
@@ -189,6 +224,7 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
         btnLimpiar = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblProfesores = new javax.swing.JTable();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -355,14 +391,14 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Profesores"
+                "Nombre", "Apellido"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -374,6 +410,8 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
             }
         });
         jScrollPane3.setViewportView(tblProfesores);
+
+        jLabel9.setText("Profesores");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -400,7 +438,11 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addGap(92, 92, 92))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(23, 23, 23)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -433,9 +475,12 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -483,7 +528,7 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
                         .addComponent(btnGuardar)
                         .addComponent(btnCancelar)
                         .addComponent(btnLimpiar)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         pack();
@@ -530,6 +575,21 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
             
                 
             */
+            
+            Proyecto p = new Proyecto();
+            p.setNombre(txtNombreProyecto.getText());
+            p.setAcronimo(txtAcronimo.getText());
+            p.setCodigo("1");
+            p.setDesarrolloFinanza("aa");
+            p.setDescripcionObjeto(txtDescripcion.getText());
+            p.setFechaInicio(new Date(txtFechaInicio.getText()));
+            p.setFechaFin(new Date(txtFechaFin.getText()));
+            p.setPresupuesto(Integer.parseInt(txtPresupuesto.getText()));
+            p.setProgramaInvestigacion("a");
+            p.setLineaInvestigacion("e");
+            
+            pBO.registrarProyecto(p);
+            
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -552,7 +612,8 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
     private void btnAgregarIntegranteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarIntegranteActionPerformed
         if(tblProfesores.getSelectedRow()!=-1){
             int fila= tblProfesores.getSelectedRow();
-            String valor=tblProfesores.getValueAt(fila,0).toString();
+            
+            String valor = tblProfesores.getValueAt(fila,0).toString();
             agregarElementoLista(valor);
         }else JOptionPane.showMessageDialog(this, "No se ha seleccionado ningún profesor");
         
@@ -651,6 +712,7 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

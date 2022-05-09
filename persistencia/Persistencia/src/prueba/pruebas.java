@@ -29,12 +29,12 @@ public class pruebas {
         Doctor d = new Doctor();
         IDoctorDAO doc = new DoctorDAO((ConexionDB) c);
 
-        d.setApellidos("Duran");
-        d.setNombre("C");
+        d.setApellidos("Pendejon");
+        d.setNombre("Pendejin");
         d.setDespacho("itson");
         d.setTelefono("69");
         
-        //doc.agregar(d);
+        doc.agregar(d);
         
         LineaInvestigacion l = new LineaInvestigacion();
         ILineaInvestigacionDAO lin = new LineaInvestigacionDAO((ConexionDB) c);

@@ -6,6 +6,7 @@
 package interfaces;
 
 import Entidades.NoDoctor;
+import Entidades.Profesor;
 import java.util.List;
 
 /**
@@ -16,5 +17,5 @@ public interface INoDoctorDAO {
     public boolean agregar(NoDoctor ndoctor);
     public boolean eliminar(NoDoctor ndoctor);
     public boolean actualizar(NoDoctor ndoctor);
-    public List<NoDoctor> cosultarTodos();
+    public List<Profesor> cosultarTodos();
 }

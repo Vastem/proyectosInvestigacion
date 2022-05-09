@@ -6,7 +6,9 @@
 package BOs;
 
 import Entidades.Proyecto;
+import daos.ConexionDB;
 import daos.ProyectoDAO;
+import interfaces.IConexionDB;
 import interfaces.IProyectoDAO;
 import javax.swing.JOptionPane;
 
@@ -15,10 +17,16 @@ import javax.swing.JOptionPane;
  * @author Usuario
  */
 public class ProyectoBO {
-    public IProyectoDAO proyectoDao = new ProyectoDAO();
+    private IConexionDB con;
+    public IProyectoDAO proyectoDao;
+
+    public ProyectoBO() {
+        con = new ConexionDB();
+        proyectoDao = new ProyectoDAO((ConexionDB) con);
+    }
     
     public boolean consultar(String nombre){
-        if(!proyectoDao.cosultarTodos().equals(nombre)){
+        if(proyectoDao.cosultarTodos().contains(new Proyecto(nombre))){
             JOptionPane.showMessageDialog(null, "El nombre del proyecto ya esta ocupada","Precaución",JOptionPane.ERROR_MESSAGE);
             return false;
         }
