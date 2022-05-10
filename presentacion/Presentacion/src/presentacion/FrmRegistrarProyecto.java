@@ -15,6 +15,12 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import Entidades.*;
+import daos.ConexionDB;
+import daos.DoctorDAO;
+import daos.NoDoctorDAO;
+import interfaces.IConexionDB;
+import interfaces.IDoctorDAO;
+import interfaces.INoDoctorDAO;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -22,7 +28,7 @@ import java.util.Date;
  *
  * @author Erick
  */
-public class frmRegistrarProyecto extends javax.swing.JFrame {
+public class FrmRegistrarProyecto extends javax.swing.JFrame {
     DefaultListModel modeloLista = new DefaultListModel();
     IConexionDB c = new ConexionDB();
     ProyectoBO pBO ;
@@ -34,7 +40,7 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
     /**
      * Creates new form frmRegistrarProyecto
      */
-    public frmRegistrarProyecto() {
+    public FrmRegistrarProyecto() {
         initComponents();
         doc = new DoctorDAO((ConexionDB) c);
         noDoc = new NoDoctorDAO((ConexionDB) c);
@@ -697,20 +703,21 @@ public class frmRegistrarProyecto extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frmRegistrarProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmRegistrarProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frmRegistrarProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmRegistrarProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frmRegistrarProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmRegistrarProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frmRegistrarProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmRegistrarProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmRegistrarProyecto().setVisible(true);
+                new FrmRegistrarProyecto().setVisible(true);
             }
         });
     }

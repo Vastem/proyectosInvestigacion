@@ -15,8 +15,10 @@ public class Presentacion {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        frmRegistrarProyecto pantallaRegistro=new frmRegistrarProyecto();
-        pantallaRegistro.setVisible(true);
+//        FrmRegistrarProyecto pantallaRegistro=new FrmRegistrarProyecto();
+//        pantallaRegistro.setVisible(true);
+        FrmBuscarProyecto pantallaBusqueda = new FrmBuscarProyecto();
+        pantallaBusqueda.setVisible(true);
     }
     
 }
