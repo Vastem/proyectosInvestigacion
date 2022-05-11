@@ -22,7 +22,7 @@ public class LineaInvestigacionDAO implements ILineaInvestigacionDAO{
     private MongoDatabase bd;
     private IConexionDB con;
 
-    public LineaInvestigacionDAO(ConexionDB con) {
+    public LineaInvestigacionDAO(IConexionDB con) {
         this.con = con;                      
         this.bd = con.crearConexion();
     }

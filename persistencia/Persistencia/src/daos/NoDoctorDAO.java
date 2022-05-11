@@ -23,7 +23,7 @@ public class NoDoctorDAO implements INoDoctorDAO{
     private MongoDatabase bd;
     private IConexionDB con;
     
-    public NoDoctorDAO(ConexionDB con){
+    public NoDoctorDAO(IConexionDB con){
         this.con = con;                      
         this.bd = con.crearConexion();
     }

@@ -18,9 +18,22 @@ import org.bson.codecs.pojo.PojoCodecProvider;
 
 public class ConexionDB implements IConexionDB{
     
+    private static IConexionDB conexion;
+    
     private static final String HOST = "localhost";
     private static final int PUERTO = 27017;
     private static final String BASE_DATOS = "proyectos_Investigacion";
+    
+    
+    private ConexionDB() {}
+    
+    public static IConexionDB getInstance() {
+        if (conexion == null) {
+            conexion = new ConexionDB();
+        }
+        return conexion;
+    }
+    
     
     @Override
     public MongoDatabase crearConexion() {

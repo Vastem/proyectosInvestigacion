@@ -5,53 +5,53 @@
  */
 package daos;
 
-import Entidades.NoDoctor;
+import Entidades.Programa;
 import Entidades.Proyecto;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import interfaces.IConexionDB;
-import interfaces.IProyectoDAO;
+import interfaces.IProgramaDAO;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
  *
- * @author Vastem
+ * @author Erick
  */
-public class ProyectoDAO implements IProyectoDAO{
+public class ProgramaDAO implements IProgramaDAO{
     private MongoDatabase bd;
     private IConexionDB con;
     
-    public ProyectoDAO(IConexionDB con){
+    public ProgramaDAO(IConexionDB con) {
         this.con = con;                      
         this.bd = con.crearConexion();
     }
     
-    private MongoCollection <Proyecto>getColecion(){
-        return this.bd.getCollection("proyectos", Proyecto.class);
+    private MongoCollection <Programa>getColecion(){
+        return this.bd.getCollection("proyectos", Programa.class);
     }
-    
+
     @Override
-    public boolean agregar(Proyecto proyecto) {
-        MongoCollection <Proyecto> coleccion = this.getColecion();
-        coleccion.insertOne(proyecto);
+    public boolean agregar(Programa programa) {
+        MongoCollection <Programa> coleccion = this.getColecion();
+        coleccion.insertOne(programa);
         return true;
     }
 
     @Override
-    public boolean eliminar(Proyecto proyecto) {
+    public boolean eliminar(Programa programa) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean actualizar(Proyecto proyecto) {
+    public boolean actualizar(Programa programa) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Proyecto> cosultarTodos() {
-        MongoCollection <Proyecto> coleccion = this.getColecion();
-        List<Proyecto> lPr = new LinkedList<>();
+    public List<Programa> cosultarTodos() {
+        MongoCollection <Programa> coleccion = this.getColecion();
+        List<Programa> lPr = new LinkedList<>();
         coleccion.find().into(lPr);
         return lPr;
     }

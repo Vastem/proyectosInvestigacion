@@ -27,7 +27,7 @@ public class DoctorDAO implements IDoctorDAO{
     private MongoDatabase bd;
     private IConexionDB con;
     
-    public DoctorDAO(ConexionDB con){
+    public DoctorDAO(IConexionDB con){
         this.con = con;                      
         this.bd = con.crearConexion();
     }

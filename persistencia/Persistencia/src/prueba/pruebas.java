@@ -24,7 +24,7 @@ public class pruebas {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        IConexionDB c = new ConexionDB();
+        IConexionDB c =ConexionDB.getInstance();
         
         Doctor d = new Doctor();
         IDoctorDAO doc = new DoctorDAO((ConexionDB) c);

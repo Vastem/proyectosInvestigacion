@@ -9,13 +9,13 @@ package Entidades;
  *
  * @author Usuario
  */
-public class programa {
+public class Programa {
     protected String nombre;
 
-    public programa() {
+    public Programa() {
     }
 
-    public programa(String nombre) {
+    public Programa(String nombre) {
         this.nombre = nombre;
     }
 
