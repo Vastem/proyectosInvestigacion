@@ -17,8 +17,7 @@ import interfaces.IProyectoDAO;
  * @author Erick
  */
 public class DaosFactory2 {
-    //private  final IConexionDB conexion=ConexionDB.getInstance();
-    private  final IConexionDB conexion=null;
+    private  final IConexionDB conexion=ConexionDB.getInstance();
     
     public  IProyectoDAO createProyectoDAO(){
         return new ProyectoDAO(conexion);

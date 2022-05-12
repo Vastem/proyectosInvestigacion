@@ -3,11 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Cosas%20Escuela/Trabajos%20de%20clase/4to%20Semestre/Base%20de%20datos%20Avanzadas/ProyectoFinal/persistencia/Persistencia/src/interfaces/IDoctorDAO.java</file>
-            <file>file:/D:/Cosas%20Escuela/Trabajos%20de%20clase/4to%20Semestre/Base%20de%20datos%20Avanzadas/ProyectoFinal/persistencia/Persistencia/src/interfaces/ILineaInvestigacionDAO.java</file>
-            <file>file:/D:/Cosas%20Escuela/Trabajos%20de%20clase/4to%20Semestre/Base%20de%20datos%20Avanzadas/ProyectoFinal/persistencia/Persistencia/src/daos/DaosFactory2.java</file>
-            <file>file:/D:/Cosas%20Escuela/Trabajos%20de%20clase/4to%20Semestre/Base%20de%20datos%20Avanzadas/ProyectoFinal/persistencia/Persistencia/src/daos/LineaInvestigacionDAO.java</file>
-            <file>file:/D:/Cosas%20Escuela/Trabajos%20de%20clase/4to%20Semestre/Base%20de%20datos%20Avanzadas/ProyectoFinal/persistencia/Persistencia/src/daos/DoctorDAO.java</file>
+            <file>file:/F:/Documents/GitHub/proyectosInvestigacion/persistencia/Persistencia/src/daos/NoDoctorDAO.java</file>
+            <file>file:/F:/Documents/GitHub/proyectosInvestigacion/persistencia/Persistencia/src/daos/DoctorDAO.java</file>
         </group>
     </open-files>
 </project-private>
