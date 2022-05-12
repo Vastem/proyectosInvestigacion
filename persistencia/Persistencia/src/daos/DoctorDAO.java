@@ -18,6 +18,7 @@ import interfaces.IDoctorDAO;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
+import org.bson.conversions.Bson;
 
 /**
  *
@@ -49,12 +50,16 @@ public class DoctorDAO implements IDoctorDAO{
 
     @Override
     public boolean eliminar(Doctor doctor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        MongoCollection <Doctor> coleccion = this.getColecion();
+        coleccion.deleteOne((Bson)doctor);      
+        return true;
     }
 
     @Override
-    public boolean actualizar(Doctor doctor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean actualizar(Doctor docBuscar, Doctor docActualiza) {
+        MongoCollection <Doctor> coleccion = this.getColecion();
+        coleccion.updateOne((Bson)docBuscar, (Bson)docActualiza);
+        return true;
     }
 
     @Override

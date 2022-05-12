@@ -13,6 +13,7 @@ import interfaces.IConexionDB;
 import interfaces.ILineaInvestigacionDAO;
 import java.util.LinkedList;
 import java.util.List;
+import org.bson.conversions.Bson;
 
 /**
  *
@@ -40,12 +41,16 @@ public class LineaInvestigacionDAO implements ILineaInvestigacionDAO{
 
     @Override
     public boolean eliminar(LineaInvestigacion lInvestigacion) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        MongoCollection <LineaInvestigacion> coleccion = this.getColecion();
+        coleccion.deleteOne((Bson)lInvestigacion);      
+        return true;
     }
 
     @Override
-    public boolean actualizar(LineaInvestigacion lInvestigacion) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean actualizar(LineaInvestigacion lInvestigacionBuscar,LineaInvestigacion lInvestigacionActualiza) {
+        MongoCollection<LineaInvestigacion> coleccion = this.getColecion();
+        coleccion.updateOne((Bson) lInvestigacionBuscar, (Bson) lInvestigacionActualiza);
+        return true;
     }
 
     @Override

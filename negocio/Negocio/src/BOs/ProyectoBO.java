@@ -19,7 +19,7 @@ public class ProyectoBO implements IProyectoBO{
     private IProyectoDAO proyectoDao;
 
     public ProyectoBO() {
-        DaosFactory2 dF=new DaosFactory2();
+       DaosFactory2 dF=new DaosFactory2();
        proyectoDao=dF.createProyectoDAO();
     }
     
