@@ -627,17 +627,13 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addComponent(txtFechaFinInt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAgregarIntegrante)
-                            .addComponent(btnEliminarIntegrante))))
+                    .addComponent(jLabel8)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAgregarIntegrante)
+                        .addComponent(btnEliminarIntegrante)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
@@ -689,10 +685,10 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
             proyecto.setFechaInicio(fechaInicio.getTime());
             proyecto.setFechaFin(fechaFin.getTime());
             proyecto.setDescripcionObjeto(txtDescripcion.getText());
-            //proyecto.setProfesoresProyecto(integrantes);
+            proyecto.setProfesoresProyecto(integrantes);
             proyecto.setInvestigadorPrincipal((Doctor) cboInvestigadores.getSelectedItem());
             System.out.println(ListaLineaInv.get(0).getCodigo());
-            //proyecto.setLineasInvestigacion(ListaLineaInv);
+            proyecto.setLineasInvestigacion(ListaLineaInv);
             
             
             negFac.agregarProyecto(proyecto);
@@ -736,14 +732,18 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "El profesor seleccionado ya esta en la lista");
             return false;
         }
-        modeloListaInt.addElement(v);
+        
         //Agregar profesorProyecto a la lista
         Calendar fechaInicio= Calendar.getInstance();
         fechaInicio.set(txtFechaInicioInt.getDate().getYear(), txtFechaInicioInt.getDate().getMonthValue()-1, txtFechaInicioInt.getDate().getDayOfMonth(),0,0,0);
         Calendar fechaFin= Calendar.getInstance();
         fechaFin.set(txtFechaFinInt.getDate().getYear(), txtFechaFinInt.getDate().getMonthValue()-1, txtFechaFinInt.getDate().getDayOfMonth(),0,0,0);
         
-        integrantes.add(new ProfesorProyecto(v, proyecto,fechaInicio.getTime() , fechaFin.getTime()));
+        ProfesorProyecto profProy = new ProfesorProyecto(v,fechaInicio.getTime() , fechaFin.getTime());
+        
+        modeloListaInt.addElement(v);
+        integrantes.add(profProy);
+        
         txtFechaInicioInt.setText("");
         txtFechaFinInt.setText("");
         
@@ -764,6 +764,7 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
             
             //Agregar y mostrar elemento a la lista de integrantes
             Profesor v = (Profesor) tblProfesores.getValueAt(fila,0);
+
             agregarElementoListaIntegrantes(v);
             
         }else JOptionPane.showMessageDialog(this, "No se ha seleccionado ningún profesor");

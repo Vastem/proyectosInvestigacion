@@ -55,57 +55,18 @@ public class Proyectos {
         Date f1 = obj.parse("2022-02-27");
         Date f2 = obj.parse("2023-02-27");
         
-        Proyecto p1 = new Proyecto("12345","Ley de la gravedad","LG",402000.00f,"Investigación física","ONU",f1,f2,"Comprobar la ley de la gravedad");
-        ProfesorProyecto pp11 = new ProfesorProyecto(nD1,p1,f1,f2);
-        ProfesorProyecto pp12 = new ProfesorProyecto(d1,p1,f1,f2);
-        
         Date f1p2 = obj.parse("2023-02-27");
         Date f2p2 = obj.parse("2024-02-27");
-        
-        Proyecto p2 = new Proyecto("67890","Mecanica Cuantica","MC",730000.00f,"Investigación física","Cambridge",f1p2,f2p2,"Indagar en la mecanica cuantica");
-        ProfesorProyecto pp21 = new ProfesorProyecto(nD2,p2,f1p2,f2p2);
-        ProfesorProyecto pp22 = new ProfesorProyecto(d2,p2,f1p2,f2p2);
-        
-        List<Proyecto> proyectos = new ArrayList<>();
-        proyectos.add(p1);
-
-        List<ProfesorProyecto> periodoP1 = new ArrayList<>();
-        periodoP1.add(pp11);
-        periodoP1.add(pp12);
-        
-        System.out.println("Periodo del proyecto 1");
-        System.out.println("Proyecto: "+periodoP1.get(0).getProyecto().getNombre());
-        System.out.println("Profesores : "+periodoP1.get(0).getProfesor().getNombre()+", "+periodoP1.get(1).getProfesor().getNombre());
-        System.out.println("Perido: "+(obj.format(periodoP1.get(0).getFechaInicio()))+" - "+(obj.format(periodoP1.get(0).getFechaFin())));
-        System.out.println("");
+       
         
         EnRevista pu1 = new EnRevista(1,"Ley de Gravedad","RevistaPedro","ITSON",1,37,80);
         EnRevista pu2 = new EnRevista(2,"Ley de Gravedad", "RevistaPedro","ITSON",2,45,76);
         EnCongreso pu3 = new EnCongreso(3,"Ley de Gravedad", "Congreso Gravedad",f1, f2,"Nayarit","canada","san pedro");
-        
-        pu1.setProyecto(p1);
-        pu2.setProyecto(p1);
-        
-        pu1.setListaProfesores(p1);
+       
         
         List<Publicacion> publicaciones = new ArrayList<>();
         publicaciones.add(pu1);
         publicaciones.add(pu2);
-        
-        System.out.println("Publicacion 1");
-        System.out.println("Proyecto: "+pu1.getProyecto().getNombre());
-        System.out.println("Profesores : "+ periodoP1.get(0).getProfesor().getNombre()+", "+periodoP1.get(1).getProfesor().getNombre());
-        System.out.println("Publicacion: " + pu1.getTitulo());
-        System.out.println("");
-        
-        LineaInvestigacion l1 = new LineaInvestigacion("123456","Fisica","Se estudian temas de física",profesores,publicaciones);
-        
-        System.out.println("Linea de investigacion");
-        System.out.println("Linea de investigacion: "+l1.getNombre());
-        System.out.println("Profesores: "+l1.getProfesores().get(0).getNombre()+", "+l1.getProfesores().get(1).getNombre()+", "+l1.getProfesores().get(2).getNombre());
-        System.out.println("Publicaciones: "+l1.getPublicaciones().get(0).getTitulo()+", "+l1.getPublicaciones().get(1).getTitulo());
-        System.out.println("");
-        
         
     }
     

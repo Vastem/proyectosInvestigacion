@@ -15,13 +15,11 @@ import java.util.Objects;
  */
 public class ProfesorProyecto {
     protected Profesor profesor;
-    protected Proyecto proyecto;
     protected Date fechaInicio;
     protected Date fechaFin;
 
-    public ProfesorProyecto(Profesor profesor, Proyecto proyecto, Date fechaInicio, Date fechaFin) {
+    public ProfesorProyecto(Profesor profesor, Date fechaInicio, Date fechaFin) {
         this.profesor = profesor;
-        this.proyecto = proyecto;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
     }
@@ -30,11 +28,8 @@ public class ProfesorProyecto {
         this.profesor = profesor;
     }
 
-    
     public ProfesorProyecto() {
     }
-
-    
 
     public Profesor getProfesor() {
         return profesor;
@@ -58,14 +53,6 @@ public class ProfesorProyecto {
 
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
-    }
-
-    public Proyecto getProyecto() {
-        return proyecto;
-    }
-
-    public void setProyecto(Proyecto proyecto) {
-        this.proyecto = proyecto;
     }
 
     @Override
@@ -92,9 +79,6 @@ public class ProfesorProyecto {
         }
         return true;
     }
-    
-    
-    
 
     @Override
     public String toString() {

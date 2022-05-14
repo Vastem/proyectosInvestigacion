@@ -25,8 +25,7 @@ public class Proyecto {
     protected String descripcionObjeto;
     protected List<ProfesorProyecto> profesoresProyecto;
     protected Doctor investigadorPrincipal;
-    //protected List<LineaInvestigacion> lineasInvestigacion;
-    
+    protected List<LineaInvestigacion> lineasInvestigacion;
     
     public Proyecto() {
     }
@@ -160,6 +159,16 @@ public class Proyecto {
         this.investigadorPrincipal = investigadorPrincipal;
     }
 
+    public List<LineaInvestigacion> getLineasInvestigacion() {
+        return lineasInvestigacion;
+    }
+
+    public void setLineasInvestigacion(List<LineaInvestigacion> lineasInvestigacion) {
+        this.lineasInvestigacion = lineasInvestigacion;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 7;

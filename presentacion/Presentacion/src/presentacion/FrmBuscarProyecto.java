@@ -43,17 +43,17 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Buscar proyecto");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Buscar Proyecto");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Fecha inicio:");
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Fecha finalización:");
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        botonCancelar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         botonCancelar.setText("Buscar");
+        botonCancelar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         botonCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonCancelarActionPerformed(evt);
@@ -70,11 +70,16 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
         ));
         tableProyecto.setViewportView(jTable1);
 
-        jLabel9.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jLabel9.setText("Proyecto");
+        jLabel9.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
 
         opcionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Nombre", "Acronimo", "Programa de Investigacion", "Desarrollo Financiero" }));
         opcionComboBox.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        opcionComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opcionComboBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -112,7 +117,7 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(38, 38, 38)
@@ -131,7 +136,7 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tableProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
+                .addGap(59, 59, 59))
         );
 
         pack();
@@ -146,40 +151,44 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonCancelarActionPerformed
 
+    private void opcionComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcionComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_opcionComboBoxActionPerformed
+
     /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(PantallaProyectos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(PantallaProyectos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(PantallaProyectos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(PantallaProyectos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new PantallaProyectos().setVisible(true);
-//            }
-//        });
-//    }
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(FrmRegistrarProfesor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FrmRegistrarProfesor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(FrmRegistrarProfesor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(FrmRegistrarProfesor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new FrmRegistrarProfesor().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCancelar;
