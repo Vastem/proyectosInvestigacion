@@ -9,6 +9,7 @@ import Entidades.Proyecto;
 import daos.DaosFactory;
 import interfaces.IProyectoBO;
 import interfaces.IProyectoDAO;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -70,5 +71,9 @@ public class ProyectoBO implements IProyectoBO{
         return proyectoDao.consultarPrograma(programa);
     }
 
+    
+    public List<Proyecto> consultarFechas(Date fechaInicio, Date fechaFin){
+        return proyectoDao.consultarFechas(fechaInicio, fechaFin);
+    }
     
 }

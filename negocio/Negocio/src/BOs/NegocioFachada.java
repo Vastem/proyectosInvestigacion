@@ -15,6 +15,7 @@ import interfaces.INegocioFachada;
 import interfaces.INoDoctorBO;
 import interfaces.IProgramaBO;
 import interfaces.IProyectoBO;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -75,10 +76,14 @@ public class NegocioFachada{
     }
     
     public List<Proyecto> consultarProyectoAcronimo(String acronimo){
-        return proyectoBO.consultarNombre(acronimo);
+        return proyectoBO.consultarAcronimo(acronimo);
     }
     
     public List<Proyecto> consultarProyectoPrograma(String programa){
         return proyectoBO.consultarPrograma(programa);
+    }
+    
+    public List<Proyecto> consultarFechas(Date fechaInicio, Date fechaFin){
+        return proyectoBO.consultarFechas(fechaInicio, fechaFin);
     }
 }

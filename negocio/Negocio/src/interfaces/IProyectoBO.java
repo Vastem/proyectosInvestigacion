@@ -6,6 +6,7 @@
 package interfaces;
 
 import Entidades.Proyecto;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,5 +23,6 @@ public interface IProyectoBO {
     public List<Proyecto> consultarNombre(String nombre);
     public List<Proyecto> consultarAcronimo(String acronimo);
     public List<Proyecto> consultarPrograma(String programa);
+    public List<Proyecto> consultarFechas(Date fechaInicio, Date fechaFin);
     
 }

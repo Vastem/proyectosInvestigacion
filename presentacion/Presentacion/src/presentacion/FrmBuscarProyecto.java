@@ -6,19 +6,24 @@ package presentacion;
 
 import BOs.NegocioFachada;
 import Entidades.LineaInvestigacion;
+import Entidades.Programa;
 import Entidades.Proyecto;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Paulina Cortez Alamilla.
+ * @author Vastem.
  */
 public class FrmBuscarProyecto extends javax.swing.JFrame {
-
-    
     NegocioFachada negFac;
+    DefaultTableModel modeloProg;
+    DefaultTableModel modeloProy;
+    
     /**
      * Creates new form PantallaProyectos
      */
@@ -28,6 +33,7 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
         dateInicio.setEnabled(false);
         dateFinal.setEnabled(false);
         txtCampoBuscar.setVisible(true);
+        setModeloProyecto();
     }
 
     /**
@@ -44,20 +50,24 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
         fInicio = new javax.swing.JLabel();
         fFinal = new javax.swing.JLabel();
         botonBuscar = new javax.swing.JButton();
-        jscroll = new javax.swing.JScrollPane();
+        scroll = new javax.swing.JScrollPane();
         tbl = new javax.swing.JTable();
         proyecto = new javax.swing.JLabel();
         opcionComboBox = new javax.swing.JComboBox<>();
         dateInicio = new com.github.lgooddatepicker.components.DatePicker();
         dateFinal = new com.github.lgooddatepicker.components.DatePicker();
+        jLabel2 = new javax.swing.JLabel();
+        botonVolver = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Buscar proyecto");
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Buscar Proyecto");
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 6, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
         getContentPane().add(txtCampoBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 90, 188, -1));
 
         fInicio.setText("Fecha inicio:");
@@ -84,16 +94,24 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
             new String [] {
                 "Código", "Nombre", "Acrónimo ", "Programa", "Fecha inicio", "Fecha fin"
             }
-        ));
-        jscroll.setViewportView(tbl);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
-        getContentPane().add(jscroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 195, 887, 232));
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        scroll.setViewportView(tbl);
 
-        proyecto.setText("Proyecto");
+        getContentPane().add(scroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 195, 887, 232));
+
+        proyecto.setText("Proyectos");
         proyecto.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         getContentPane().add(proyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 168, -1, -1));
 
-        opcionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Nombre", "Acronimo", "Programa de Investigacion", "Periodo" }));
+        opcionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Nombre", "Acronimo", "Programa de Investigacion", "Periodo", "Todos" }));
         opcionComboBox.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         opcionComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,32 +121,93 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
         getContentPane().add(opcionComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 52, 188, -1));
         getContentPane().add(dateInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 83, -1, -1));
         getContentPane().add(dateFinal, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 83, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 490, -1, 10));
+
+        botonVolver.setText("Volver");
+        botonVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonVolverActionPerformed(evt);
+            }
+        });
+        getContentPane().add(botonVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 10, -1, -1));
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 0, 50, 20));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void setModeloProyecto(){
+        tbl.setModel(new javax.swing.table.DefaultTableModel(new Object [][] {},new String [] {"Código", "Nombre", "Acrónimo ", "Programa", "Fecha inicio", "Fecha fin"}
+        ) {boolean[] canEdit = new boolean [] {false, false, false, false, false, false};public boolean isCellEditable(int rowIndex, int columnIndex) {return canEdit [columnIndex]; }});
+        tbl.setRowSelectionAllowed(true);
+    }
+    
+    private void setModeloPrograma(){
+        tbl.setModel(new javax.swing.table.DefaultTableModel(new Object [][] {},new String [] {"Nombre"}) 
+        {boolean[] canEdit = new boolean [] {false};public boolean isCellEditable(int rowIndex, int columnIndex) {return canEdit [columnIndex]; }});
+        tbl.setRowSelectionAllowed(true);
+    }
+    
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
-        if(opcionComboBox.getSelectedItem()== "Codigo"){
+        if(validarVacio() && validarFormatos()){
             setTablaProyectos();
         }
-        if(opcionComboBox.getSelectedItem()== "Nombre"){
-           setTablaProyectos();
-        }
-        if(opcionComboBox.getSelectedItem()== "Acronimo"){
-            
-            
-        }
         if(opcionComboBox.getSelectedItem()== "Programa de Investigacion"){
-           
-            
-        }
-        if(opcionComboBox.getSelectedItem()== "Periodo"){
-            
-            
+            botonBuscar.setEnabled(false);
         }
     }//GEN-LAST:event_botonBuscarActionPerformed
 
+    private boolean validarVacio(){
+        
+        if(opcionComboBox.getSelectedItem()== "Codigo"){
+            if(txtCampoBuscar.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Texto vacio");
+            return false;
+            }
+        }
+        else if(opcionComboBox.getSelectedItem()== "Nombre"){
+            if(txtCampoBuscar.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Texto vacio");
+            return false;
+            }
+        }
+        else if(opcionComboBox.getSelectedItem()== "Acronimo"){
+            if(txtCampoBuscar.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Texto vacio");
+            return false;
+            }
+        }
+        else if(opcionComboBox.getSelectedItem()=="Periodo"){
+            if(dateInicio.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Ingrese la fecha inicial del proyecto");
+            return false;
+            }
+            //Validar que se ingrese la fecha de fin del proyecto
+            if(dateFinal.getText().trim().isEmpty()){
+                JOptionPane.showMessageDialog(this, "Ingrese la fecha final del proyecto");
+                return false;
+            }
+        }
+
+        return true;
+    }
+    
+    private boolean validarFormatos(){
+        if(opcionComboBox.getSelectedItem()== "Periodo"){
+            Calendar fechaInicio= Calendar.getInstance();
+            fechaInicio.set(dateInicio.getDate().getYear(), dateInicio.getDate().getMonthValue()-1, dateInicio.getDate().getDayOfMonth(),0,0,0);
+            Calendar fechaFin= Calendar.getInstance();
+            fechaFin.set(dateFinal.getDate().getYear(), dateFinal.getDate().getMonthValue()-1, dateFinal.getDate().getDayOfMonth(),0,0,0);
+            
+            if(fechaInicio.compareTo(fechaFin)>=0){
+                JOptionPane.showMessageDialog(this, "Ingrese un periodo de fechas válido");
+                return false;
+            }
+        }
+
+        return true;
+    }
+    
     private void opcionComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcionComboBoxActionPerformed
         /*
         Codigo
@@ -139,49 +218,84 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
         
         if(opcionComboBox.getSelectedItem()== "Codigo"){
             proyecto.setText("Proyectos");
+            txtCampoBuscar.setText("");
             dateInicio.setEnabled(false);
             dateFinal.setEnabled(false);
             txtCampoBuscar.setVisible(true);
+            botonBuscar.setEnabled(true);
+            dateInicio.clear();
+            dateFinal.clear();
+            setModeloProyecto();
             clear();
         }
         if(opcionComboBox.getSelectedItem()== "Nombre"){
             proyecto.setText("Proyectos");
+            txtCampoBuscar.setText("");
             dateInicio.setEnabled(false);
             dateFinal.setEnabled(false);
             txtCampoBuscar.setVisible(true);
+            botonBuscar.setEnabled(true);
+            dateInicio.clear();
+            dateFinal.clear();
+            setModeloProyecto();
             clear();
         }
         if(opcionComboBox.getSelectedItem()== "Acronimo"){
             proyecto.setText("Proyectos");
+            txtCampoBuscar.setText("");
             dateInicio.setEnabled(false);
             dateFinal.setEnabled(false);
             txtCampoBuscar.setVisible(true);
+            botonBuscar.setEnabled(true);
+            dateInicio.clear();
+            dateFinal.clear();
+            setModeloProyecto();
             clear();
         }
         if(opcionComboBox.getSelectedItem()== "Programa de Investigacion"){
             proyecto.setText("Programas de Investigación");
             dateInicio.setEnabled(false);
             dateFinal.setEnabled(false);
-            txtCampoBuscar.setVisible(true);
-            
+            txtCampoBuscar.setVisible(false);
+            botonBuscar.setEnabled(true);
+            dateInicio.clear();
+            dateFinal.clear();
+            setModeloPrograma();
             setTablaProgramas();
-            
         }
         if(opcionComboBox.getSelectedItem()== "Periodo"){
             proyecto.setText("Proyectos");
             dateInicio.setEnabled(true);
             dateFinal.setEnabled(true);
-            txtCampoBuscar.setVisible(true);
             txtCampoBuscar.setVisible(false);
+            botonBuscar.setEnabled(true);
+            dateInicio.clear();
+            dateFinal.clear();
+            setModeloProyecto();
             clear();
         }
-        
-        
-
+        if(opcionComboBox.getSelectedItem()== "Todos"){
+            proyecto.setText("Proyectos");
+            dateInicio.setEnabled(false);
+            dateFinal.setEnabled(false);
+            txtCampoBuscar.setVisible(false);
+            botonBuscar.setEnabled(true);
+            dateInicio.clear();
+            dateFinal.clear();
+            setModeloProyecto();
+            clear();
+            setTablaProyectos();
+        }
     }//GEN-LAST:event_opcionComboBoxActionPerformed
 
+    private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
+        FrmMenu menu = new FrmMenu();
+        menu.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_botonVolverActionPerformed
+
     public void setTablaProgramas(){
-        List<LineaInvestigacion> listLinInv = negFac.consultarTodosLinInv();
+        List<Programa> list = negFac.consultarTodosProgramas();
         
         DefaultTableModel model = (DefaultTableModel) tbl.getModel();
         int rowCount = model.getRowCount();
@@ -192,28 +306,49 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
         }
         
         Object rowData[]=new Object[1];
-        for(int i=0; i <listLinInv.size();i++){
-            rowData[0]=listLinInv.get(i);
+        for(int i=0; i <list.size();i++){
+            rowData[0]=list.get(i);
             model.addRow(rowData);
         }
     }
     
     public void setTablaProyectos(){
-        List<Proyecto> list;
-        if(opcionComboBox.getSelectedItem()== "Codigo"){
-            list = negFac.consultarProyectoCodigo(txtCampoBuscar.getText());
+        List<Proyecto> list = null;
+        
+        switch(opcionComboBox.getSelectedIndex()){
+            case 0:
+                list = negFac.consultarProyectoCodigo(txtCampoBuscar.getText());
+                break;
+            case 1:
+                list = negFac.consultarProyectoNombre(txtCampoBuscar.getText());
+                break;
+            case 2:
+                list = negFac.consultarProyectoAcronimo(txtCampoBuscar.getText());
+                break;
+            case 3:
+                int fila= tbl.getSelectedRow();
+                Programa v = (Programa) tbl.getValueAt(fila,0);
+                clear();
+                
+                setModeloProyecto();
+                list = negFac.consultarProyectoPrograma(v.getNombre());
+                break;
+            case 4:
+                Calendar fechaInicio= Calendar.getInstance();
+                fechaInicio.set(dateInicio.getDate().getYear(), dateInicio.getDate().getMonthValue()-1, dateInicio.getDate().getDayOfMonth()-1,0,0,0);
+                Calendar fechaFin= Calendar.getInstance();
+                fechaFin.set(dateFinal.getDate().getYear(), dateFinal.getDate().getMonthValue()-1, dateFinal.getDate().getDayOfMonth(),0,0,0);
+
+                list = negFac.consultarFechas(fechaInicio.getTime(), fechaFin.getTime());
+                break;
+            case 5:
+                list = negFac.consultarTodosProyectos();
+                break;
         }
-        else if(opcionComboBox.getSelectedItem()== "Nombre"){
-            list = negFac.consultarProyectoNombre(txtCampoBuscar.getText());
-        }
-        else if(opcionComboBox.getSelectedItem()== "Acronimo"){
-            list = negFac.consultarProyectoAcronimo(txtCampoBuscar.getText());
-        }
-        else if(opcionComboBox.getSelectedItem()== "Programa de Investigacion"){
-            list = negFac.consultarProyectoPrograma(txtCampoBuscar.getText());
-        }
-        else{
-            list = negFac.consultarTodosProyectos();
+
+        if(list == null){
+            JOptionPane.showMessageDialog(this, "No se ha encontrado nada");
+            return;
         }
         
         DefaultTableModel model = (DefaultTableModel) tbl.getModel();
@@ -237,6 +372,7 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
     }
     
     public void clear(){
+        proyecto.setText("Proyectos");
         DefaultTableModel model = (DefaultTableModel) tbl.getModel();
         int rowCount = model.getRowCount();
         
@@ -244,7 +380,6 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
         for (int i = rowCount - 1; i >= 0; i--) {
           model.removeRow(i);
         }
-        
     }
     
     /**
@@ -284,14 +419,17 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscar;
+    private javax.swing.JButton botonVolver;
     private com.github.lgooddatepicker.components.DatePicker dateFinal;
     private com.github.lgooddatepicker.components.DatePicker dateInicio;
     private javax.swing.JLabel fFinal;
     private javax.swing.JLabel fInicio;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jscroll;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JComboBox<String> opcionComboBox;
     private javax.swing.JLabel proyecto;
+    private javax.swing.JScrollPane scroll;
     private javax.swing.JTable tbl;
     private javax.swing.JTextField txtCampoBuscar;
     // End of variables declaration//GEN-END:variables
