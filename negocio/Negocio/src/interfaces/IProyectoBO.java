@@ -18,6 +18,9 @@ public interface IProyectoBO {
     public boolean actualizarProyecto(Proyecto proyecto);
     public Proyecto consultarProyecto(Proyecto proyecto);
     public List<Proyecto> consultarTodos();
-    
+    public List<Proyecto> consultarCodigo(String codigo);
+    public List<Proyecto> consultarNombre(String nombre);
+    public List<Proyecto> consultarAcronimo(String acronimo);
+    public List<Proyecto> consultarPrograma(String programa);
     
 }

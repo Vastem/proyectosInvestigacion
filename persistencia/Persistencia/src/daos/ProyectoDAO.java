@@ -11,8 +11,11 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import interfaces.IConexionDB;
 import interfaces.IProyectoDAO;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import org.bson.Document;
 
 /**
  *
@@ -53,6 +56,30 @@ public class ProyectoDAO implements IProyectoDAO{
         MongoCollection <Proyecto> coleccion = this.getColecion();
         List<Proyecto> lPr = new LinkedList<>();
         coleccion.find().into(lPr);
+        return lPr;
+    }
+    
+    public List<Proyecto> consultarCodigo(String codigo) {
+        MongoCollection <Proyecto> coleccion = this.getColecion();
+        List<Proyecto> lPr = coleccion.aggregate(Arrays.asList( new Document("$match", new Document("codigo", codigo)))).into(new ArrayList());
+        return lPr;
+    }
+    
+    public List<Proyecto> consultarNombre(String nombre) {
+        MongoCollection <Proyecto> coleccion = this.getColecion();
+        List<Proyecto> lPr = coleccion.aggregate(Arrays.asList( new Document("$match", new Document("nombre", nombre)))).into(new ArrayList());
+        return lPr;
+    }
+    
+    public List<Proyecto> consultarAcronimo(String acronimo) {
+        MongoCollection <Proyecto> coleccion = this.getColecion();
+        List<Proyecto> lPr = coleccion.aggregate(Arrays.asList( new Document("$match", new Document("acronimo", acronimo)))).into(new ArrayList());
+        return lPr;
+    }
+    
+    public List<Proyecto> consultarPrograma(String programa) {
+        MongoCollection <Proyecto> coleccion = this.getColecion();
+        List<Proyecto> lPr = coleccion.aggregate(Arrays.asList( new Document("$match", new Document("programaInvestigacion:nombre", programa)))).into(new ArrayList());
         return lPr;
     }
     

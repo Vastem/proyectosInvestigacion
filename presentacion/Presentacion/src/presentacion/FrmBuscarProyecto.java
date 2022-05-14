@@ -4,7 +4,12 @@
  */
 package presentacion;
 
+import BOs.NegocioFachada;
+import Entidades.LineaInvestigacion;
+import Entidades.Proyecto;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -12,11 +17,17 @@ import javax.swing.JOptionPane;
  */
 public class FrmBuscarProyecto extends javax.swing.JFrame {
 
+    
+    NegocioFachada negFac;
     /**
      * Creates new form PantallaProyectos
      */
     public FrmBuscarProyecto() {
         initComponents();
+        negFac=new NegocioFachada();
+        dateInicio.setEnabled(false);
+        dateFinal.setEnabled(false);
+        txtCampoBuscar.setVisible(true);
     }
 
     /**
@@ -30,37 +41,43 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         txtCampoBuscar = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        botonCancelar = new javax.swing.JButton();
-        tableProyecto = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel9 = new javax.swing.JLabel();
+        fInicio = new javax.swing.JLabel();
+        fFinal = new javax.swing.JLabel();
+        botonBuscar = new javax.swing.JButton();
+        jscroll = new javax.swing.JScrollPane();
+        tbl = new javax.swing.JTable();
+        proyecto = new javax.swing.JLabel();
         opcionComboBox = new javax.swing.JComboBox<>();
         dateInicio = new com.github.lgooddatepicker.components.DatePicker();
         dateFinal = new com.github.lgooddatepicker.components.DatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Buscar proyecto");
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Buscar Proyecto");
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 6, -1, -1));
+        getContentPane().add(txtCampoBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 90, 188, -1));
 
-        jLabel7.setText("Fecha inicio:");
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        fInicio.setText("Fecha inicio:");
+        fInicio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        getContentPane().add(fInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 55, -1, -1));
 
-        jLabel8.setText("Fecha finalización:");
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        fFinal.setText("Fecha finalización:");
+        fFinal.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        getContentPane().add(fFinal, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 55, -1, -1));
 
-        botonCancelar.setText("Buscar");
-        botonCancelar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        botonCancelar.addActionListener(new java.awt.event.ActionListener() {
+        botonBuscar.setText("Buscar");
+        botonBuscar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        botonBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonCancelarActionPerformed(evt);
+                botonBuscarActionPerformed(evt);
             }
         });
+        getContentPane().add(botonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(413, 439, 78, 42));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -68,93 +85,168 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
                 "Código", "Nombre", "Acrónimo ", "Programa", "Fecha inicio", "Fecha fin"
             }
         ));
-        tableProyecto.setViewportView(jTable1);
+        jscroll.setViewportView(tbl);
 
-        jLabel9.setText("Proyecto");
-        jLabel9.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        getContentPane().add(jscroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 195, 887, 232));
 
-        opcionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Nombre", "Acronimo", "Programa de Investigacion", "Desarrollo Financiero" }));
+        proyecto.setText("Proyecto");
+        proyecto.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        getContentPane().add(proyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 168, -1, -1));
+
+        opcionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Nombre", "Acronimo", "Programa de Investigacion", "Periodo" }));
         opcionComboBox.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         opcionComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 opcionComboBoxActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(opcionComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtCampoBuscar))
-                        .addGap(70, 70, 70)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(dateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(39, 39, 39)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(dateFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28)
-                                .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(80, 80, 80))
-                    .addComponent(jLabel1)))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addComponent(tableProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 887, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(txtCampoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(opcionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(dateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dateFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(26, 26, 26)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tableProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59))
-        );
+        getContentPane().add(opcionComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 52, 188, -1));
+        getContentPane().add(dateInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 83, -1, -1));
+        getContentPane().add(dateFinal, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 83, -1, -1));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
-        if (txtCampoBuscar.getText().isEmpty() || dateInicio.getDate() == null || dateFinal.getDate() == null){
-        JOptionPane.showMessageDialog(this,"Alguno de los campos se encuentra vacío" , "Error", JOptionPane.ERROR_MESSAGE);
-        }else{
-         JOptionPane.showMessageDialog(this,"Busqueda exitosa" , "Busqueda", JOptionPane.INFORMATION_MESSAGE);
+    private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
+        if(opcionComboBox.getSelectedItem()== "Codigo"){
+            setTablaProyectos();
         }
-    }//GEN-LAST:event_botonCancelarActionPerformed
+        if(opcionComboBox.getSelectedItem()== "Nombre"){
+           setTablaProyectos();
+        }
+        if(opcionComboBox.getSelectedItem()== "Acronimo"){
+            
+            
+        }
+        if(opcionComboBox.getSelectedItem()== "Programa de Investigacion"){
+           
+            
+        }
+        if(opcionComboBox.getSelectedItem()== "Periodo"){
+            
+            
+        }
+    }//GEN-LAST:event_botonBuscarActionPerformed
 
     private void opcionComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcionComboBoxActionPerformed
-        // TODO add your handling code here:
+        /*
+        Codigo
+        Nombre
+        Acronimo
+        Programa de Investigacion
+        */
+        
+        if(opcionComboBox.getSelectedItem()== "Codigo"){
+            proyecto.setText("Proyectos");
+            dateInicio.setEnabled(false);
+            dateFinal.setEnabled(false);
+            txtCampoBuscar.setVisible(true);
+            clear();
+        }
+        if(opcionComboBox.getSelectedItem()== "Nombre"){
+            proyecto.setText("Proyectos");
+            dateInicio.setEnabled(false);
+            dateFinal.setEnabled(false);
+            txtCampoBuscar.setVisible(true);
+            clear();
+        }
+        if(opcionComboBox.getSelectedItem()== "Acronimo"){
+            proyecto.setText("Proyectos");
+            dateInicio.setEnabled(false);
+            dateFinal.setEnabled(false);
+            txtCampoBuscar.setVisible(true);
+            clear();
+        }
+        if(opcionComboBox.getSelectedItem()== "Programa de Investigacion"){
+            proyecto.setText("Programas de Investigación");
+            dateInicio.setEnabled(false);
+            dateFinal.setEnabled(false);
+            txtCampoBuscar.setVisible(true);
+            
+            setTablaProgramas();
+            
+        }
+        if(opcionComboBox.getSelectedItem()== "Periodo"){
+            proyecto.setText("Proyectos");
+            dateInicio.setEnabled(true);
+            dateFinal.setEnabled(true);
+            txtCampoBuscar.setVisible(true);
+            txtCampoBuscar.setVisible(false);
+            clear();
+        }
+        
+        
+
     }//GEN-LAST:event_opcionComboBoxActionPerformed
 
+    public void setTablaProgramas(){
+        List<LineaInvestigacion> listLinInv = negFac.consultarTodosLinInv();
+        
+        DefaultTableModel model = (DefaultTableModel) tbl.getModel();
+        int rowCount = model.getRowCount();
+        
+        //Remove rows one by one from the end of the table
+        for (int i = rowCount - 1; i >= 0; i--) {
+          model.removeRow(i);
+        }
+        
+        Object rowData[]=new Object[1];
+        for(int i=0; i <listLinInv.size();i++){
+            rowData[0]=listLinInv.get(i);
+            model.addRow(rowData);
+        }
+    }
+    
+    public void setTablaProyectos(){
+        List<Proyecto> list;
+        if(opcionComboBox.getSelectedItem()== "Codigo"){
+            list = negFac.consultarProyectoCodigo(txtCampoBuscar.getText());
+        }
+        else if(opcionComboBox.getSelectedItem()== "Nombre"){
+            list = negFac.consultarProyectoNombre(txtCampoBuscar.getText());
+        }
+        else if(opcionComboBox.getSelectedItem()== "Acronimo"){
+            list = negFac.consultarProyectoAcronimo(txtCampoBuscar.getText());
+        }
+        else if(opcionComboBox.getSelectedItem()== "Programa de Investigacion"){
+            list = negFac.consultarProyectoPrograma(txtCampoBuscar.getText());
+        }
+        else{
+            list = negFac.consultarTodosProyectos();
+        }
+        
+        DefaultTableModel model = (DefaultTableModel) tbl.getModel();
+        int rowCount = model.getRowCount();
+        
+        //Remove rows one by one from the end of the table
+        for (int i = rowCount - 1; i >= 0; i--) {
+          model.removeRow(i);
+        }
+        
+        Object rowData[]=new Object[6];
+        for(int i=0; i <list.size();i++){
+            rowData[0]=list.get(i).getCodigo();
+            rowData[1]=list.get(i).getNombre();
+            rowData[2]=list.get(i).getAcronimo();
+            rowData[3]=list.get(i).getProgramaInvestigacion().getNombre();
+            rowData[4]=list.get(i).getFechaInicio();
+            rowData[5]=list.get(i).getFechaFin();
+            model.addRow(rowData);
+        }
+    }
+    
+    public void clear(){
+        DefaultTableModel model = (DefaultTableModel) tbl.getModel();
+        int rowCount = model.getRowCount();
+        
+        //Remove rows one by one from the end of the table
+        for (int i = rowCount - 1; i >= 0; i--) {
+          model.removeRow(i);
+        }
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -191,16 +283,16 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botonCancelar;
+    private javax.swing.JButton botonBuscar;
     private com.github.lgooddatepicker.components.DatePicker dateFinal;
     private com.github.lgooddatepicker.components.DatePicker dateInicio;
+    private javax.swing.JLabel fFinal;
+    private javax.swing.JLabel fInicio;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jscroll;
     private javax.swing.JComboBox<String> opcionComboBox;
-    private javax.swing.JScrollPane tableProyecto;
+    private javax.swing.JLabel proyecto;
+    private javax.swing.JTable tbl;
     private javax.swing.JTextField txtCampoBuscar;
     // End of variables declaration//GEN-END:variables
 }

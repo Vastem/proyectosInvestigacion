@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
  *
  * @author Erick
  */
-public class NegocioFachada implements INegocioFachada{
+public class NegocioFachada{
     IProyectoBO proyectoBO ;
     IDoctorBO doctorBO;
     INoDoctorBO noDoctorBO;
@@ -37,7 +37,7 @@ public class NegocioFachada implements INegocioFachada{
         lineaInvBO=FabricaBOs.createLineaInvBO();
     }
     
-    @Override
+   
     public void agregarProyecto(Proyecto proyecto){
         if(proyectoBO.consultarTodos().contains(proyecto)){
             JOptionPane.showMessageDialog(null, "El nombre del proyecto y/o el acrónimo ya existe","Precaución",JOptionPane.ERROR_MESSAGE);
@@ -46,23 +46,39 @@ public class NegocioFachada implements INegocioFachada{
         proyectoBO.agregarProyecto(proyecto);
     }
     
-    @Override
     public List<Programa> consultarTodosProgramas(){
         return programaBO.consultarTodos();
     }
     
-    @Override
     public List<Profesor> consultarTodosDoc(){
         return doctorBO.consultarTodos();
     }
     
-    @Override
     public List<Profesor> consultarTodosNoDoc(){
         return noDoctorBO.consultarTodos();
     }
     
-    @Override
     public List<LineaInvestigacion> consultarTodosLinInv(){
         return lineaInvBO.consultarTodos();
+    }
+    
+    public List<Proyecto> consultarTodosProyectos(){
+        return proyectoBO.consultarTodos();
+    }
+    
+    public List<Proyecto> consultarProyectoCodigo(String codigo){
+        return proyectoBO.consultarCodigo(codigo);
+    }
+    
+    public List<Proyecto> consultarProyectoNombre(String nombre){
+        return proyectoBO.consultarNombre(nombre);
+    }
+    
+    public List<Proyecto> consultarProyectoAcronimo(String acronimo){
+        return proyectoBO.consultarNombre(acronimo);
+    }
+    
+    public List<Proyecto> consultarProyectoPrograma(String programa){
+        return proyectoBO.consultarPrograma(programa);
     }
 }

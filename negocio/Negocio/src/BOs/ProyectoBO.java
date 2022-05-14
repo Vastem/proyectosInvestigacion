@@ -53,4 +53,22 @@ public class ProyectoBO implements IProyectoBO{
     public List<Proyecto> consultarTodos() {
         return proyectoDao.consultarTodos();
     }
+    
+    public List<Proyecto> consultarCodigo(String codigo) {
+        return proyectoDao.consultarCodigo(codigo);
+    }
+    
+    public List<Proyecto> consultarNombre(String nombre){
+        return proyectoDao.consultarNombre(nombre);
+    }
+    
+    public List<Proyecto> consultarAcronimo(String acronimo){
+        return proyectoDao.consultarAcronimo(acronimo);
+    }
+    
+    public List<Proyecto> consultarPrograma(String programa){
+        return proyectoDao.consultarPrograma(programa);
+    }
+
+    
 }

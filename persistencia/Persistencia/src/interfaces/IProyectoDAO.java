@@ -17,4 +17,9 @@ public interface IProyectoDAO {
     public boolean eliminar(Proyecto proyecto);
     public boolean actualizar(Proyecto proyecto);
     public List<Proyecto> consultarTodos();
+    public List<Proyecto> consultarCodigo(String codigo);
+    public List<Proyecto> consultarNombre(String nombre);
+    public List<Proyecto> consultarAcronimo(String acronimo);
+    public List<Proyecto> consultarPrograma(String programa);
+
 }
