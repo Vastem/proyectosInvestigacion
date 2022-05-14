@@ -16,16 +16,12 @@ import java.util.List;
  * @author Erick
  */
 public class LineaInvestigacionBO implements ILineaInvestigacionBO{
-    
     private ILineaInvestigacionDAO lineaInv;
 
     public LineaInvestigacionBO() {
         lineaInv=DaosFactory.createLineaInvestigacionDAO();
     }
-    
-    
-    
-    
+
     @Override
     public boolean agregar(LineaInvestigacion lineaInv) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
