@@ -5,9 +5,8 @@
  */
 package Entidades;
 
-import java.util.Date;
+import org.bson.types.ObjectId;
 import java.util.List;
-import proyectos.*;
 
 /**
  *
@@ -18,12 +17,19 @@ public class Profesor {
     protected String apellidos;
     protected String despacho;
     protected String telefono;
-    protected List<Proyectos> proyectos;
+    protected List<Proyecto> proyectos;
     protected List<LineaInvestigacion> lineas;
 
     public Profesor() {
     }
 
+    public Profesor(String nombre, String apellidos) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+    }
+
+    
+    
     public Profesor(String nombre, String apellidos, String despacho, String telefono) {
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -33,7 +39,7 @@ public class Profesor {
 
     
     
-    public Profesor(String nombre, String apellidos, String despacho, String telefono, List<Proyectos> proyectos, List<LineaInvestigacion> lineas) {
+    public Profesor(String nombre, String apellidos, String despacho, String telefono, List<Proyecto> proyectos, List<LineaInvestigacion> lineas) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.despacho = despacho;
@@ -74,22 +80,6 @@ public class Profesor {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
-    }
-
-    public List<Proyectos> getProyectos() {
-        return proyectos;
-    }
-
-    public void setProyectos(List<Proyectos> proyectos) {
-        this.proyectos = proyectos;
-    }
-
-    public List<LineaInvestigacion> getLineas() {
-        return lineas;
-    }
-
-    public void setLineas(List<LineaInvestigacion> lineas) {
-        this.lineas = lineas;
     }
 
     @Override

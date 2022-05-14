@@ -16,5 +16,5 @@ public interface IProyectoDAO {
     public boolean agregar(Proyecto proyecto);
     public boolean eliminar(Proyecto proyecto);
     public boolean actualizar(Proyecto proyecto);
-    public List<Proyecto> cosultarTodos();
+    public List<Proyecto> consultarTodos();
 }

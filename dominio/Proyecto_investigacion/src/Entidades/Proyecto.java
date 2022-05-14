@@ -18,15 +18,14 @@ public class Proyecto {
     protected String nombre;
     protected String acronimo;
     protected float presupuesto;
-    protected String programaInvestigacion;
+    protected Programa programaInvestigacion;
     protected String desarrolloFinanza;
     protected Date fechaInicio;
     protected Date fechaFin;
     protected String descripcionObjeto;
     protected List<ProfesorProyecto> profesoresProyecto;
-    protected List<Profesor> profesores;
     protected Doctor investigadorPrincipal;
-    protected String lineaInvestigacion;
+    //protected List<LineaInvestigacion> lineasInvestigacion;
     
     
     public Proyecto() {
@@ -36,7 +35,7 @@ public class Proyecto {
         this.nombre = nombre;
     }
 
-    public Proyecto(String codigo, String nombre, String acronimo, float presupuesto, String programaInvestigacion, String desarrolloFinanza, Date fechaInicio, Date fechaFin, String descripcionObjeto) {
+    public Proyecto(String codigo, String nombre, String acronimo, float presupuesto, Programa programaInvestigacion, String desarrolloFinanza, Date fechaInicio, Date fechaFin, String descripcionObjeto) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.acronimo = acronimo;
@@ -50,7 +49,7 @@ public class Proyecto {
 
     
     
-    public Proyecto(String codigo, String nombre, String acronimo, float presupuesto, String programaInvestigacion, String desarrolloFinanza, String telefono, Date fechaInicio, Date fechaFin, String descripcionObjeto, List<ProfesorProyecto> profesoresProyecto, Doctor investigadorPrincipal) {
+    public Proyecto(String codigo, String nombre, String acronimo, float presupuesto, Programa programaInvestigacion, String desarrolloFinanza, String telefono, Date fechaInicio, Date fechaFin, String descripcionObjeto, List<ProfesorProyecto> profesoresProyecto, Doctor investigadorPrincipal) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.acronimo = acronimo;
@@ -64,21 +63,13 @@ public class Proyecto {
         this.investigadorPrincipal = investigadorPrincipal;
     }
 
-    public String getLineaInvestigacion() {
-        return lineaInvestigacion;
-    }
-
-    public void setLineaInvestigacion(String lineaInvestigacion) {
-        this.lineaInvestigacion = lineaInvestigacion;
-    }
-
-    public List<Profesor> getProfesores() {
-        return profesores;
-    }
-
-    public void setProfesores(List<Profesor> profesores) {
-        this.profesores = profesores;
-    }
+//    public List<LineaInvestigacion> getLineaInvestigacion() {
+//        return lineasInvestigacion;
+//    }
+//
+//    public void setLineasInvestigacion(List<LineaInvestigacion> lineasInvestigacion) {
+//        this.lineasInvestigacion = lineasInvestigacion;
+//    }
     
     public String getCodigo() {
         return codigo;
@@ -112,11 +103,11 @@ public class Proyecto {
         this.presupuesto = presupuesto;
     }
 
-    public String getProgramaInvestigacion() {
+    public Programa getProgramaInvestigacion() {
         return programaInvestigacion;
     }
 
-    public void setProgramaInvestigacion(String programaInvestigacion) {
+    public void setProgramaInvestigacion(Programa programaInvestigacion) {
         this.programaInvestigacion = programaInvestigacion;
     }
 
@@ -171,8 +162,9 @@ public class Proyecto {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 79 * hash + Objects.hashCode(this.nombre);
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.nombre);
+        hash = 37 * hash + Objects.hashCode(this.acronimo);
         return hash;
     }
 
@@ -188,11 +180,13 @@ public class Proyecto {
             return false;
         }
         final Proyecto other = (Proyecto) obj;
-        if (!Objects.equals(this.nombre, other.nombre)) {
-            return false;
+        if (Objects.equals(this.nombre, other.nombre) || Objects.equals(this.acronimo, other.acronimo)) {
+            return true;
         }
-        return true;
+        return false;
     }
+
+    
     
     @Override
     public String toString() {

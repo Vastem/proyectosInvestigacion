@@ -15,15 +15,11 @@ public class LineaInvestigacion {
     protected String codigo;
     protected String nombre;
     protected String conjuntoDescrip;
-    protected List<Profesor> profesores;
-    protected List<Publicacion> publicaciones;
 
-    public LineaInvestigacion(String codigo, String nombre, String conjuntoDescrip, List<Profesor> profesores, List<Publicacion> publicaciones) {
+    public LineaInvestigacion(String codigo, String nombre, String conjuntoDescrip) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.conjuntoDescrip = conjuntoDescrip;
-        this.profesores = profesores;
-        this.publicaciones = publicaciones;
     }
 
     public LineaInvestigacion() {
@@ -55,25 +51,9 @@ public class LineaInvestigacion {
         this.conjuntoDescrip = conjuntoDescrip;
     }
 
-    public List<Profesor> getProfesores() {
-        return profesores;
-    }
-
-    public void setProfesores(List<Profesor> profesores) {
-        this.profesores = profesores;
-    }
-
-    public List<Publicacion> getPublicaciones() {
-        return publicaciones;
-    }
-
-    public void setPublicaciones(List<Publicacion> publicaciones) {
-        this.publicaciones = publicaciones;
-    }
-
     @Override
     public String toString() {
-        return "LineaInvestigacion{" + "codigo=" + codigo + ", nombre=" + nombre + ", conjuntoDescrip=" + conjuntoDescrip + ", profesores=" + profesores + ", publicaciones=" + publicaciones + '}';
+        return "LI: "+nombre;
     }
     
     

@@ -7,7 +7,7 @@ package BOs;
 
 import Entidades.NoDoctor;
 import Entidades.Profesor;
-import daos.DaosFactory2;
+import daos.DaosFactory;
 import interfaces.INoDoctorBO;
 import interfaces.INoDoctorDAO;
 import java.util.List;
@@ -20,8 +20,7 @@ public class NoDoctorBO implements INoDoctorBO{
     private INoDoctorDAO noDoctor;
 
     public NoDoctorBO() {
-        DaosFactory2 dF=new DaosFactory2();
-        noDoctor=dF.createNoDoctorDAO();
+        noDoctor=DaosFactory.createNoDoctorDAO();
     }
 
     @Override

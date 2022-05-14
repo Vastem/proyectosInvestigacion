@@ -16,6 +16,6 @@ import java.util.List;
 public interface INoDoctorDAO {
     public boolean agregar(NoDoctor ndoctor);
     public boolean eliminar(NoDoctor ndoctor);
-    public boolean actualizar(NoDoctor ndocBuscar, NoDoctor ndocActualiza);
+    public boolean actualizar(NoDoctor ndoctor);
     public List<Profesor> cosultarTodos();
 }

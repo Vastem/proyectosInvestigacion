@@ -31,7 +31,7 @@ public class NoDoctor extends Profesor{
     
     @Override
     public String toString() {
-        return "No Doctor: " + nombre + " " + apellidos;
+        return "Prof. " + super.toString();
     }
     
 }

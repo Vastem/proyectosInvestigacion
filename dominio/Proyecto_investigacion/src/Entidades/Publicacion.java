@@ -6,7 +6,6 @@
 package Entidades;
 
 import java.util.List;
-import proyectos.Proyectos;
 
 /**
  *

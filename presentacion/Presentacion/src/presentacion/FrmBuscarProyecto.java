@@ -73,8 +73,8 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jLabel9.setText("Proyecto");
 
-        opcionComboBox.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         opcionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Nombre", "Acronimo", "Programa de Investigacion", "Desarrollo Financiero" }));
+        opcionComboBox.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -103,8 +103,8 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tableProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 887, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel9)
+                    .addComponent(tableProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 887, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

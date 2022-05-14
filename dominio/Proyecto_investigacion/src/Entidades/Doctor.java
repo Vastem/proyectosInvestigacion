@@ -6,7 +6,6 @@
 package Entidades;
 
 import java.util.List;
-import proyectos.Proyectos;
 
 /**
  *
@@ -23,7 +22,7 @@ public class Doctor extends Profesor{
 
     @Override
     public String toString() {
-        return "Doctor: " + nombre + " " + apellidos;
+        return "Dr. " + super.toString();
     }
     
     

@@ -15,6 +15,6 @@ import java.util.List;
 public interface ILineaInvestigacionDAO {
     public boolean agregar(LineaInvestigacion lInvestigacion);
     public boolean eliminar(LineaInvestigacion lInvestigacion);
-    public boolean actualizar(LineaInvestigacion lInvestigacionBuscar,LineaInvestigacion lInvestigacionActualiza);
+    public boolean actualizar(LineaInvestigacion lInvestigacion);
     public List<LineaInvestigacion> cosultarTodos();
 }

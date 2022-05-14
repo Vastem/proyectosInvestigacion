@@ -28,7 +28,7 @@ public class ProgramaDAO implements IProgramaDAO{
     }
     
     private MongoCollection <Programa>getColecion(){
-        return this.bd.getCollection("proyectos", Programa.class);
+        return this.bd.getCollection("programas", Programa.class);
     }
 
     @Override

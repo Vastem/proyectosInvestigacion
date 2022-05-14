@@ -6,6 +6,7 @@
 package interfaces;
 
 import Entidades.Proyecto;
+import java.util.List;
 
 /**
  *
@@ -15,7 +16,8 @@ public interface IProyectoBO {
     public boolean agregarProyecto(Proyecto proyecto);
     public boolean eliminarProyecto(Proyecto proyecto);
     public boolean actualizarProyecto(Proyecto proyecto);
-    public Proyecto consultarProyecto(String codigo);
+    public Proyecto consultarProyecto(Proyecto proyecto);
+    public List<Proyecto> consultarTodos();
     
     
 }

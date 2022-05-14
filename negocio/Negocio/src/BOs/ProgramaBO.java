@@ -6,7 +6,7 @@
 package BOs;
 
 import Entidades.Programa;
-import daos.DaosFactory2;
+import daos.DaosFactory;
 import interfaces.IProgramaBO;
 import interfaces.IProgramaDAO;
 import java.util.List;
@@ -20,8 +20,7 @@ public class ProgramaBO implements IProgramaBO{
     private IProgramaDAO programa;
     
     public ProgramaBO() {
-        DaosFactory2 dF=new DaosFactory2();
-        programa=dF.createProgramaDAO();
+        programa=DaosFactory.createProgramaDAO();
     }
     
     

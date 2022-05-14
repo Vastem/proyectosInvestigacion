@@ -7,7 +7,7 @@ package BOs;
 
 import Entidades.Doctor;
 import Entidades.Profesor;
-import daos.DaosFactory2;
+import daos.DaosFactory;
 import interfaces.IDoctorBO;
 import interfaces.IDoctorDAO;
 import java.util.List;
@@ -20,8 +20,7 @@ public class DoctorBO implements IDoctorBO{
     private IDoctorDAO doctor;
 
     public DoctorBO() {
-        DaosFactory2 dF=new DaosFactory2();
-        doctor=dF.createDoctorDAO();
+        doctor=DaosFactory.createDoctorDAO();
     }
 
     

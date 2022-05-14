@@ -11,9 +11,9 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import interfaces.IConexionDB;
 import interfaces.ILineaInvestigacionDAO;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import org.bson.conversions.Bson;
 
 /**
  *
@@ -41,24 +41,21 @@ public class LineaInvestigacionDAO implements ILineaInvestigacionDAO{
 
     @Override
     public boolean eliminar(LineaInvestigacion lInvestigacion) {
-        MongoCollection <LineaInvestigacion> coleccion = this.getColecion();
-        coleccion.deleteOne((Bson)lInvestigacion);      
-        return true;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean actualizar(LineaInvestigacion lInvestigacionBuscar,LineaInvestigacion lInvestigacionActualiza) {
-        MongoCollection<LineaInvestigacion> coleccion = this.getColecion();
-        coleccion.updateOne((Bson) lInvestigacionBuscar, (Bson) lInvestigacionActualiza);
-        return true;
+    public boolean actualizar(LineaInvestigacion lInvestigacion) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<LineaInvestigacion> cosultarTodos() {
         MongoCollection <LineaInvestigacion> coleccion = this.getColecion();
         List<LineaInvestigacion> linea = new LinkedList<>();
-        coleccion.find().into(linea);
-        return linea;
-    }
-    
+        return coleccion.find().into(linea); 
+
+        //return this.getColecion().find().into(new ArrayList());
+
+    } 
 }

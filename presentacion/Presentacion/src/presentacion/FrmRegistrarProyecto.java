@@ -5,23 +5,16 @@
  */
 package presentacion;
 
-import BOs.FabricaBOs;
-import BOs.ProyectoBO;
+
+import BOs.NegocioFachada;
 import java.awt.event.KeyEvent;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 import Entidades.*;
-import interfaces.IDoctorBO;
-import interfaces.ILineaInvestigacionBO;
-import interfaces.INoDoctorBO;
-import interfaces.IProgramaBO;
-import interfaces.IProyectoBO;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,22 +25,18 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
     DefaultListModel modeloListaInt = new DefaultListModel();
     DefaultListModel modeloListaLinea = new DefaultListModel();
     
-    IProyectoBO proyectoBO ;
-    IDoctorBO doctorBO;
-    INoDoctorBO noDoctorBO;
-    ILineaInvestigacionBO lineaInvBO;
-    IProgramaBO programaBO; 
+    NegocioFachada negFac;
+    List<ProfesorProyecto> integrantes;
+    Proyecto proyecto;
     
     /**
      * Creates new form frmRegistrarProyecto
      */
     public FrmRegistrarProyecto() {
         initComponents();
-        proyectoBO=FabricaBOs.createProyectoBO();
-        doctorBO=FabricaBOs.createDoctorBO();
-        noDoctorBO=FabricaBOs.createNoDoctorBO();
-        programaBO=FabricaBOs.createProgramaBO();
-        lineaInvBO=FabricaBOs.createLineaInvBO();
+        negFac=new NegocioFachada();
+        integrantes=new ArrayList();
+        proyecto=new Proyecto();
         
         
         
@@ -59,25 +48,24 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
         lstLinInv.setModel(modeloListaLinea);
         lstIntegrantes.setModel(modeloListaInt);
     }
-    
+    public void llenarCboInvestigadores(List<Profesor> doctores){
+        cboInvestigadores.addItem(new Profesor("Seleccione un doctor",""));
+        
+        for (Profesor doctor : doctores) {
+            cboInvestigadores.addItem(doctor);
+        }
+    }
     public void consultarProfesores(){
-        List<Profesor> listDoctor = doctorBO.consultarTodos();
-        List<Profesor> listProfesor = noDoctorBO.consultarTodos();
+        List<Profesor> listDoctor = negFac.consultarTodosDoc();
+        List<Profesor> listProfesor = negFac.consultarTodosNoDoc();
+        
+        //Llenar el combobox con los doctores que se acaban de consultar
+        llenarCboInvestigadores(listDoctor);
         
         List<Profesor> list = new ArrayList();
 
-        if(listDoctor.size() > 0){
-            for(int d = 0; d < listDoctor.size(); d++){
-                list.add(listDoctor.get(d));
-            }
-        }
-        
-        if(listProfesor.size() > 0){
-            for(int p = 0; p < listProfesor.size(); p++){
-                list.add(listProfesor.get(p));
-            }
-        }
-        
+        list.addAll(listDoctor);
+        list.addAll(listProfesor);
         
         DefaultTableModel model = (DefaultTableModel) tblProfesores.getModel();
         int rowCount = model.getRowCount();
@@ -95,16 +83,7 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
     }
     
     public void consultarLineasInvestigacion(){
-        List<LineaInvestigacion> listLinInv = lineaInvBO.consultarTodos();
-        
-        List<LineaInvestigacion> list = new ArrayList();
-        
-        if(listLinInv.size() > 0){
-            for(int p = 0; p < listLinInv.size(); p++){
-                list.add(listLinInv.get(p));
-            }
-        }
-        
+        List<LineaInvestigacion> listLinInv = negFac.consultarTodosLinInv();
         
         DefaultTableModel model = (DefaultTableModel) tblLineasInv.getModel();
         int rowCount = model.getRowCount();
@@ -115,23 +94,14 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
         }
         
         Object rowData[]=new Object[1];
-        for(int i=0; i <list.size();i++){
-            rowData[0]=list.get(i).getNombre();
+        for(int i=0; i <listLinInv.size();i++){
+            rowData[0]=listLinInv.get(i);
             model.addRow(rowData);
         }
     }
     
     public void consultarProgramas(){
-        List<Programa> listPrograma = programaBO.consultarTodos();
-        
-        List<Programa> list = new ArrayList();
-        
-        if(listPrograma.size() > 0){
-            for(int p = 0; p < listPrograma.size(); p++){
-                list.add(listPrograma.get(p));
-            }
-        }
-        
+        List<Programa> listPrograma = negFac.consultarTodosProgramas();
         
         DefaultTableModel model = (DefaultTableModel) tblProgInv.getModel();
         int rowCount = model.getRowCount();
@@ -142,13 +112,18 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
         }
         
         Object rowData[]=new Object[1];
-        for(int i=0; i <list.size();i++){
-            rowData[0]=list.get(i).getNombre();
+        for(int i=0; i <listPrograma.size();i++){
+            rowData[0]=listPrograma.get(i);
             model.addRow(rowData);
         }
     }
     
     private boolean validarVacio(){
+        
+        if(txtCodigo.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Código vacio");
+            return false;
+        }
         
         if(txtPrograma.getText().trim().isEmpty()){
             JOptionPane.showMessageDialog(this, "Programa vacio");
@@ -163,6 +138,11 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
         //Validar que se ingrese el acronimo del proyecto
         if(txtAcronimo.getText().trim().isEmpty()){
             JOptionPane.showMessageDialog(this, "Ingrese el acrónimo del proyecto");
+            return false;
+        }
+        //Validar que seleccione un investigador principal
+        if(cboInvestigadores.getSelectedIndex()<=0){
+           JOptionPane.showMessageDialog(this, "Seleccione el investigador principal");
             return false;
         }
         //Validar que se ingrese la fecha de inicio del proyecto
@@ -190,35 +170,19 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
     }
     
     private boolean validarFormatos(){
-        //Pasar los txt a variables
-        String  nombre=txtNombreProyecto.getText().trim();
-        String  acronimo=txtAcronimo.getText().trim();
-        String  fechaInicio=txtFechaInicio.getText().trim();
-        String  fechaFin=txtFechaFin.getText().trim();
-        String  presupuesto=txtPresupuesto.getText().trim();
-        String  descripcion=txtDescripcion.getText().trim();
+                
+        Calendar fechaInicio= Calendar.getInstance();
+        fechaInicio.set(txtFechaInicio.getDate().getYear(), txtFechaInicio.getDate().getMonthValue()-1, txtFechaInicio.getDate().getDayOfMonth(),0,0,0);
+        Calendar fechaFin= Calendar.getInstance();
+        fechaFin.set(txtFechaFin.getDate().getYear(), txtFechaFin.getDate().getMonthValue()-1, txtFechaFin.getDate().getDayOfMonth(),0,0,0);
         
-        //Validar fecha inicio
-        try {
-            //Formato de fecha (día/mes/año)
-            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-            formatoFecha.setLenient(false);
-            //Comprobación de la fecha
-            formatoFecha.parse(fechaInicio);
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(this, "La fecha Inicio debe estar en el formato dd/mm/aaaa");
+        
+        if(fechaInicio.compareTo(fechaFin)>=0){
+            JOptionPane.showMessageDialog(this, "Ingrese un periodo de fechas válido");
             return false;
         }
-        
-        //Validar fecha fin
-        try {
-            //Formato de fecha (día/mes/año)
-            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-            formatoFecha.setLenient(false);
-            //Comprobación de la fecha
-            formatoFecha.parse(fechaFin);
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(this, "La fecha final debe estar en el formato dd/mm/aaaa");
+        if(modeloListaLinea.getSize()<1){
+            JOptionPane.showMessageDialog(this, "Agregue al menos una línea de investigación");
             return false;
         }
         
@@ -231,6 +195,17 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
         
         
     }
+    
+    private boolean validarFechasIntegrantes(){
+                
+        Calendar fechaInicio= Calendar.getInstance();
+        fechaInicio.set(txtFechaInicioInt.getDate().getYear(), txtFechaInicioInt.getDate().getMonthValue()-1, txtFechaInicioInt.getDate().getDayOfMonth(),0,0,0);
+        Calendar fechaFin= Calendar.getInstance();
+        fechaFin.set(txtFechaFinInt.getDate().getYear(), txtFechaFinInt.getDate().getMonthValue()-1, txtFechaFinInt.getDate().getDayOfMonth(),0,0,0);
+        
+        return fechaInicio.compareTo(fechaFin)<0;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -246,8 +221,6 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
         tblProgInv = new javax.swing.JTable();
         txtNombreProyecto = new javax.swing.JTextField();
         txtAcronimo = new javax.swing.JTextField();
-        txtFechaInicio = new javax.swing.JTextField();
-        txtFechaFin = new javax.swing.JTextField();
         txtPresupuesto = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -267,13 +240,21 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
         btnLimpiar = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblProfesores = new javax.swing.JTable();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         txtPrograma = new javax.swing.JTextField();
         btnAgregarLinea = new javax.swing.JButton();
         btnEliminarLinea = new javax.swing.JButton();
         jScrollPane7 = new javax.swing.JScrollPane();
         lstLinInv = new javax.swing.JList<>();
+        cboInvestigadores = new javax.swing.JComboBox<>();
+        txtCodigo = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        txtFechaFinInt = new com.github.lgooddatepicker.components.DatePicker();
+        txtFechaFin = new com.github.lgooddatepicker.components.DatePicker();
+        txtFechaInicio = new com.github.lgooddatepicker.components.DatePicker();
+        txtFechaInicioInt = new com.github.lgooddatepicker.components.DatePicker();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -312,6 +293,11 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblProgInv.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tblProgInvMouseReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblProgInv);
 
         txtNombreProyecto.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -331,34 +317,6 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
             }
         });
 
-        txtFechaInicio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFechaInicioActionPerformed(evt);
-            }
-        });
-        txtFechaInicio.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtFechaInicioKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtFechaInicioKeyTyped(evt);
-            }
-        });
-
-        txtFechaFin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFechaFinActionPerformed(evt);
-            }
-        });
-        txtFechaFin.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtFechaFinKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtFechaFinKeyTyped(evt);
-            }
-        });
-
         txtPresupuesto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPresupuestoActionPerformed(evt);
@@ -370,26 +328,26 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel1.setText("Programa de investigación");
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel3.setText("Nombre del proyecto");
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel4.setText("Acrónimo del proyecto");
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel5.setText("Fecha inicio");
+        jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        jLabel6.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel6.setText("Fecha fin");
+        jLabel6.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel7.setText("Presupuesto");
+        jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        jLabel8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel8.setText("Descripción");
+        jLabel8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         txtDescripcion.setColumns(20);
         txtDescripcion.setRows(5);
@@ -456,10 +414,7 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(tblProfesores);
 
-        jLabel9.setText("Profesores");
-
-        jLabel10.setText("Lineas de investigación");
-
+        txtPrograma.setEditable(false);
         txtPrograma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtProgramaActionPerformed(evt);
@@ -488,6 +443,26 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
         lstLinInv.setEnabled(false);
         jScrollPane7.setViewportView(lstLinInv);
 
+        cboInvestigadores.setModel(new javax.swing.DefaultComboBoxModel<>());
+
+        txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyTyped(evt);
+            }
+        });
+
+        jLabel2.setText("Código del proyecto");
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+
+        jLabel11.setText("Investigador principal");
+        jLabel11.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+
+        jLabel13.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel13.setText("Fecha inicio");
+
+        jLabel14.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel14.setText("Fecha fin");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -496,128 +471,179 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(38, 38, 38)
-                                .addComponent(txtPrograma, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(92, 92, 92)
-                        .addComponent(btnGuardar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnLimpiar)
+                        .addGap(147, 147, 147)
+                        .addComponent(jLabel8)
                         .addGap(18, 18, 18)
-                        .addComponent(btnCancelar))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(38, 38, 38)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
-                            .addComponent(txtNombreProyecto, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtAcronimo)
-                            .addComponent(txtFechaInicio, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtFechaFin, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPresupuesto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE))))
-                .addGap(25, 25, 25)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(293, 293, 293)
+                        .addComponent(btnAgregarIntegrante)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEliminarIntegrante))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtFechaInicioInt, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(46, 46, 46)
+                                        .addComponent(jLabel2))
+                                    .addComponent(jLabel1)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(41, 41, 41)
+                                        .addComponent(jLabel3))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(30, 30, 30)
+                                        .addComponent(jLabel4))
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtPrograma, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtAcronimo, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cboInvestigadores, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(25, 25, 25)
+                                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(44, 44, 44)
+                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtFechaFinInt, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(17, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                                .addComponent(jLabel10)
-                                .addGap(98, 98, 98))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(91, 91, 91)
-                                .addComponent(jLabel9))
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(21, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
+                        .addGap(146, 146, 146)
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22)
                         .addComponent(btnAgregarLinea)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEliminarLinea)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAgregarIntegrante)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEliminarIntegrante, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addGap(20, 20, 20)
+                        .addComponent(btnEliminarLinea))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(166, 166, 166)
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPresupuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addGap(122, 122, 122))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addGap(117, 117, 117))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
+                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(273, 273, 273))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
+                        .addGap(2, 2, 2)
+                        .addComponent(jLabel2)
+                        .addGap(16, 16, 16)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtPrograma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtAcronimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11)
+                            .addComponent(cboInvestigadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(txtPrograma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(11, 11, 11)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(txtAcronimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(11, 11, 11)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel5)
+                                    .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(19, 19, 19)
+                                .addComponent(btnAgregarLinea))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(19, 19, 19)
+                                .addComponent(btnEliminarLinea)))
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel6))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtFechaInicioInt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel14)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(txtPresupuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)))
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(15, 15, 15))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                    .addComponent(jLabel7)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(txtFechaFinInt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnAgregarIntegrante)
-                        .addComponent(btnEliminarIntegrante)
-                        .addComponent(btnAgregarLinea)
-                        .addComponent(btnEliminarLinea))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnGuardar)
-                        .addComponent(btnCancelar)
-                        .addComponent(btnLimpiar)))
-                .addGap(18, 18, 18))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAgregarIntegrante)
+                            .addComponent(btnEliminarIntegrante))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardar)
+                    .addComponent(btnLimpiar)
+                    .addComponent(btnCancelar))
+                .addGap(20, 20, 20))
         );
 
         pack();
@@ -628,14 +654,6 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAcronimoActionPerformed
 
-    private void txtFechaInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaInicioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFechaInicioActionPerformed
-
-    private void txtFechaFinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaFinActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFechaFinActionPerformed
-
     private void txtPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPresupuestoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPresupuestoActionPerformed
@@ -643,39 +661,43 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
     private void btnEliminarIntegranteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarIntegranteActionPerformed
         if(tblProfesores.getSelectedRow()!=-1){
             int fila= tblProfesores.getSelectedRow();
-            String valor=tblProfesores.getValueAt(fila,0).toString();
-            borrarElementoLista(valor);
+            Profesor valor=(Profesor) tblProfesores.getValueAt(fila,0);
+            borrarElementoListaInt(valor);
         }else JOptionPane.showMessageDialog(this, "No se ha seleccionado ningún profesor");
     }//GEN-LAST:event_btnEliminarIntegranteActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if(validarVacio() && validarFormatos()){
+            List<LineaInvestigacion> ListaLineaInv=new ArrayList();
             
-            List<Profesor> pTemp = new ArrayList();
-            
-            for(int i = 0; i < modeloListaInt.getSize(); i++){
-                pTemp.add((Profesor) modeloListaInt.get(i));
+            for(int i = 0; i < modeloListaLinea.getSize(); i++){
+                ListaLineaInv.add((LineaInvestigacion) modeloListaLinea.get(i));
             }
             
+            Calendar fechaInicio= Calendar.getInstance();
+            fechaInicio.set(txtFechaInicio.getDate().getYear(), txtFechaInicio.getDate().getMonthValue()-1, txtFechaInicio.getDate().getDayOfMonth(),0,0,0);
+            Calendar fechaFin= Calendar.getInstance();
+            fechaFin.set(txtFechaFin.getDate().getYear(), txtFechaFin.getDate().getMonthValue()-1, txtFechaFin.getDate().getDayOfMonth(),0,0,0);
             
-            Proyecto p = new Proyecto();
-            p.setNombre(txtNombreProyecto.getText());
-            p.setAcronimo(txtAcronimo.getText());
-            //p.setCodigo("1");
+            
+            proyecto.setCodigo(txtCodigo.getText());
+            proyecto.setNombre(txtNombreProyecto.getText());
+            proyecto.setAcronimo(txtAcronimo.getText());
+            proyecto.setPresupuesto(Float.parseFloat(txtPresupuesto.getText()));
+            proyecto.setProgramaInvestigacion((Programa) tblProgInv.getValueAt(tblProgInv.getSelectedRow(), 0));
             //p.setDesarrolloFinanza("aa");
-            p.setDescripcionObjeto(txtDescripcion.getText());
-            p.setFechaInicio(new Date(txtFechaInicio.getText()));
-            p.setFechaFin(new Date(txtFechaFin.getText()));
-            p.setPresupuesto(Integer.parseInt(txtPresupuesto.getText()));
-            p.setProfesores(pTemp);
-            p.setProgramaInvestigacion(txtPrograma.getText());
-            //p.setLineaInvestigacion("e");
-            
-            proyectoBO.agregarProyecto(p);
+            proyecto.setFechaInicio(fechaInicio.getTime());
+            proyecto.setFechaFin(fechaFin.getTime());
+            proyecto.setDescripcionObjeto(txtDescripcion.getText());
+            //proyecto.setProfesoresProyecto(integrantes);
+            proyecto.setInvestigadorPrincipal((Doctor) cboInvestigadores.getSelectedItem());
+            System.out.println(ListaLineaInv.get(0).getCodigo());
+            //proyecto.setLineasInvestigacion(ListaLineaInv);
             
             
-            JOptionPane.showMessageDialog(this, "Se agregó el proyecto");
+            negFac.agregarProyecto(proyecto);
             btnLimpiarActionPerformed(evt);
+            
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -685,40 +707,65 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         //Pasar los txt a variables
+        txtCodigo.setText("");
         txtPrograma.setText("");
         txtNombreProyecto.setText("");
         txtAcronimo.setText("");
+        cboInvestigadores.setSelectedIndex(0);
         txtFechaInicio.setText("");
         txtFechaFin.setText("");
         txtPresupuesto.setText("");
         txtDescripcion.setText("");
+        modeloListaLinea.clear();
         modeloListaInt.clear();
+        tblLineasInv.clearSelection();
+        tblProfesores.clearSelection();
+        tblProgInv.clearSelection();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
-    private void borrarElementoLista(String valor){
-        if(modeloListaInt.contains(valor))modeloListaInt.removeElement(valor);
-        else JOptionPane.showMessageDialog(this, "El profesor seleccionado NO está en la lista de integrantes");
+    private void borrarElementoListaInt(Profesor valor){
+        if(modeloListaInt.contains(valor)){
+            modeloListaInt.removeElement(valor);
+            integrantes.remove(new ProfesorProyecto(valor));
+        }else 
+            JOptionPane.showMessageDialog(this, "El profesor seleccionado NO está en la lista de integrantes");
     }
     
-    private boolean agregarElementoListaIntegrantes(Profesor v){
-//        for(int i=0;0 < modeloListaInt.size();i++){
-//            Profesor temp = (Profesor) modeloListaInt.get(i);
-//            if(temp.getNombre().equals(v.getNombre()) && temp.getApellidos().equals(v.getApellidos())){
-//                JOptionPane.showMessageDialog(this, "El profesor seleccionado ya esta en la lista");
-//                return false;
-//            }
-//        }    
-            
+    private boolean agregarElementoListaIntegrantes(Profesor v){  
+        if(modeloListaInt.contains(v)){
+            JOptionPane.showMessageDialog(this, "El profesor seleccionado ya esta en la lista");
+            return false;
+        }
         modeloListaInt.addElement(v);
+        //Agregar profesorProyecto a la lista
+        Calendar fechaInicio= Calendar.getInstance();
+        fechaInicio.set(txtFechaInicioInt.getDate().getYear(), txtFechaInicioInt.getDate().getMonthValue()-1, txtFechaInicioInt.getDate().getDayOfMonth(),0,0,0);
+        Calendar fechaFin= Calendar.getInstance();
+        fechaFin.set(txtFechaFinInt.getDate().getYear(), txtFechaFinInt.getDate().getMonthValue()-1, txtFechaFinInt.getDate().getDayOfMonth(),0,0,0);
+        
+        integrantes.add(new ProfesorProyecto(v, proyecto,fechaInicio.getTime() , fechaFin.getTime()));
+        txtFechaInicioInt.setText("");
+        txtFechaFinInt.setText("");
+        
         return true;
     }
     
     private void btnAgregarIntegranteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarIntegranteActionPerformed
         if(tblProfesores.getSelectedRow()!=-1){
+            if(txtFechaInicioInt.getText().isEmpty() || txtFechaFinInt.getText().isEmpty()){
+                JOptionPane.showMessageDialog(this, "No se ha seleccionado la fecha para el integrante");
+                return;
+            }
+            if(!validarFechasIntegrantes()){
+                JOptionPane.showMessageDialog(this, "Ingrese un rango de fechas válido");
+                return;
+            }
             int fila= tblProfesores.getSelectedRow();
             
+            //Agregar y mostrar elemento a la lista de integrantes
             Profesor v = (Profesor) tblProfesores.getValueAt(fila,0);
             agregarElementoListaIntegrantes(v);
+            
         }else JOptionPane.showMessageDialog(this, "No se ha seleccionado ningún profesor");
         
     }//GEN-LAST:event_btnAgregarIntegranteActionPerformed
@@ -729,36 +776,12 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
                 evt.consume();
     }//GEN-LAST:event_txtNombreProyectoKeyTyped
 
-    private void txtFechaInicioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFechaInicioKeyTyped
-        if(!Character.isDigit(evt.getKeyChar()))
-            evt.consume();
-        if(txtFechaInicio.getText().length()>=10)
-            evt.consume();
-    }//GEN-LAST:event_txtFechaInicioKeyTyped
-
     private void txtAcronimoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAcronimoKeyTyped
         if(!Character.isLetter(evt.getKeyChar()))
             if(!Character.isDigit(evt.getKeyChar()))
                 evt.consume();
         
     }//GEN-LAST:event_txtAcronimoKeyTyped
-//12/12/
-    private void txtFechaInicioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFechaInicioKeyReleased
-        if(txtFechaInicio.getText().length()==2 || txtFechaInicio.getText().length()==5)
-            txtFechaInicio.setText(txtFechaInicio.getText()+"/");
-    }//GEN-LAST:event_txtFechaInicioKeyReleased
-
-    private void txtFechaFinKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFechaFinKeyReleased
-        if(txtFechaFin.getText().length()==2 || txtFechaFin.getText().length()==5)
-            txtFechaFin.setText(txtFechaFin.getText()+"/");
-    }//GEN-LAST:event_txtFechaFinKeyReleased
-
-    private void txtFechaFinKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFechaFinKeyTyped
-        if(!Character.isDigit(evt.getKeyChar()))
-            evt.consume();
-        if(txtFechaFin.getText().length()>=10)
-            evt.consume();
-    }//GEN-LAST:event_txtFechaFinKeyTyped
 
     private void txtPresupuestoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPresupuestoKeyTyped
         if(!Character.isDigit(evt.getKeyChar()))
@@ -769,7 +792,18 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtProgramaActionPerformed
 
-    private boolean agregarElementoListaLinea(LineaInvestigacion linea){            
+    private void borrarElementoListaLinea(LineaInvestigacion valor){
+        if(modeloListaLinea.contains(valor))
+            modeloListaLinea.removeElement(valor);
+        else 
+            JOptionPane.showMessageDialog(this, "La línea de investigación seleccionada NO está en la lista");
+    }
+    
+    private boolean agregarElementoListaLinea(LineaInvestigacion linea){  
+        if(modeloListaLinea.contains(linea)){
+            JOptionPane.showMessageDialog(this, "La línea de investigación seleccionada ya está en la lista");
+            return false;
+        }
         modeloListaLinea.addElement(linea);
         return true;
     }
@@ -780,12 +814,29 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
             
             LineaInvestigacion linea = (LineaInvestigacion) tblLineasInv.getValueAt(fila,0);
             agregarElementoListaLinea(linea);
-        }else JOptionPane.showMessageDialog(this, "No se ha seleccionado ningún profesor");
+        }else 
+            JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna Linea de Investigación");
     }//GEN-LAST:event_btnAgregarLineaActionPerformed
 
     private void btnEliminarLineaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarLineaActionPerformed
-        // TODO add your handling code here:
+        if(tblLineasInv.getSelectedRow()!=-1){
+            int fila= tblLineasInv.getSelectedRow();
+            LineaInvestigacion linea = (LineaInvestigacion) tblLineasInv.getValueAt(fila,0);
+            borrarElementoListaLinea(linea);
+        }else
+            JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna Linea de Investigación");
     }//GEN-LAST:event_btnEliminarLineaActionPerformed
+
+    private void tblProgInvMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProgInvMouseReleased
+        if(tblProgInv.getSelectedRow()!=-1){
+            int fila=tblProgInv.getSelectedRow();
+            txtPrograma.setText(tblProgInv.getValueAt(fila, 0).toString());
+        }
+    }//GEN-LAST:event_tblProgInvMouseReleased
+
+    private void txtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoKeyTyped
 
     /**
      * @param args the command line arguments
@@ -831,15 +882,21 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminarLinea;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
+    /*
+    private javax.swing.JComboBox<String> cboInvestigadores;
+    */
+    private javax.swing.JComboBox<Profesor> cboInvestigadores;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -852,9 +909,12 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
     private javax.swing.JTable tblProfesores;
     private javax.swing.JTable tblProgInv;
     private javax.swing.JTextField txtAcronimo;
+    private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextArea txtDescripcion;
-    private javax.swing.JTextField txtFechaFin;
-    private javax.swing.JTextField txtFechaInicio;
+    private com.github.lgooddatepicker.components.DatePicker txtFechaFin;
+    private com.github.lgooddatepicker.components.DatePicker txtFechaFinInt;
+    private com.github.lgooddatepicker.components.DatePicker txtFechaInicio;
+    private com.github.lgooddatepicker.components.DatePicker txtFechaInicioInt;
     private javax.swing.JTextField txtNombreProyecto;
     private javax.swing.JTextField txtPresupuesto;
     private javax.swing.JTextField txtPrograma;

@@ -6,7 +6,7 @@
 package BOs;
 
 import Entidades.LineaInvestigacion;
-import daos.DaosFactory2;
+import daos.DaosFactory;
 import interfaces.ILineaInvestigacionBO;
 import interfaces.ILineaInvestigacionDAO;
 import java.util.List;
@@ -20,8 +20,7 @@ public class LineaInvestigacionBO implements ILineaInvestigacionBO{
     private ILineaInvestigacionDAO lineaInv;
 
     public LineaInvestigacionBO() {
-        DaosFactory2 dF=new DaosFactory2();
-        lineaInv=dF.createLineaInvestigacionDAO();
+        lineaInv=DaosFactory.createLineaInvestigacionDAO();
     }
     
     

@@ -5,7 +5,9 @@
  */
 package Entidades;
 
+
 import java.util.Date;
+import java.util.Objects;
 
 /**
  *
@@ -24,6 +26,11 @@ public class ProfesorProyecto {
         this.fechaFin = fechaFin;
     }
 
+    public ProfesorProyecto(Profesor profesor) {
+        this.profesor = profesor;
+    }
+
+    
     public ProfesorProyecto() {
     }
 
@@ -59,6 +66,31 @@ public class ProfesorProyecto {
 
     public void setProyecto(Proyecto proyecto) {
         this.proyecto = proyecto;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 53 * hash + Objects.hashCode(this.profesor);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ProfesorProyecto other = (ProfesorProyecto) obj;
+        if (!Objects.equals(this.profesor, other.profesor)) {
+            return false;
+        }
+        return true;
     }
     
     

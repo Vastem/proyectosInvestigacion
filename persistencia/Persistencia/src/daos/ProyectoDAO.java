@@ -49,7 +49,7 @@ public class ProyectoDAO implements IProyectoDAO{
     }
 
     @Override
-    public List<Proyecto> cosultarTodos() {
+    public List<Proyecto> consultarTodos() {
         MongoCollection <Proyecto> coleccion = this.getColecion();
         List<Proyecto> lPr = new LinkedList<>();
         coleccion.find().into(lPr);
