@@ -11,21 +11,27 @@ import daos.DaosFactory;
 import interfaces.INoDoctorBO;
 import interfaces.INoDoctorDAO;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Erick
  */
 public class NoDoctorBO implements INoDoctorBO{
-    private INoDoctorDAO noDoctor;
+    private INoDoctorDAO noDoctorDao;
 
     public NoDoctorBO() {
-        noDoctor=DaosFactory.createNoDoctorDAO();
+        noDoctorDao=DaosFactory.createNoDoctorDAO();
     }
 
     @Override
-    public boolean agregar(NoDoctor ndoctor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean agregar(NoDoctor noDoctor) {
+        if(noDoctorDao.agregar(noDoctor)){
+            JOptionPane.showMessageDialog(null, "El profesor se registró correctamente");
+            return true;
+        }
+        JOptionPane.showMessageDialog(null, "El profesor no se pudo registrar","Precaución",JOptionPane.ERROR_MESSAGE);
+        return false;
     }
 
     @Override
@@ -45,7 +51,7 @@ public class NoDoctorBO implements INoDoctorBO{
 
     @Override
     public List<Profesor> consultarTodos() {
-        return noDoctor.cosultarTodos();
+        return noDoctorDao.cosultarTodos();
     }
     
     

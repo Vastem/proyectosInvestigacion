@@ -11,23 +11,29 @@ import daos.DaosFactory;
 import interfaces.IDoctorBO;
 import interfaces.IDoctorDAO;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Erick
  */
 public class DoctorBO implements IDoctorBO{
-    private IDoctorDAO doctor;
+    private IDoctorDAO doctorDao;
 
     public DoctorBO() {
-        doctor=DaosFactory.createDoctorDAO();
+        doctorDao=DaosFactory.createDoctorDAO();
     }
 
     
     
     @Override
     public boolean agregar(Doctor doctor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(doctorDao.agregar(doctor)){
+            JOptionPane.showMessageDialog(null, "El profesor (doctor) se registró correctamente");
+            return true;
+        }
+        JOptionPane.showMessageDialog(null, "El profesor (doctor) no se pudo registrar","Precaución",JOptionPane.ERROR_MESSAGE);
+        return false;
     }
 
     @Override
@@ -47,7 +53,7 @@ public class DoctorBO implements IDoctorBO{
 
     @Override
     public List<Profesor> consultarTodos() {
-        return doctor.cosultarTodos();
+        return doctorDao.cosultarTodos();
     }
     
 }

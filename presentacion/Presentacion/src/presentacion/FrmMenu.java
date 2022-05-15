@@ -94,17 +94,19 @@ public class FrmMenu extends javax.swing.JFrame {
     private void btnRegistrarProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarProfesorActionPerformed
         FrmRegistrarProfesor rp = new FrmRegistrarProfesor();
         rp.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnRegistrarProfesorActionPerformed
 
     private void btnRegistrarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarProyectoActionPerformed
         FrmRegistrarProyecto pantallaRegistro=new FrmRegistrarProyecto();
         pantallaRegistro.setVisible(true);
-        
+        dispose();
     }//GEN-LAST:event_btnRegistrarProyectoActionPerformed
 
     private void btnBuscarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProyectoActionPerformed
         FrmBuscarProyecto bp = new FrmBuscarProyecto();
         bp.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnBuscarProyectoActionPerformed
 
     /**

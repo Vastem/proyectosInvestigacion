@@ -5,7 +5,9 @@
  */
 package BOs;
 
+import Entidades.Doctor;
 import Entidades.LineaInvestigacion;
+import Entidades.NoDoctor;
 import Entidades.Profesor;
 import Entidades.Programa;
 import Entidades.Proyecto;
@@ -85,5 +87,25 @@ public class NegocioFachada{
     
     public List<Proyecto> consultarFechas(Date fechaInicio, Date fechaFin){
         return proyectoBO.consultarFechas(fechaInicio, fechaFin);
+    }
+    
+    public boolean agregarDoctor(Doctor doctor){
+        if(doctorBO.consultarTodos().contains(doctor)){
+            JOptionPane.showMessageDialog(null, "El doctor ya se encuentra registrado","Precaución",JOptionPane.ERROR_MESSAGE);
+        }
+        else if(doctorBO.agregar(doctor)){
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean agregarNoDoctor(NoDoctor noDoctor){
+        if(noDoctorBO.consultarTodos().contains(noDoctor)){
+            JOptionPane.showMessageDialog(null, "El profesor ya se encuentra registrado","Precaución",JOptionPane.ERROR_MESSAGE);
+        }
+        else if(noDoctorBO.agregar(noDoctor)){
+            return true;
+        }
+        return false;
     }
 }
