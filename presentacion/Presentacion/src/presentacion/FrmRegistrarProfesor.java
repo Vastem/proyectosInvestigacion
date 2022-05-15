@@ -8,14 +8,17 @@ package presentacion;
 import BOs.NegocioFachada;
 import Entidades.Doctor;
 import Entidades.NoDoctor;
+import Entidades.Profesor;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author germa
  */
 public class FrmRegistrarProfesor extends javax.swing.JFrame {
-    
     private Doctor doctor;
     private NoDoctor noDoctor;
     private NegocioFachada negFac;
@@ -28,6 +31,8 @@ public class FrmRegistrarProfesor extends javax.swing.JFrame {
         doctor = new Doctor();
         noDoctor = new NoDoctor();
         negFac = new NegocioFachada();
+        
+        consultarProfesores();
     }
 
     /**
@@ -48,7 +53,7 @@ public class FrmRegistrarProfesor extends javax.swing.JFrame {
         txtDespacho = new javax.swing.JTextField();
         txtTelefono = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblProfesores = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
         botonVolver = new javax.swing.JButton();
         botonAgregar = new javax.swing.JButton();
@@ -72,20 +77,20 @@ public class FrmRegistrarProfesor extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setText("Telefono");
 
-        jTable1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblProfesores.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        tblProfesores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nombre", "Apellidos", "Despacho", "Telefono"
+                "Nombre", "Despacho", "Telefono"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -96,7 +101,7 @@ public class FrmRegistrarProfesor extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblProfesores);
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel5.setText("Registro Profesores");
@@ -165,9 +170,7 @@ public class FrmRegistrarProfesor extends javax.swing.JFrame {
                                 .addComponent(doctorComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(90, 90, 90)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(555, 555, 555)
-                                .addComponent(botonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(botonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(14, 14, 14)
@@ -302,6 +305,33 @@ public class FrmRegistrarProfesor extends javax.swing.JFrame {
         }
     }
     
+    public void consultarProfesores(){
+        List<Profesor> listDoctor = negFac.consultarTodosDoc();
+        List<Profesor> listProfesor = negFac.consultarTodosNoDoc();
+        
+        
+        List<Profesor> list = new ArrayList();
+
+        list.addAll(listDoctor);
+        list.addAll(listProfesor);
+        
+        DefaultTableModel model = (DefaultTableModel) tblProfesores.getModel();
+        int rowCount = model.getRowCount();
+        
+        //Remove rows one by one from the end of the table
+        for (int i = rowCount - 1; i >= 0; i--) {
+          model.removeRow(i);
+        }
+        
+        Object rowData[]=new Object[3];
+        for(int i=0; i <list.size();i++){
+            rowData[0]=list.get(i);
+            rowData[1]=list.get(i).getDespacho();
+            rowData[2]=list.get(i).getTelefono();
+            model.addRow(rowData);
+        }      
+    }
+    
     private void consultarTodos(){
         //List<Doctor> listDoctor
     }
@@ -354,7 +384,7 @@ public class FrmRegistrarProfesor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblProfesores;
     private javax.swing.JTextField txtApellidos;
     private javax.swing.JTextField txtDespacho;
     private javax.swing.JTextField txtNombre;
