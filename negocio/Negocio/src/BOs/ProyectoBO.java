@@ -42,12 +42,12 @@ public class ProyectoBO implements IProyectoBO{
     
     @Override
     public boolean eliminarProyecto(Proyecto proyecto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return proyectoDao.eliminar(proyecto);
     }
 
     @Override
     public boolean actualizarProyecto(Proyecto proyecto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return proyectoDao.actualizar(proyecto);
     }
 
     @Override

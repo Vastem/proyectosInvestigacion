@@ -62,6 +62,7 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         btnEditar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        btnEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Buscar proyecto");
@@ -81,8 +82,8 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
         fFinal.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         getContentPane().add(fFinal, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 55, -1, -1));
 
-        botonBuscar.setText("Buscar");
         botonBuscar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        botonBuscar.setText("Buscar");
         botonBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonBuscarActionPerformed(evt);
@@ -141,8 +142,16 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
                 btnEditarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 280, 80, 40));
+        getContentPane().add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 240, 80, 40));
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 290, 10, 10));
+
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 290, -1, 40));
 
         pack();
         setLocationRelativeTo(null);
@@ -216,6 +225,36 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
                 return false;
             }
         }
+        
+        if(opcionComboBox.getSelectedItem()== "Codigo"){
+            if(negFac.consultarProyectoCodigo(txtCampoBuscar.getText()) != null){
+                return true;
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "No se encontró el proyecto");
+                return false;
+            }
+        }
+        
+        if(opcionComboBox.getSelectedItem()== "Nombre"){
+            if(negFac.consultarProyectoNombre(txtCampoBuscar.getText()) != null){
+                return true;
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "No se encontró el proyecto");
+                return false;
+            }
+        }
+        
+        if(opcionComboBox.getSelectedItem()== "Acronimo"){
+            if(negFac.consultarProyectoAcronimo(txtCampoBuscar.getText()) != null){
+                return true;
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "No se encontró el proyecto");
+                return false;
+            }
+        }
 
         return true;
     }
@@ -237,6 +276,8 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
             botonBuscar.setEnabled(true);
             dateInicio.clear();
             dateFinal.clear();
+            btnEditar.setEnabled(true);
+            btnEliminar.setEnabled(true);
             setModeloProyecto();
             clear();
         }
@@ -249,6 +290,8 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
             botonBuscar.setEnabled(true);
             dateInicio.clear();
             dateFinal.clear();
+            btnEditar.setEnabled(true);
+            btnEliminar.setEnabled(true);
             setModeloProyecto();
             clear();
         }
@@ -261,6 +304,8 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
             botonBuscar.setEnabled(true);
             dateInicio.clear();
             dateFinal.clear();
+            btnEditar.setEnabled(true);
+            btnEliminar.setEnabled(true);
             setModeloProyecto();
             clear();
         }
@@ -274,11 +319,15 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
             dateFinal.clear();
             setModeloPrograma();
             setTablaProgramas();
+            btnEditar.setEnabled(false);
+            btnEliminar.setEnabled(false);
         }
         if(opcionComboBox.getSelectedItem()== "Periodo"){
             proyecto.setText("Proyectos");
             dateInicio.setEnabled(true);
             dateFinal.setEnabled(true);
+            btnEditar.setEnabled(true);
+            btnEliminar.setEnabled(true);
             txtCampoBuscar.setVisible(false);
             botonBuscar.setEnabled(true);
             dateInicio.clear();
@@ -294,6 +343,8 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
             botonBuscar.setEnabled(true);
             dateInicio.clear();
             dateFinal.clear();
+            btnEditar.setEnabled(true);
+            btnEliminar.setEnabled(true);
             setModeloProyecto();
             clear();
             setTablaProyectos();
@@ -309,7 +360,6 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if(tbl.getSelectedRow()>= 0){
             
-            
             String cdg = (String) tbl.getValueAt(tbl.getSelectedRow(),0);
             Proyecto p;
             ArrayList l = (ArrayList) negFac.consultarProyectoCodigo(cdg);
@@ -322,6 +372,27 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Seleccionar proyecto");
         }
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if(tbl.getSelectedRow()>= 0){
+            
+            String cdg = (String) tbl.getValueAt(tbl.getSelectedRow(),0);
+            Proyecto p;
+            ArrayList l = (ArrayList) negFac.consultarProyectoCodigo(cdg);
+            
+            p = (Proyecto) l.get(0);
+            
+            if(JOptionPane.showOptionDialog(null, "¿Quieres eliminar el proyecto?", "eliminar proyecto", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si","No"}, "Eliminar")==0){
+                negFac.eliminarProyecto(p);
+            }
+            
+            List<Proyecto> list = negFac.consultarTodosProyectos();
+            actualizarTabla(list);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Seleccionar proyecto");
+        }    
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     public void setTablaProgramas(){
         List<Programa> list = negFac.consultarTodosProgramas();
@@ -361,6 +432,8 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
                 
                 setModeloProyecto();
                 list = negFac.consultarProyectoPrograma(v.getNombre());
+                btnEditar.setEnabled(true);
+                btnEliminar.setEnabled(true);
                 break;
             case 4:
                 Calendar fechaInicio= Calendar.getInstance();
@@ -380,6 +453,10 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
             return;
         }
         
+        actualizarTabla(list);
+    }
+    
+    public void actualizarTabla(List<Proyecto> list){
         DefaultTableModel model = (DefaultTableModel) tbl.getModel();
         int rowCount = model.getRowCount();
         
@@ -450,6 +527,7 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
     private javax.swing.JButton botonBuscar;
     private javax.swing.JButton botonVolver;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnEliminar;
     private com.github.lgooddatepicker.components.DatePicker dateFinal;
     private com.github.lgooddatepicker.components.DatePicker dateInicio;
     private javax.swing.JLabel fFinal;

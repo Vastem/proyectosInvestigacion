@@ -44,12 +44,33 @@ public class ProyectoDAO implements IProyectoDAO{
 
     @Override
     public boolean eliminar(Proyecto proyecto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        MongoCollection <Proyecto> coleccion = this.getColecion();
+        Document filtro = new Document("codigo", proyecto.getCodigo());
+        coleccion.deleteOne(filtro);
+        return true;
     }
 
     @Override
     public boolean actualizar(Proyecto proyecto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        MongoCollection <Proyecto> coleccion = this.getColecion();
+        
+        Document filtro = new Document("codigo", proyecto.getCodigo());
+        Document cambios = new Document()
+                .append("codigo", proyecto.getCodigo())
+                .append("nombre", proyecto.getNombre())
+                .append("acronimo", proyecto.getAcronimo())
+                .append("programaInvestigacion", proyecto.getProgramaInvestigacion())
+                .append("presupuesto", proyecto.getPresupuesto())
+                .append("fechaInicio", proyecto.getFechaInicio())
+                .append("fechaFin", proyecto.getFechaFin())
+                .append("descripcionObjeto", proyecto.getDescripcionObjeto())
+                .append("lineasInvestigacion", proyecto.getLineasInvestigacion())
+                .append("profesoresProyecto", proyecto.getProfesoresProyecto())
+                .append("investigadorPrincipal", proyecto.getInvestigadorPrincipal());
+        
+
+        coleccion.updateOne(filtro, new Document("$set", cambios));
+        return true;
     }
 
     @Override
@@ -57,18 +78,27 @@ public class ProyectoDAO implements IProyectoDAO{
         MongoCollection <Proyecto> coleccion = this.getColecion();
         List<Proyecto> lPr = new LinkedList<>();
         coleccion.find().into(lPr);
+        if(lPr.isEmpty()){
+             return null;
+         }
         return lPr;
     }
     
     public List<Proyecto> consultarCodigo(String codigo) {
         MongoCollection <Proyecto> coleccion = this.getColecion();
         List<Proyecto> lPr = coleccion.aggregate(Arrays.asList( new Document("$match", new Document("codigo", codigo)))).into(new ArrayList());
+        if(lPr.isEmpty()){
+             return null;
+         }
         return lPr;
     }
     
     public List<Proyecto> consultarNombre(String nombre) {
         MongoCollection <Proyecto> coleccion = this.getColecion();
         List<Proyecto> lPr = coleccion.aggregate(Arrays.asList( new Document("$match", new Document("nombre", nombre)))).into(new ArrayList());
+        if(lPr.isEmpty()){
+             return null;
+         }
         if(lPr.isEmpty()){
              return null;
          }

@@ -31,6 +31,7 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
     NegocioFachada negFac;
     List<ProfesorProyecto> integrantes;
     Proyecto proyecto;
+    Programa prog = null;
     
     boolean editar = false;
     
@@ -81,6 +82,7 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
     public void rellenarEdicion(Proyecto p){
         txtCodigo.setText(p.getCodigo());
         txtPrograma.setText(p.getProgramaInvestigacion().getNombre());
+        this.prog = p.getProgramaInvestigacion();
         txtNombreProyecto.setText(p.getNombre());
         txtAcronimo.setText(p.getAcronimo());
         
@@ -103,6 +105,7 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
         
         for(int a = 0; a < p.getProfesoresProyecto().size(); a++){
             modeloListaInt.addElement(p.getProfesoresProyecto().get(a).getProfesor());
+            integrantes.add(p.getProfesoresProyecto().get(a));
         }
     }
     
@@ -747,35 +750,71 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if(validarVacio() && validarFormatos()){
-            List<LineaInvestigacion> ListaLineaInv=new ArrayList();
+            if(editar==false){
+                List<LineaInvestigacion> ListaLineaInv=new ArrayList();
             
-            for(int i = 0; i < modeloListaLinea.getSize(); i++){
-                ListaLineaInv.add((LineaInvestigacion) modeloListaLinea.get(i));
+                for(int i = 0; i < modeloListaLinea.getSize(); i++){
+                    ListaLineaInv.add((LineaInvestigacion) modeloListaLinea.get(i));
+                }
+
+                Calendar fechaInicio= Calendar.getInstance();
+                fechaInicio.set(txtFechaInicio.getDate().getYear(), txtFechaInicio.getDate().getMonthValue()-1, txtFechaInicio.getDate().getDayOfMonth(),0,0,0);
+                Calendar fechaFin= Calendar.getInstance();
+                fechaFin.set(txtFechaFin.getDate().getYear(), txtFechaFin.getDate().getMonthValue()-1, txtFechaFin.getDate().getDayOfMonth(),0,0,0);
+
+                proyecto.setCodigo(txtCodigo.getText());
+                proyecto.setNombre(txtNombreProyecto.getText());
+                proyecto.setAcronimo(txtAcronimo.getText());
+                proyecto.setPresupuesto(Float.parseFloat(txtPresupuesto.getText()));
+                proyecto.setProgramaInvestigacion((Programa) tblProgInv.getValueAt(tblProgInv.getSelectedRow(), 0));
+                proyecto.setFechaInicio(fechaInicio.getTime());
+                proyecto.setFechaFin(fechaFin.getTime());
+                proyecto.setDescripcionObjeto(txtDescripcion.getText());
+                proyecto.setProfesoresProyecto(integrantes);
+                proyecto.setInvestigadorPrincipal((Doctor) cboInvestigadores.getSelectedItem());
+                System.out.println(ListaLineaInv.get(0).getCodigo());
+                proyecto.setLineasInvestigacion(ListaLineaInv);
+
+                negFac.agregarProyecto(proyecto);
+                btnLimpiarActionPerformed(evt);
             }
+            else{
+                List<LineaInvestigacion> ListaLineaInv=new ArrayList();
             
-            Calendar fechaInicio= Calendar.getInstance();
-            fechaInicio.set(txtFechaInicio.getDate().getYear(), txtFechaInicio.getDate().getMonthValue()-1, txtFechaInicio.getDate().getDayOfMonth(),0,0,0);
-            Calendar fechaFin= Calendar.getInstance();
-            fechaFin.set(txtFechaFin.getDate().getYear(), txtFechaFin.getDate().getMonthValue()-1, txtFechaFin.getDate().getDayOfMonth(),0,0,0);
-            
-            
-            proyecto.setCodigo(txtCodigo.getText());
-            proyecto.setNombre(txtNombreProyecto.getText());
-            proyecto.setAcronimo(txtAcronimo.getText());
-            proyecto.setPresupuesto(Float.parseFloat(txtPresupuesto.getText()));
-            proyecto.setProgramaInvestigacion((Programa) tblProgInv.getValueAt(tblProgInv.getSelectedRow(), 0));
-            //p.setDesarrolloFinanza("aa");
-            proyecto.setFechaInicio(fechaInicio.getTime());
-            proyecto.setFechaFin(fechaFin.getTime());
-            proyecto.setDescripcionObjeto(txtDescripcion.getText());
-            proyecto.setProfesoresProyecto(integrantes);
-            proyecto.setInvestigadorPrincipal((Doctor) cboInvestigadores.getSelectedItem());
-            System.out.println(ListaLineaInv.get(0).getCodigo());
-            proyecto.setLineasInvestigacion(ListaLineaInv);
-            
-            
-            negFac.agregarProyecto(proyecto);
-            btnLimpiarActionPerformed(evt);
+                for(int i = 0; i < modeloListaLinea.getSize(); i++){
+                    ListaLineaInv.add((LineaInvestigacion) modeloListaLinea.get(i));
+                }
+                
+                
+
+                Calendar fechaInicio= Calendar.getInstance();
+                fechaInicio.set(txtFechaInicio.getDate().getYear(), txtFechaInicio.getDate().getMonthValue()-1, txtFechaInicio.getDate().getDayOfMonth(),0,0,0);
+                Calendar fechaFin= Calendar.getInstance();
+                fechaFin.set(txtFechaFin.getDate().getYear(), txtFechaFin.getDate().getMonthValue()-1, txtFechaFin.getDate().getDayOfMonth(),0,0,0);
+
+                proyecto.setCodigo(txtCodigo.getText());
+                proyecto.setNombre(txtNombreProyecto.getText());
+                proyecto.setAcronimo(txtAcronimo.getText());
+                proyecto.setPresupuesto(Float.parseFloat(txtPresupuesto.getText()));
+
+                if(tblProgInv.getSelectedRow() == -1){
+                    proyecto.setProgramaInvestigacion(this.prog);
+                }
+                else{
+                    proyecto.setProgramaInvestigacion((Programa) tblProgInv.getValueAt(tblProgInv.getSelectedRow(), 0));
+                }
+                proyecto.setFechaInicio(fechaInicio.getTime());
+                proyecto.setFechaFin(fechaFin.getTime());
+                proyecto.setDescripcionObjeto(txtDescripcion.getText());
+                proyecto.setProfesoresProyecto(integrantes);
+                proyecto.setInvestigadorPrincipal((Doctor) cboInvestigadores.getSelectedItem());
+                System.out.println(ListaLineaInv.get(0).getCodigo());
+                proyecto.setLineasInvestigacion(ListaLineaInv);
+
+                if(JOptionPane.showOptionDialog(null, "¿Quieres actualizar el proyecto?", "actualizar proyecto", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si","No"}, "Actualizar")==0){
+                    negFac.actualizarProyecto(proyecto);
+                }
+            }
             
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -809,7 +848,11 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
             Profesor prof = (Profesor) modeloListaInt.get(e);
             if(prof.getNombre().equalsIgnoreCase(valor.getNombre()) && prof.getApellidos().equalsIgnoreCase(valor.getApellidos())){
                 modeloListaInt.remove(e);
-                integrantes.remove(new ProfesorProyecto(valor));
+                for(int i = 0; i < integrantes.size(); i++){
+                    if(integrantes.get(i).getProfesor().getNombre().equalsIgnoreCase(prof.getNombre()) && integrantes.get(i).getProfesor().getApellidos().equalsIgnoreCase(prof.getApellidos())){
+                        integrantes.remove(i);
+                    }
+                }
                 return;
             }
         }

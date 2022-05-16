@@ -39,7 +39,6 @@ public class NegocioFachada{
         programaBO=FabricaBOs.createProgramaBO();
         lineaInvBO=FabricaBOs.createLineaInvBO();
     }
-    
    
     public void agregarProyecto(Proyecto proyecto){
         if(proyectoBO.consultarTodos().contains(proyecto)){
@@ -48,6 +47,24 @@ public class NegocioFachada{
         }
         proyectoBO.agregarProyecto(proyecto);
     }
+    
+    public void actualizarProyecto(Proyecto proyecto){
+        if(proyectoBO.consultarTodos().contains(proyecto)){
+            proyectoBO.actualizarProyecto(proyecto);
+            return;
+        }
+        JOptionPane.showMessageDialog(null, "","Precaución",JOptionPane.ERROR_MESSAGE);
+            
+    }
+    
+    public void eliminarProyecto(Proyecto proyecto){
+        if(proyectoBO.consultarTodos().contains(proyecto)){
+            proyectoBO.eliminarProyecto(proyecto);
+            return;
+        }
+        JOptionPane.showMessageDialog(null, "","Precaución",JOptionPane.ERROR_MESSAGE);
+    }
+    
     
     public List<Programa> consultarTodosProgramas(){
         return programaBO.consultarTodos();
