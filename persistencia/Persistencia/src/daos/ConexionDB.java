@@ -17,7 +17,6 @@ import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 
 public class ConexionDB implements IConexionDB{
-    
     private static IConexionDB conexion;
     
     private static final String HOST = "localhost";

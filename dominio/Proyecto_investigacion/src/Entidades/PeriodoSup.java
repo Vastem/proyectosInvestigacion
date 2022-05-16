@@ -28,9 +28,6 @@ public class PeriodoSup {
     public PeriodoSup() {
     }
 
-    
-    
-    
     public Doctor getSupervisor() {
         return supervisor;
     }
@@ -68,6 +65,4 @@ public class PeriodoSup {
         return "PeriodoSup{" + "supervisor=" + supervisor + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + ", supervisados=" + supervisados + '}';
     }
 
-    
-    
 }
