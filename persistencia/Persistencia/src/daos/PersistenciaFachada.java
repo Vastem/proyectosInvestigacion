@@ -8,6 +8,7 @@ package daos;
 import interfaces.IDoctorDAO;
 import interfaces.ILineaInvestigacionDAO;
 import interfaces.INoDoctorDAO;
+import interfaces.IPersistenciaFachada;
 import interfaces.IProgramaDAO;
 import interfaces.IProyectoDAO;
 
@@ -15,7 +16,7 @@ import interfaces.IProyectoDAO;
  *
  * @author Erick
  */
-public class PersistenciaFachada {
+public class PersistenciaFachada implements IPersistenciaFachada{
     IProyectoDAO proyectoDAO ;
     IDoctorDAO doctorDAO;
     INoDoctorDAO noDoctorDAO;

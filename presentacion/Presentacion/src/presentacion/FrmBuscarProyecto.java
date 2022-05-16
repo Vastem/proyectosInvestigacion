@@ -394,8 +394,8 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
             rowData[1]=list.get(i).getNombre();
             rowData[2]=list.get(i).getAcronimo();
             rowData[3]=list.get(i).getProgramaInvestigacion().getNombre();
-            rowData[4]=list.get(i).getFechaInicio();
-            rowData[5]=list.get(i).getFechaFin();
+            rowData[4]=list.get(i).getFechaInicio().toLocaleString();
+            rowData[5]=list.get(i).getFechaFin().toLocaleString();
             model.addRow(rowData);
         }
     }
