@@ -13,8 +13,11 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 import Entidades.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,6 +32,8 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
     List<ProfesorProyecto> integrantes;
     Proyecto proyecto;
     
+    boolean editar = false;
+    
     /**
      * Creates new form frmRegistrarProyecto
      */
@@ -38,16 +43,68 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
         integrantes=new ArrayList();
         proyecto=new Proyecto();
         
+        consultarProfesores();
+        consultarLineasInvestigacion();
+        consultarProgramas();
         
+        editar = false;
+        
+        lstLinInv.setModel(modeloListaLinea);
+        lstIntegrantes.setModel(modeloListaInt);
+    }
+    
+    public FrmRegistrarProyecto(Proyecto p){
+        this.editar = true;
+        initComponents();
+        negFac=new NegocioFachada();
+        integrantes=new ArrayList();
+        proyecto=new Proyecto();
+        lstLinInv.setModel(modeloListaLinea);
+        lstIntegrantes.setModel(modeloListaInt);
         
         consultarProfesores();
         consultarLineasInvestigacion();
         consultarProgramas();
         
-        
-        lstLinInv.setModel(modeloListaLinea);
-        lstIntegrantes.setModel(modeloListaInt);
+        edicion(p);
     }
+    
+    public void edicion(Proyecto p){
+        rellenarEdicion(p);
+        
+        rProyecto.setText("Editar proyecto");
+        txtCodigo.setEnabled(false);
+        btnLimpiar.setVisible(false);
+        
+    }
+    
+    public void rellenarEdicion(Proyecto p){
+        txtCodigo.setText(p.getCodigo());
+        txtPrograma.setText(p.getProgramaInvestigacion().getNombre());
+        txtNombreProyecto.setText(p.getNombre());
+        txtAcronimo.setText(p.getAcronimo());
+        cboInvestigadores.setSelectedItem(p.getInvestigadorPrincipal()); 
+        txtFechaInicio.setDate(convertToLocalDateViaInstant(p.getFechaInicio()));
+        txtFechaFin.setDate(convertToLocalDateViaInstant(p.getFechaFin()));
+        txtPresupuesto.setText(String.valueOf(p.getPresupuesto()));
+        txtDescripcion.setText(p.getDescripcionObjeto());
+        
+        for(int e = 0; e < p.getLineasInvestigacion().size(); e++){
+            modeloListaLinea.addElement(p.getLineasInvestigacion().get(e));
+        }
+        
+        for(int a = 0; a < p.getLineasInvestigacion().size(); a++){
+            modeloListaInt.addElement(p.getProfesoresProyecto().get(a).getProfesor());
+        }
+        
+    }
+    
+    public LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+    return dateToConvert.toInstant()
+      .atZone(ZoneId.systemDefault())
+      .toLocalDate();
+}
+    
     public void llenarCboInvestigadores(List<Profesor> doctores){
         cboInvestigadores.addItem(new Profesor("Seleccione un doctor",""));
         
@@ -255,7 +312,7 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         botonVolver2 = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
+        rProyecto = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
 
@@ -466,8 +523,8 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setText("Registrar Proyecto");
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        rProyecto.setText("Registrar Proyecto");
+        rProyecto.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -566,7 +623,7 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
+                    .addComponent(rProyecto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -582,7 +639,7 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(botonVolver2)
-                    .addComponent(jLabel9))
+                    .addComponent(rProyecto))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -738,8 +795,19 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
         if(modeloListaInt.contains(valor)){
             modeloListaInt.removeElement(valor);
             integrantes.remove(new ProfesorProyecto(valor));
-        }else 
-            JOptionPane.showMessageDialog(this, "El profesor seleccionado NO está en la lista de integrantes");
+            return;
+        }
+         
+        for(int e = 0; e < modeloListaInt.getSize(); e++){
+            Profesor prof = (Profesor) modeloListaInt.get(e);
+            if(prof.getNombre().equalsIgnoreCase(valor.getNombre()) && prof.getApellidos().equalsIgnoreCase(valor.getApellidos())){
+                modeloListaInt.remove(e);
+                integrantes.remove(new ProfesorProyecto(valor));
+                return;
+            }
+        }
+        
+        JOptionPane.showMessageDialog(this, "El profesor seleccionado NO está en la lista de integrantes");
     }
     
     private boolean agregarElementoListaIntegrantes(Profesor v){  
@@ -855,9 +923,15 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCodigoKeyTyped
 
     private void botonVolver2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolver2ActionPerformed
-        FrmMenu menu = new FrmMenu();
-        menu.setVisible(true);
-        dispose();
+        if(editar == true){
+            dispose(); 
+        }else{
+            FrmMenu menu = new FrmMenu();
+            menu.setVisible(true);
+            dispose(); 
+        }
+        
+       
     }//GEN-LAST:event_botonVolver2ActionPerformed
 
     /**
@@ -921,7 +995,6 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -930,6 +1003,7 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JList<String> lstIntegrantes;
     private javax.swing.JList<String> lstLinInv;
+    private javax.swing.JLabel rProyecto;
     private javax.swing.JTable tblLineasInv;
     private javax.swing.JTable tblProfesores;
     private javax.swing.JTable tblProgInv;

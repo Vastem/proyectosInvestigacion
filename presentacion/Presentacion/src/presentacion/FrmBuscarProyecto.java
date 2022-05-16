@@ -9,6 +9,7 @@ import Entidades.LineaInvestigacion;
 import Entidades.Programa;
 import Entidades.Proyecto;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -59,6 +60,8 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         botonVolver = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
+        btnEditar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Buscar proyecto");
@@ -85,7 +88,7 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
                 botonBuscarActionPerformed(evt);
             }
         });
-        getContentPane().add(botonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(413, 439, 78, 42));
+        getContentPane().add(botonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 440, 78, 42));
 
         tbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -105,7 +108,7 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
         });
         scroll.setViewportView(tbl);
 
-        getContentPane().add(scroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 195, 887, 232));
+        getContentPane().add(scroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 195, 900, 232));
 
         proyecto.setText("Proyectos");
         proyecto.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
@@ -129,8 +132,17 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
                 botonVolverActionPerformed(evt);
             }
         });
-        getContentPane().add(botonVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 10, -1, -1));
+        getContentPane().add(botonVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 20, -1, -1));
         getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 0, 50, 20));
+
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 280, 80, 40));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 290, 10, 10));
 
         pack();
         setLocationRelativeTo(null);
@@ -294,6 +306,23 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_botonVolverActionPerformed
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        if(tbl.getSelectedRow()>= 0){
+            
+            
+            String cdg = (String) tbl.getValueAt(tbl.getSelectedRow(),0);
+            Proyecto p;
+            ArrayList l = (ArrayList) negFac.consultarProyectoCodigo(cdg);
+            
+            p = (Proyecto) l.get(0);
+            FrmRegistrarProyecto edicion=new FrmRegistrarProyecto(p);
+            edicion.setVisible(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Seleccionar proyecto");
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
     public void setTablaProgramas(){
         List<Programa> list = negFac.consultarTodosProgramas();
         
@@ -420,6 +449,7 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscar;
     private javax.swing.JButton botonVolver;
+    private javax.swing.JButton btnEditar;
     private com.github.lgooddatepicker.components.DatePicker dateFinal;
     private com.github.lgooddatepicker.components.DatePicker dateInicio;
     private javax.swing.JLabel fFinal;
@@ -427,6 +457,7 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JComboBox<String> opcionComboBox;
     private javax.swing.JLabel proyecto;
     private javax.swing.JScrollPane scroll;
