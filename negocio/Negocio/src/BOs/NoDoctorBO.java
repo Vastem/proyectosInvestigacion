@@ -40,8 +40,13 @@ public class NoDoctorBO implements INoDoctorBO{
     }
 
     @Override
-    public boolean actualizar(NoDoctor ndoctor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean actualizar(NoDoctor noDoctor) {
+        if(noDoctorDao.actualizar(noDoctor)){
+            JOptionPane.showMessageDialog(null, "El profesor se actualizó correctamente");
+            return true;
+        }
+        JOptionPane.showMessageDialog(null, "El profesor no se pudo actualizar","Precaución",JOptionPane.ERROR_MESSAGE);
+        return false;
     }
 
     @Override

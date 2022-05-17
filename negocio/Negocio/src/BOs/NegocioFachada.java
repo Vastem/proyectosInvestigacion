@@ -125,4 +125,24 @@ public class NegocioFachada{
         }
         return false;
     }
+    
+    public boolean actualizarDoctor(Doctor doctor){
+        if(doctorBO.consultarTodos().contains(doctor)){
+            JOptionPane.showMessageDialog(null, "El doctor ya se encuentra registrado","Precaución",JOptionPane.ERROR_MESSAGE);
+        }
+        else if(doctorBO.actualizar(doctor)){
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean actualizarNoDoctor(NoDoctor NoDoctor){
+        if(noDoctorBO.consultarTodos().contains(NoDoctor)){
+            JOptionPane.showMessageDialog(null, "El profesor ya se encuentra registrado","Precaución",JOptionPane.ERROR_MESSAGE);
+        }
+        else if(noDoctorBO.actualizar(NoDoctor)){
+            return true;
+        }
+        return false;
+    }
 }

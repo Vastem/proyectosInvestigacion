@@ -31,7 +31,6 @@ public class FrmRegistrarProfesor extends javax.swing.JFrame {
         doctor = new Doctor();
         noDoctor = new NoDoctor();
         negFac = new NegocioFachada();
-        
         consultarProfesores();
     }
 
@@ -58,9 +57,7 @@ public class FrmRegistrarProfesor extends javax.swing.JFrame {
         botonVolver = new javax.swing.JButton();
         botonAgregar = new javax.swing.JButton();
         botonCancelar = new javax.swing.JButton();
-        botonEditar = new javax.swing.JButton();
         doctorComboBox = new javax.swing.JComboBox<>();
-        botonEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -101,6 +98,11 @@ public class FrmRegistrarProfesor extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblProfesores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProfesoresMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblProfesores);
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -127,11 +129,7 @@ public class FrmRegistrarProfesor extends javax.swing.JFrame {
             }
         });
 
-        botonEditar.setText("Editar");
-
         doctorComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Doctor", "No Doctor" }));
-
-        botonEliminar.setText("Eliminar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -173,14 +171,10 @@ public class FrmRegistrarProfesor extends javax.swing.JFrame {
                             .addComponent(botonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
+                        .addGap(72, 72, 72)
                         .addComponent(botonCancelar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonAgregar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonEliminar)))
+                        .addGap(18, 18, 18)
+                        .addComponent(botonAgregar)))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -213,13 +207,11 @@ public class FrmRegistrarProfesor extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonAgregar)
-                    .addComponent(botonCancelar)
-                    .addComponent(botonEditar)
-                    .addComponent(botonEliminar))
-                .addGap(35, 35, 35))
+                    .addComponent(botonCancelar))
+                .addGap(37, 37, 37))
         );
 
         pack();
@@ -256,7 +248,22 @@ public class FrmRegistrarProfesor extends javax.swing.JFrame {
                 }
             }
         }
+        consultarProfesores();
     }//GEN-LAST:event_botonAgregarActionPerformed
+
+    private void tblProfesoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProfesoresMouseClicked
+        DefaultTableModel model= (DefaultTableModel) tblProfesores.getModel();
+        String nombre = model.getValueAt(tblProfesores.getSelectedRow(), 0).toString();     
+        
+        String despacho = model.getValueAt(tblProfesores.getSelectedRow(), 1).toString();
+        String telefono = model.getValueAt(tblProfesores.getSelectedRow(), 2).toString();        
+        
+        txtNombre.setText(nombre);
+        txtDespacho.setText(despacho);
+        txtTelefono.setText(telefono);
+        txtNombre.setEditable(false);
+        txtApellidos.setEditable(false);
+    }//GEN-LAST:event_tblProfesoresMouseClicked
     
     private boolean validacionCampos(){
         if(txtNombre.getText().isEmpty()){
@@ -374,8 +381,6 @@ public class FrmRegistrarProfesor extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAgregar;
     private javax.swing.JButton botonCancelar;
-    private javax.swing.JButton botonEditar;
-    private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonVolver;
     private javax.swing.JComboBox<String> doctorComboBox;
     private javax.swing.JLabel jLabel1;

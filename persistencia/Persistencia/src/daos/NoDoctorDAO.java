@@ -14,6 +14,7 @@ import interfaces.IConexionDB;
 import interfaces.INoDoctorDAO;
 import java.util.LinkedList;
 import java.util.List;
+import org.bson.Document;
 
 /**
  *
@@ -46,7 +47,17 @@ public class NoDoctorDAO implements INoDoctorDAO{
 
     @Override
     public boolean actualizar(NoDoctor ndoctor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        MongoCollection <NoDoctor> coleccion = this.getColecion();
+        
+        Document filtro = new Document("nombre", ndoctor.getNombre());
+        Document cambios = new Document()
+                .append("nombre", ndoctor.getNombre())
+                .append("apellido", ndoctor.getApellidos())
+                .append("despacho", ndoctor.getDespacho())
+                .append("telefono", ndoctor.getTelefono());               
+
+        coleccion.updateOne(filtro, new Document("$set", cambios));
+        return true;
     }
 
     @Override

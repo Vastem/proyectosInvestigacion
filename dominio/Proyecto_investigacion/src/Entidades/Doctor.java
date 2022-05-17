@@ -18,12 +18,13 @@ public class Doctor extends Profesor{
 
     public Doctor(String nombre, String apellidos, String despacho, String telefono) {
         super(nombre, apellidos, despacho, telefono);
-    }
-
+    } 
+    
+    
     @Override
     public String toString() {
         return "Dr. " + super.toString();
-    }
+    }        
     
     
     

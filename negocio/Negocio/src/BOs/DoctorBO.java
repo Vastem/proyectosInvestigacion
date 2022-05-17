@@ -43,7 +43,12 @@ public class DoctorBO implements IDoctorBO{
 
     @Override
     public boolean actualizar(Doctor doctor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(doctorDao.actualizar(doctor)){
+            JOptionPane.showMessageDialog(null, "El profesor (doctor) se actualizó correctamente");
+            return true;
+        }
+        JOptionPane.showMessageDialog(null, "El profesor (doctor) no se pudo actualizar","Precaución",JOptionPane.ERROR_MESSAGE);
+        return false;
     }
 
     @Override
