@@ -26,7 +26,7 @@ import javax.swing.JOptionPane;
  *
  * @author Erick
  */
-public class NegocioFachada{
+public class NegocioFachada implements INegocioFachada{
     IProyectoBO proyectoBO ;
     IDoctorBO doctorBO;
     INoDoctorBO noDoctorBO;
@@ -140,16 +140,6 @@ public class NegocioFachada{
         return false;
     }
     
-    public boolean actualizarDoctor(Doctor doctor){
-        if(doctorBO.consultarTodos().contains(doctor)){
-            JOptionPane.showMessageDialog(null, "El doctor ya se encuentra registrado","Precaución",JOptionPane.ERROR_MESSAGE);
-        }
-        else if(doctorBO.actualizar(doctor)){
-            return true;
-        }
-        return false;
-    }
-    
     public boolean actualizarNoDoctor(NoDoctor NoDoctor){
         if(noDoctorBO.consultarTodos().contains(NoDoctor)){
             JOptionPane.showMessageDialog(null, "El profesor ya se encuentra registrado","Precaución",JOptionPane.ERROR_MESSAGE);
@@ -159,6 +149,5 @@ public class NegocioFachada{
         }
         return false;
     }
-    
     
 }

@@ -46,17 +46,7 @@ public class DoctorDAO implements IDoctorDAO{
         coleccion.insertOne(doctor);
         return true;
     }
-
-    @Override
-    public boolean eliminar(Doctor doctor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean actualizar(Doctor doctor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
     @Override
     public List<Profesor> cosultarTodos() {
         MongoCollection <Doctor> coleccion = this.getColecion();

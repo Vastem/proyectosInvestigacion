@@ -7,8 +7,10 @@ package BOs;
 
 import Entidades.LineaInvestigacion;
 import daos.DaosFactory;
+import daos.PersistenciaFachada;
 import interfaces.ILineaInvestigacionBO;
 import interfaces.ILineaInvestigacionDAO;
+import interfaces.IPersistenciaFachada;
 import java.util.List;
 
 /**
@@ -16,10 +18,10 @@ import java.util.List;
  * @author Erick
  */
 public class LineaInvestigacionBO implements ILineaInvestigacionBO{
-    private ILineaInvestigacionDAO lineaInv;
+    private IPersistenciaFachada perFac;
 
     public LineaInvestigacionBO() {
-        lineaInv=DaosFactory.createLineaInvestigacionDAO();
+        perFac = new PersistenciaFachada();
     }
 
     @Override
@@ -44,7 +46,7 @@ public class LineaInvestigacionBO implements ILineaInvestigacionBO{
 
     @Override
     public List<LineaInvestigacion> consultarTodos() {
-        return lineaInv.cosultarTodos();
+        return perFac.cosultarTodosLineaInv();
     }
     
 }

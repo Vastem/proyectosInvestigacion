@@ -9,6 +9,7 @@ import BOs.NegocioFachada;
 import Entidades.Doctor;
 import Entidades.NoDoctor;
 import Entidades.Profesor;
+import interfaces.INegocioFachada;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -21,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class FrmRegistrarProfesor extends javax.swing.JFrame {
     private Doctor doctor;
     private NoDoctor noDoctor;
-    private NegocioFachada negFac;
+    private INegocioFachada negFac;
     
     /**
      * Creates new form FrmRegistrarProfesor

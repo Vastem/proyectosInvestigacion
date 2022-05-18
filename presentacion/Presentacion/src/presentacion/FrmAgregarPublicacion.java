@@ -11,6 +11,7 @@ import Entidades.ProfesorProyecto;
 import Entidades.Proyecto;
 import Entidades.PublicacionCongreso;
 import Entidades.PublicacionRevista;
+import interfaces.INegocioFachada;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -23,7 +24,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Usuario
  */
 public class FrmAgregarPublicacion extends javax.swing.JFrame {
-    NegocioFachada negFac;
+    INegocioFachada negFac;
     DefaultListModel modeloListaInt = new DefaultListModel();
     PublicacionCongreso publicacionCongreso;
     PublicacionRevista publicacionRevista;
@@ -36,9 +37,9 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
         initComponents();
         negFac = new NegocioFachada();
         setTablaProyectos();
-        panelCongreso.setVisible(false);
-        panelRevista.setVisible(false);
+
         lstIntegrantes.setModel(modeloListaInt);
+        setFalse();
     }
     
     public void setTablaProfesores(Proyecto proyecto){
@@ -174,17 +175,17 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
         });
         scroll.setViewportView(tblProyectos);
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setText("Agregar publicación");
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel2.setText("Numero de secuencia");
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel3.setText("Título");
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel4.setText("Seleccionar tipo de publicación");
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         cboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona tipo", "Congreso", "Revista" }));
         cboTipo.addActionListener(new java.awt.event.ActionListener() {
@@ -195,8 +196,8 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
 
         panelRevista.setPreferredSize(new java.awt.Dimension(383, 213));
 
-        jLabel11.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel11.setText("Revista");
+        jLabel11.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         jLabel12.setText("Nombre de la revista");
 
@@ -278,8 +279,8 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel5.setText("Congreso");
+        jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         jLabel6.setText("Nombre del congreso");
 
@@ -362,8 +363,8 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel17.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel17.setText("Proyectos");
+        jLabel17.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         tblProfesores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -388,8 +389,8 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblProfesores);
 
-        jLabel18.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel18.setText("Profesores");
+        jLabel18.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         jScrollPane2.setViewportView(lstIntegrantes);
 
@@ -438,11 +439,11 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(27, 27, 27)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(28, 28, 28)
-                                .addComponent(cboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cboTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
@@ -451,37 +452,38 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtNumeroSecuencia, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(panelCongreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(panelRevista, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel1)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(115, 115, 115)
+                        .addGap(81, 81, 81)
                         .addComponent(botonPublicar)
                         .addGap(18, 18, 18)
-                        .addComponent(botonCancelar)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(scroll, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel17)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(botonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(24, 24, 24)))))
+                        .addComponent(botonCancelar))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(botonAgregarIntegrante)
-                            .addComponent(botonEliminarIntegrante))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel19)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(24, Short.MAX_VALUE))
+                            .addComponent(panelRevista, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(panelCongreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel18)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(botonAgregarIntegrante)
+                                .addComponent(botonEliminarIntegrante))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel19)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(scroll, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel17)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(botonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(24, 24, 24)))))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -501,39 +503,37 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(cboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(cboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addComponent(panelCongreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelRevista, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(botonPublicar)
-                            .addComponent(botonCancelar))
-                        .addContainerGap())
+                        .addComponent(panelRevista, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(jLabel17)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel18)
                         .addGap(5, 5, 5)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(22, 22, 22))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(botonAgregarIntegrante)
                                 .addGap(18, 18, 18)
                                 .addComponent(botonEliminarIntegrante)
-                                .addGap(56, 56, 56))))))
+                                .addGap(34, 34, 34)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonPublicar)
+                    .addComponent(botonCancelar))
+                .addContainerGap())
         );
 
         pack();
@@ -548,17 +548,57 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
 
     private void cboTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTipoActionPerformed
         if(cboTipo.getSelectedItem() == "Congreso"){
-            panelRevista.setVisible(false);
-            panelCongreso.setVisible(true);
+            txtNombreCongreso.setEnabled(true);
+            cboTipoCongreso.setEnabled(true);
+            txtLugarCelebracion.setEnabled(true);
+            txtPais.setEnabled(true);
+            txtEditorialCongreso.setEnabled(true);
+            fechaInicio.setEnabled(true);
+            fechaFinal.setEnabled(true);
+            
+            txtNombreRevista.setEnabled(false);
+            txtEditorialRevista.setEnabled(false);
+            txtVolumen.setEnabled(false);
+            txtNumero.setEnabled(false);
+            txtCantidadPaginas.setEnabled(false);
         }else if(cboTipo.getSelectedItem() == "Revista"){
-            panelCongreso.setVisible(false);
-            panelRevista.setVisible(true);
+            txtNombreRevista.setEnabled(true);
+            txtEditorialRevista.setEnabled(true);
+            txtVolumen.setEnabled(true);
+            txtNumero.setEnabled(true);
+            txtCantidadPaginas.setEnabled(true);
+            
+            
+            txtNombreCongreso.setEnabled(false);
+            cboTipoCongreso.setEnabled(false);
+            txtLugarCelebracion.setEnabled(false);
+            txtPais.setEnabled(false);
+            txtEditorialCongreso.setEnabled(false);
+            fechaInicio.setEnabled(false);
+            fechaFinal.setEnabled(false);
+            
         }else if(cboTipo.getSelectedItem() == "Selecciona tipo"){
-            panelCongreso.setVisible(false);
-            panelRevista.setVisible(false);
+            setFalse();
         }
     }//GEN-LAST:event_cboTipoActionPerformed
 
+    
+    public void setFalse(){
+            txtNombreRevista.setEnabled(false);
+            txtEditorialRevista.setEnabled(false);
+            txtVolumen.setEnabled(false);
+            txtNumero.setEnabled(false);
+            txtCantidadPaginas.setEnabled(false);
+            
+            txtNombreCongreso.setEnabled(false);
+            cboTipoCongreso.setEnabled(false);
+            txtLugarCelebracion.setEnabled(false);
+            txtPais.setEnabled(false);
+            txtEditorialCongreso.setEnabled(false);
+            fechaInicio.setEnabled(false);
+            fechaFinal.setEnabled(false);
+    }
+    
     private void tblProyectosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProyectosMouseClicked
         int index = tblProyectos.getSelectedRow();
         proyecto = (Proyecto)tblProyectos.getValueAt(index, 0);
@@ -653,6 +693,7 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
             }
 
             negFac.agregarPublicacion(proyecto,txtTitulo.getText());
+            limpiar();
         }
               
         
@@ -830,6 +871,7 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
         txtCantidadPaginas.setText("");
         fechaInicio.setText("");
         fechaFinal.setText("");
+        modeloListaInt.clear();
     }
     
     /**

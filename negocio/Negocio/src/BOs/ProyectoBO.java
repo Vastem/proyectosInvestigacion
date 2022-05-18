@@ -8,6 +8,8 @@ package BOs;
 import Entidades.Proyecto;
 import Entidades.Publicacion;
 import daos.DaosFactory;
+import daos.PersistenciaFachada;
+import interfaces.IPersistenciaFachada;
 import interfaces.IProyectoBO;
 import interfaces.IProyectoDAO;
 import java.util.Date;
@@ -19,15 +21,15 @@ import javax.swing.JOptionPane;
  * @author Usuario
  */
 public class ProyectoBO implements IProyectoBO{
-    private IProyectoDAO proyectoDao;
+    private IPersistenciaFachada perFac;
 
     public ProyectoBO() {
-       proyectoDao=DaosFactory.createProyectoDAO();
+       perFac = new PersistenciaFachada();
     }
 
     @Override
     public boolean agregarProyecto(Proyecto proyecto) {
-        if(proyectoDao.agregar(proyecto)){
+        if(perFac.agregar(proyecto)){
             JOptionPane.showMessageDialog(null, "El proyecto se agregó correctamente");
             return true;
         }
@@ -42,41 +44,41 @@ public class ProyectoBO implements IProyectoBO{
     
     @Override
     public boolean eliminarProyecto(Proyecto proyecto) {
-        return proyectoDao.eliminar(proyecto);
+        return perFac.eliminar(proyecto);
     }
 
     @Override
     public boolean actualizarProyecto(Proyecto proyecto) {
-        return proyectoDao.actualizar(proyecto);
+        return perFac.actualizar(proyecto);
     }
 
     @Override
     public List<Proyecto> consultarTodos() {
-        return proyectoDao.consultarTodos();
+        return perFac.consultarTodosProyecto();
     }
     
     public List<Proyecto> consultarCodigo(String codigo) {
-        return proyectoDao.consultarCodigo(codigo);
+        return perFac.consultarCodigo(codigo);
     }
     
     public List<Proyecto> consultarNombre(String nombre){
-        return proyectoDao.consultarNombre(nombre);
+        return perFac.consultarNombre(nombre);
     }
     
     public List<Proyecto> consultarAcronimo(String acronimo){
-        return proyectoDao.consultarAcronimo(acronimo);
+        return perFac.consultarAcronimo(acronimo);
     }
     
     public List<Proyecto> consultarPrograma(String programa){
-        return proyectoDao.consultarPrograma(programa);
+        return perFac.consultarPrograma(programa);
     }
 
     public List<Proyecto> consultarFechas(Date fechaInicio, Date fechaFin){
-        return proyectoDao.consultarFechas(fechaInicio, fechaFin);
+        return perFac.consultarFechas(fechaInicio, fechaFin);
     }
     
     public List<Proyecto> consultarPublicacion(String titulo){
-        return proyectoDao.consultarPublicacion(titulo);
+        return perFac.consultarPublicacion(titulo);
     }
     
     public boolean agregarPublicacion(Proyecto p, String titulo){
@@ -84,6 +86,7 @@ public class ProyectoBO implements IProyectoBO{
             JOptionPane.showMessageDialog(null, "La publicacion no se pudo agregar","Precaución",JOptionPane.ERROR_MESSAGE);   
             return false;
         }
+        JOptionPane.showMessageDialog(null, "Se agregó la publicación","",JOptionPane.INFORMATION_MESSAGE);
         return actualizarProyecto(p);
     }
     

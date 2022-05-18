@@ -8,8 +8,10 @@ package BOs;
 import Entidades.NoDoctor;
 import Entidades.Profesor;
 import daos.DaosFactory;
+import daos.PersistenciaFachada;
 import interfaces.INoDoctorBO;
 import interfaces.INoDoctorDAO;
+import interfaces.IPersistenciaFachada;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -18,15 +20,15 @@ import javax.swing.JOptionPane;
  * @author Erick
  */
 public class NoDoctorBO implements INoDoctorBO{
-    private INoDoctorDAO noDoctorDao;
+    private IPersistenciaFachada perFac;
 
     public NoDoctorBO() {
-        noDoctorDao=DaosFactory.createNoDoctorDAO();
+        perFac = new PersistenciaFachada();
     }
 
     @Override
     public boolean agregar(NoDoctor noDoctor) {
-        if(noDoctorDao.agregar(noDoctor)){
+        if(perFac.agregar(noDoctor)){
             JOptionPane.showMessageDialog(null, "El profesor se registró correctamente");
             return true;
         }
@@ -35,13 +37,8 @@ public class NoDoctorBO implements INoDoctorBO{
     }
 
     @Override
-    public boolean eliminar(NoDoctor ndoctor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public boolean actualizar(NoDoctor noDoctor) {
-        if(noDoctorDao.actualizar(noDoctor)){
+        if(perFac.actualizar(noDoctor)){
             JOptionPane.showMessageDialog(null, "El profesor se actualizó correctamente");
             return true;
         }
@@ -50,13 +47,8 @@ public class NoDoctorBO implements INoDoctorBO{
     }
 
     @Override
-    public NoDoctor consultar(String nombre) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public List<Profesor> consultarTodos() {
-        return noDoctorDao.cosultarTodos();
+        return perFac.cosultarTodosNoDoctor();
     }
     
     

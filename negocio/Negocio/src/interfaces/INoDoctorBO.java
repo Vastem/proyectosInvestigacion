@@ -15,8 +15,6 @@ import java.util.List;
  */
 public interface INoDoctorBO {
     public boolean agregar(NoDoctor noDoctor);
-    public boolean eliminar(NoDoctor noDoctor);
     public boolean actualizar(NoDoctor noDoctor);
-    public NoDoctor consultar(String nombre);
     public List<Profesor> consultarTodos();
 }

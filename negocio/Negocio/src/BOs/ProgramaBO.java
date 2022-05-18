@@ -7,6 +7,8 @@ package BOs;
 
 import Entidades.Programa;
 import daos.DaosFactory;
+import daos.PersistenciaFachada;
+import interfaces.IPersistenciaFachada;
 import interfaces.IProgramaBO;
 import interfaces.IProgramaDAO;
 import java.util.List;
@@ -16,11 +18,11 @@ import java.util.List;
  * @author Erick
  */
 public class ProgramaBO implements IProgramaBO{
+    private IPersistenciaFachada perFac;
 
-    private IProgramaDAO programa;
     
     public ProgramaBO() {
-        programa=DaosFactory.createProgramaDAO();
+        perFac = new PersistenciaFachada();
     }
     
     
@@ -47,7 +49,7 @@ public class ProgramaBO implements IProgramaBO{
 
     @Override
     public List<Programa> consultarTodos() {
-        return programa.cosultarTodos();
+        return perFac.cosultarTodosPrograma();
     }
     
 }

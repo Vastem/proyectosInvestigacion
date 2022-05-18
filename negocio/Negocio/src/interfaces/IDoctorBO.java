@@ -15,8 +15,5 @@ import java.util.List;
  */
 public interface IDoctorBO {
     public boolean agregar(Doctor doctor);
-    public boolean eliminar(Doctor doctor);
-    public boolean actualizar(Doctor doctor);
-    public Doctor consultar(String nombre);
     public List<Profesor> consultarTodos();
 }

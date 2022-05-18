@@ -8,8 +8,10 @@ package BOs;
 import Entidades.Doctor;
 import Entidades.Profesor;
 import daos.DaosFactory;
+import daos.PersistenciaFachada;
 import interfaces.IDoctorBO;
 import interfaces.IDoctorDAO;
+import interfaces.IPersistenciaFachada;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -18,17 +20,17 @@ import javax.swing.JOptionPane;
  * @author Erick
  */
 public class DoctorBO implements IDoctorBO{
-    private IDoctorDAO doctorDao;
+    private IPersistenciaFachada perFac;
 
     public DoctorBO() {
-        doctorDao=DaosFactory.createDoctorDAO();
+        perFac = new PersistenciaFachada();
     }
 
     
     
     @Override
     public boolean agregar(Doctor doctor) {
-        if(doctorDao.agregar(doctor)){
+        if(perFac.agregar(doctor)){
             JOptionPane.showMessageDialog(null, "El profesor (doctor) se registró correctamente");
             return true;
         }
@@ -37,28 +39,8 @@ public class DoctorBO implements IDoctorBO{
     }
 
     @Override
-    public boolean eliminar(Doctor doctor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean actualizar(Doctor doctor) {
-        if(doctorDao.actualizar(doctor)){
-            JOptionPane.showMessageDialog(null, "El profesor (doctor) se actualizó correctamente");
-            return true;
-        }
-        JOptionPane.showMessageDialog(null, "El profesor (doctor) no se pudo actualizar","Precaución",JOptionPane.ERROR_MESSAGE);
-        return false;
-    }
-
-    @Override
-    public Doctor consultar(String nombre) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public List<Profesor> consultarTodos() {
-        return doctorDao.cosultarTodos();
+        return perFac.cosultarTodosDoctor();
     }
     
 }

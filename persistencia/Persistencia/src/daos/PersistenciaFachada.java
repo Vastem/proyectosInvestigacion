@@ -5,12 +5,20 @@
  */
 package daos;
 
+import Entidades.Doctor;
+import Entidades.LineaInvestigacion;
+import Entidades.NoDoctor;
+import Entidades.Profesor;
+import Entidades.Programa;
+import Entidades.Proyecto;
 import interfaces.IDoctorDAO;
 import interfaces.ILineaInvestigacionDAO;
 import interfaces.INoDoctorDAO;
 import interfaces.IPersistenciaFachada;
 import interfaces.IProgramaDAO;
 import interfaces.IProyectoDAO;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -29,9 +37,93 @@ public class PersistenciaFachada implements IPersistenciaFachada{
         noDoctorDAO=DaosFactory.createNoDoctorDAO();
         lineaInvDAO=DaosFactory.createLineaInvestigacionDAO();
         programaDAO=DaosFactory.createProgramaDAO();
-        
     }
-    
-    
-    
+
+    @Override
+    public boolean agregar(Proyecto proyecto) {
+        return proyectoDAO.agregar(proyecto);
+    }
+
+    @Override
+    public boolean eliminar(Proyecto proyecto) {
+        return proyectoDAO.eliminar(proyecto);
+    }
+
+    @Override
+    public boolean actualizar(Proyecto proyecto) {
+        return proyectoDAO.actualizar(proyecto);
+    }
+
+    @Override
+    public List<Proyecto> consultarTodosProyecto() {
+        return proyectoDAO.consultarTodos();
+    }
+
+    @Override
+    public List<Proyecto> consultarCodigo(String codigo) {
+        return proyectoDAO.consultarCodigo(codigo);
+    }
+
+    @Override
+    public List<Proyecto> consultarNombre(String nombre) {
+        return proyectoDAO.consultarNombre(nombre);
+    }
+
+    @Override
+    public List<Proyecto> consultarAcronimo(String acronimo) {
+        return proyectoDAO.consultarAcronimo(acronimo);
+    }
+
+    @Override
+    public List<Proyecto> consultarPrograma(String programa) {
+        return proyectoDAO.consultarPrograma(programa);
+    }
+
+    @Override
+    public List<Proyecto> consultarFechas(Date fechaInicio, Date fechaFin) {
+        return proyectoDAO.consultarFechas(fechaInicio, fechaFin);
+    }
+
+    @Override
+    public List<Proyecto> consultarPublicacion(String titulo) {
+        return proyectoDAO.consultarPublicacion(titulo);
+    }
+
+    @Override
+    public boolean agregar(NoDoctor ndoctor) {
+        return noDoctorDAO.agregar(ndoctor);
+    }
+
+    @Override
+    public boolean eliminar(NoDoctor ndoctor) {
+        return noDoctorDAO.eliminar(ndoctor);
+    }
+
+    @Override
+    public boolean actualizar(NoDoctor ndoctor) {
+        return noDoctorDAO.actualizar(ndoctor);}
+
+    @Override
+    public List<Profesor> cosultarTodosNoDoctor() {
+        return noDoctorDAO.cosultarTodos();
+    }
+
+    @Override
+    public boolean agregar(Doctor doctor) {
+        return doctorDAO.agregar(doctor);}
+
+    @Override
+    public List<Profesor> cosultarTodosDoctor() {
+        return doctorDAO.cosultarTodos();
+    }
+
+    @Override
+    public List<Programa> cosultarTodosPrograma() {
+        return programaDAO.cosultarTodos();
+    }
+
+    @Override
+    public List<LineaInvestigacion> cosultarTodosLineaInv() {
+        return lineaInvDAO.cosultarTodos();
+    }
 }

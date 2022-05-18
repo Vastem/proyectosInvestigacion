@@ -13,6 +13,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 import Entidades.*;
+import interfaces.INegocioFachada;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
     DefaultListModel modeloListaInt = new DefaultListModel();
     DefaultListModel modeloListaLinea = new DefaultListModel();
     
-    NegocioFachada negFac;
+    INegocioFachada negFac;
     List<ProfesorProyecto> integrantes;
     Proyecto proyecto;
     Programa prog = null;
