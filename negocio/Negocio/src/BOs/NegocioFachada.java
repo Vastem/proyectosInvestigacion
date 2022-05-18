@@ -11,6 +11,7 @@ import Entidades.NoDoctor;
 import Entidades.Profesor;
 import Entidades.Programa;
 import Entidades.Proyecto;
+import Entidades.PublicacionCongreso;
 import interfaces.IDoctorBO;
 import interfaces.ILineaInvestigacionBO;
 import interfaces.INegocioFachada;
@@ -31,6 +32,7 @@ public class NegocioFachada{
     INoDoctorBO noDoctorBO;
     ILineaInvestigacionBO lineaInvBO;
     IProgramaBO programaBO; 
+    
 
     public NegocioFachada() {
         proyectoBO=FabricaBOs.createProyectoBO();

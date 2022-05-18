@@ -54,6 +54,11 @@ public class FrmMenu extends javax.swing.JFrame {
         getContentPane().add(btnBuscarProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, 179, 54));
 
         btnAgregarPublicacion.setText("Agregar publicacion");
+        btnAgregarPublicacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarPublicacionActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnAgregarPublicacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 170, 179, 55));
 
         btnRegistrarProyecto.setText("Registrar proyecto");
@@ -88,6 +93,12 @@ public class FrmMenu extends javax.swing.JFrame {
         bp.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnBuscarProyectoActionPerformed
+
+    private void btnAgregarPublicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPublicacionActionPerformed
+        FrmAgregarPublicacion ap = new FrmAgregarPublicacion();
+        ap.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnAgregarPublicacionActionPerformed
 
     /**
      * @param args the command line arguments

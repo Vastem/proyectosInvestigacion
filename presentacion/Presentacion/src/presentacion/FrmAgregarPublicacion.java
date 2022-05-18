@@ -6,9 +6,15 @@
 package presentacion;
 
 import BOs.NegocioFachada;
+import Entidades.Profesor;
+import Entidades.ProfesorProyecto;
 import Entidades.Proyecto;
+import Entidades.PublicacionCongreso;
+import Entidades.PublicacionRevista;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,7 +24,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FrmAgregarPublicacion extends javax.swing.JFrame {
     NegocioFachada negFac;
-    
+    DefaultListModel modeloListaInt = new DefaultListModel();
+    PublicacionCongreso publicacionCongreso;
+    PublicacionRevista publicacionRevista;
+    Proyecto proyecto;
     
     /**
      * Creates new form FrmAgregarPublicacion
@@ -27,8 +36,33 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
         initComponents();
         negFac = new NegocioFachada();
         setTablaProyectos();
+        panelCongreso.setVisible(false);
+        panelRevista.setVisible(false);
+        lstIntegrantes.setModel(modeloListaInt);
     }
+    
+    public void setTablaProfesores(Proyecto proyecto){
+        
+        List<Profesor> list = new ArrayList();        
+        for(int i = 0; i < proyecto.getProfesoresProyecto().size(); i++){
+            list.add(proyecto.getProfesoresProyecto().get(i).getProfesor());
+        }
 
+        DefaultTableModel model = (DefaultTableModel) tblProfesores.getModel();
+        int rowCount = model.getRowCount();
+
+        //Remove rows one by one from the end of the table
+        for (int i = rowCount - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
+
+        Object rowData[] = new Object[1];
+        for (int i = 0; i < list.size(); i++) {
+            rowData[0] = list.get(i);
+            model.addRow(rowData);
+        }
+    }
+    
     public void setTablaProyectos(){
         List<Proyecto> list = null;
         
@@ -48,14 +82,9 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
           model.removeRow(i);
         }
         
-        Object rowData[]=new Object[6];
+        Object rowData[]=new Object[1];
         for(int i=0; i <list.size();i++){
-            rowData[0]=list.get(i).getCodigo();
-            rowData[1]=list.get(i).getNombre();
-            rowData[2]=list.get(i).getAcronimo();
-            rowData[3]=list.get(i).getProgramaInvestigacion().getNombre();
-            rowData[4]=list.get(i).getFechaInicio().toLocaleString();
-            rowData[5]=list.get(i).getFechaFin().toLocaleString();
+            rowData[0]=list.get(i);
             model.addRow(rowData);
         }
     }
@@ -72,6 +101,53 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
 
         scroll = new javax.swing.JScrollPane();
         tblProyectos = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtNumeroSecuencia = new javax.swing.JTextField();
+        txtTitulo = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        cboTipo = new javax.swing.JComboBox<>();
+        panelRevista = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        txtNombreRevista = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        txtEditorialRevista = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        txtVolumen = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        txtNumero = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        txtCantidadPaginas = new javax.swing.JTextField();
+        panelCongreso = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtNombreCongreso = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        cboTipoCongreso = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        txtLugarCelebracion = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        txtPais = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txtEditorialCongreso = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        fechaInicio = new com.github.lgooddatepicker.components.DatePicker();
+        jLabel21 = new javax.swing.JLabel();
+        fechaFinal = new com.github.lgooddatepicker.components.DatePicker();
+        jLabel17 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblProfesores = new javax.swing.JTable();
+        jLabel18 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        lstIntegrantes = new javax.swing.JList<>();
+        botonAgregarIntegrante = new javax.swing.JButton();
+        botonEliminarIntegrante = new javax.swing.JButton();
+        botonPublicar = new javax.swing.JButton();
+        botonCancelar = new javax.swing.JButton();
+        botonVolver = new javax.swing.JButton();
+        jLabel19 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,39 +156,657 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Código", "Nombre", "Acrónimo ", "Programa", "Fecha inicio", "Fecha fin"
+                "Proyecto"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tblProyectos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProyectosMouseClicked(evt);
+            }
+        });
         scroll.setViewportView(tblProyectos);
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel1.setText("Agregar publicación");
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel2.setText("Numero de secuencia");
+
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel3.setText("Título");
+
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel4.setText("Seleccionar tipo de publicación");
+
+        cboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona tipo", "Congreso", "Revista" }));
+        cboTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTipoActionPerformed(evt);
+            }
+        });
+
+        panelRevista.setPreferredSize(new java.awt.Dimension(383, 213));
+
+        jLabel11.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel11.setText("Revista");
+
+        jLabel12.setText("Nombre de la revista");
+
+        jLabel13.setText("Editorial");
+
+        jLabel14.setText("Volumen");
+
+        txtVolumen.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtVolumenKeyTyped(evt);
+            }
+        });
+
+        jLabel15.setText("Número");
+
+        txtNumero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNumeroKeyTyped(evt);
+            }
+        });
+
+        jLabel16.setText("Cantidad de páginas");
+
+        txtCantidadPaginas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadPaginasKeyTyped(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelRevistaLayout = new javax.swing.GroupLayout(panelRevista);
+        panelRevista.setLayout(panelRevistaLayout);
+        panelRevistaLayout.setHorizontalGroup(
+            panelRevistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRevistaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelRevistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11)
+                    .addGroup(panelRevistaLayout.createSequentialGroup()
+                        .addGroup(panelRevistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel16))
+                        .addGap(39, 39, 39)
+                        .addGroup(panelRevistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNombreRevista, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                            .addComponent(txtEditorialRevista)
+                            .addComponent(txtVolumen)
+                            .addComponent(txtNumero)
+                            .addComponent(txtCantidadPaginas))))
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
+        panelRevistaLayout.setVerticalGroup(
+            panelRevistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRevistaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelRevistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(txtNombreRevista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelRevistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(txtEditorialRevista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelRevistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(txtVolumen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelRevistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelRevistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(txtCantidadPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+
+        jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel5.setText("Congreso");
+
+        jLabel6.setText("Nombre del congreso");
+
+        jLabel7.setText("Tipo");
+
+        cboTipoCongreso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona tipo", "Internacional", "Nacional" }));
+
+        jLabel8.setText("Lugar celebración");
+
+        jLabel9.setText("Pais");
+
+        jLabel10.setText("Editorial");
+
+        jLabel20.setText("Fecha inicio");
+
+        jLabel21.setText("Fecha final");
+
+        javax.swing.GroupLayout panelCongresoLayout = new javax.swing.GroupLayout(panelCongreso);
+        panelCongreso.setLayout(panelCongresoLayout);
+        panelCongresoLayout.setHorizontalGroup(
+            panelCongresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCongresoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelCongresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addGroup(panelCongresoLayout.createSequentialGroup()
+                        .addGroup(panelCongresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel21))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelCongresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelCongresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(cboTipoCongreso, 0, 142, Short.MAX_VALUE)
+                                .addComponent(txtLugarCelebracion)
+                                .addComponent(txtPais)
+                                .addComponent(txtEditorialCongreso)
+                                .addComponent(txtNombreCongreso)))))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+        panelCongresoLayout.setVerticalGroup(
+            panelCongresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCongresoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelCongresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txtNombreCongreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelCongresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(cboTipoCongreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelCongresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtLugarCelebracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelCongresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(txtPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelCongresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(txtEditorialCongreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelCongresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(fechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelCongresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel21))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel17.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel17.setText("Proyectos");
+
+        tblProfesores.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Profesor"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblProfesores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProfesoresMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblProfesores);
+
+        jLabel18.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel18.setText("Profesores");
+
+        jScrollPane2.setViewportView(lstIntegrantes);
+
+        botonAgregarIntegrante.setText("Agregar integrante");
+        botonAgregarIntegrante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAgregarIntegranteActionPerformed(evt);
+            }
+        });
+
+        botonEliminarIntegrante.setText("Eliminar integrante");
+        botonEliminarIntegrante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarIntegranteActionPerformed(evt);
+            }
+        });
+
+        botonPublicar.setText("Publicar");
+        botonPublicar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonPublicarActionPerformed(evt);
+            }
+        });
+
+        botonCancelar.setText("Cancelar");
+        botonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCancelarActionPerformed(evt);
+            }
+        });
+
+        botonVolver.setText("Volver");
+        botonVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonVolverActionPerformed(evt);
+            }
+        });
+
+        jLabel19.setText("Participantes");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(28, 28, 28)
+                                .addComponent(cboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addGap(96, 96, 96)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNumeroSecuencia, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(panelCongreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(panelRevista, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(115, 115, 115)
+                        .addComponent(botonPublicar)
+                        .addGap(18, 18, 18)
+                        .addComponent(botonCancelar)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(scroll, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel17)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(botonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(24, 24, 24)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(botonAgregarIntegrante)
+                            .addComponent(botonEliminarIntegrante))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel19)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(120, Short.MAX_VALUE)
-                .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(88, 88, 88))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(botonVolver))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtNumeroSecuencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(cboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(panelCongreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panelRevista, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(botonPublicar)
+                            .addComponent(botonCancelar))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel18)
+                        .addGap(5, 5, 5)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(22, 22, 22))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(botonAgregarIntegrante)
+                                .addGap(18, 18, 18)
+                                .addComponent(botonEliminarIntegrante)
+                                .addGap(56, 56, 56))))))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
+        FrmMenu menu = new FrmMenu();
+        menu.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_botonVolverActionPerformed
+
+    private void cboTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTipoActionPerformed
+        if(cboTipo.getSelectedItem() == "Congreso"){
+            panelRevista.setVisible(false);
+            panelCongreso.setVisible(true);
+        }else if(cboTipo.getSelectedItem() == "Revista"){
+            panelCongreso.setVisible(false);
+            panelRevista.setVisible(true);
+        }else if(cboTipo.getSelectedItem() == "Selecciona tipo"){
+            panelCongreso.setVisible(false);
+            panelRevista.setVisible(false);
+        }
+    }//GEN-LAST:event_cboTipoActionPerformed
+
+    private void tblProyectosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProyectosMouseClicked
+        int index = tblProyectos.getSelectedRow();
+        proyecto = (Proyecto)tblProyectos.getValueAt(index, 0);
+        setTablaProfesores(proyecto);       
+    }//GEN-LAST:event_tblProyectosMouseClicked
+
+    private void tblProfesoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProfesoresMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblProfesoresMouseClicked
+
+    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
+        limpiar();
+    }//GEN-LAST:event_botonCancelarActionPerformed
+
+    private void botonAgregarIntegranteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarIntegranteActionPerformed
+        if(tblProfesores.getSelectedRow()!=-1){
+
+            int fila= tblProfesores.getSelectedRow();
+            
+            //Agregar y mostrar elemento a la lista de integrantes
+            Profesor v = (Profesor) tblProfesores.getValueAt(fila,0);
+
+            agregarElementoListaIntegrantes(v);
+            
+        }else JOptionPane.showMessageDialog(this, "No se ha seleccionado ningún profesor");
+        
+    }//GEN-LAST:event_botonAgregarIntegranteActionPerformed
+
+    private void botonEliminarIntegranteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarIntegranteActionPerformed
+        if(tblProfesores.getSelectedRow()!=-1){
+            int fila= tblProfesores.getSelectedRow();
+            Profesor valor=(Profesor) tblProfesores.getValueAt(fila,0);
+            borrarElementoListaInt(valor);
+        }else JOptionPane.showMessageDialog(this, "No se ha seleccionado ningún profesor");
+    }//GEN-LAST:event_botonEliminarIntegranteActionPerformed
+
+    private void botonPublicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonPublicarActionPerformed
+        if(validarVacio() && validarFormato()){
+            if (cboTipo.getSelectedItem() == "Congreso") {
+                publicacionCongreso = new PublicacionCongreso();
+                
+                publicacionCongreso.setNumeroSecuencia(Integer.parseInt(txtNumeroSecuencia.getText()));
+                publicacionCongreso.setTipo(txtTitulo.getText());
+                publicacionCongreso.setNombreCongreso(txtNombreCongreso.getText());
+                publicacionCongreso.setTipo((String) cboTipoCongreso.getSelectedItem());
+                publicacionCongreso.setLugarCelebracion(txtLugarCelebracion.getText());
+                publicacionCongreso.setPais(txtPais.getText());
+                publicacionCongreso.setEditorial(txtEditorialCongreso.getText());
+                
+                Calendar fechaInicioC= Calendar.getInstance();
+                fechaInicioC.set(fechaInicio.getDate().getYear(), fechaInicio.getDate().getMonthValue()-1, fechaInicio.getDate().getDayOfMonth(),0,0,0);
+                Calendar fechaFinC= Calendar.getInstance();
+                fechaFinC.set(fechaFinal.getDate().getYear(), fechaFinal.getDate().getMonthValue()-1, fechaFinal.getDate().getDayOfMonth(),0,0,0);
+                
+                publicacionCongreso.setFechaInicio(fechaInicioC.getTime());
+                publicacionCongreso.setFechaFin(fechaFinC.getTime());
+                proyecto.setPublicacionesCongreso(publicacionCongreso);
+                
+            } else if (cboTipo.getSelectedItem() == "Revista") {
+                publicacionRevista = new PublicacionRevista();
+                
+                publicacionRevista.setNombreRevista(txtNombreRevista.getText());
+                publicacionRevista.setEditorial(txtEditorialRevista.getText());
+                publicacionRevista.setVolumen(Integer.parseInt(txtVolumen.getText()));
+                publicacionRevista.setNumero(Integer.parseInt(txtNumero.getText()));
+                publicacionRevista.setCantidadPaginas(Integer.parseInt(txtCantidadPaginas.getText()));
+                proyecto.setPublicacionesRevista(publicacionRevista);
+
+            }
+
+            negFac.actualizarProyecto(proyecto);
+        }
+              
+        
+    }//GEN-LAST:event_botonPublicarActionPerformed
+
+    private void txtVolumenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVolumenKeyTyped
+        if(!Character.isDigit(evt.getKeyChar()))
+            evt.consume();
+    }//GEN-LAST:event_txtVolumenKeyTyped
+
+    private void txtNumeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroKeyTyped
+        if(!Character.isDigit(evt.getKeyChar()))
+            evt.consume();
+    }//GEN-LAST:event_txtNumeroKeyTyped
+
+    private void txtCantidadPaginasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadPaginasKeyTyped
+        if(!Character.isDigit(evt.getKeyChar()))
+            evt.consume();
+    }//GEN-LAST:event_txtCantidadPaginasKeyTyped
+
+    private boolean validarVacio(){
+        if(txtNumeroSecuencia.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Ingrese el número de secuencia de la publicacion");
+            return false;
+        }
+        
+        if(txtTitulo.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Ingrese el titulo de la publicacion");
+            return false;
+        }
+        
+        if(cboTipo.getSelectedIndex() == 0){
+            JOptionPane.showMessageDialog(this, "Seleccione el tipo depublicacion");
+            return false;
+        }
+        if(cboTipo.getSelectedItem() == "Congreso"){
+            
+            if (txtNombreCongreso.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Ingrese el nombre del congreso");
+                return false;
+            }
+
+            if (txtTitulo.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Ingrese el titulo del congreso");
+                return false;
+            }
+
+            if (cboTipoCongreso.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(this, "Ingrese el tipo de congreso");
+                return false;
+            }
+
+            if (txtLugarCelebracion.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Ingrese el lugar de celebración del congreso");
+                return false;
+            }
+
+            if (txtPais.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Ingrese el pais del congreso");
+                return false;
+            }
+
+            if (txtEditorialCongreso.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Ingrese la editorial del congreso");
+                return false;
+            }
+
+            if (fechaInicio.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Ingrese la fecha inicial del congreso");
+                return false;
+            }
+            //Validar que se ingrese la fecha de fin del proyecto
+            if (fechaFinal.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Ingrese la fecha final del congreso");
+                return false;
+            }
+            
+        }else if(cboTipo.getSelectedItem() == "Revista"){
+            
+            if (txtNombreRevista.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Ingrese el nombre de la revista");
+                return false;
+            }
+
+            if (txtEditorialRevista.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Ingrese la editorial de la revista");
+                return false;
+            }
+
+            if (txtVolumen.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Ingrese el volumen de la revista");
+                return false;
+            }
+
+            if (txtNumero.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Ingrese el numero de la revista");
+                return false;
+            }
+
+            if (txtCantidadPaginas.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Ingrese la cantidad de paginas de la revista");
+                return false;
+            }
+        }
+                        
+        return true;
+    }
+    
+    private boolean validarFormato(){
+                
+        Calendar fechaInicioC= Calendar.getInstance();
+        fechaInicioC.set(fechaInicio.getDate().getYear(), fechaInicio.getDate().getMonthValue()-1, fechaInicio.getDate().getDayOfMonth(),0,0,0);
+        Calendar fechaFinC= Calendar.getInstance();
+        fechaFinC.set(fechaFinal.getDate().getYear(), fechaFinal.getDate().getMonthValue()-1, fechaFinal.getDate().getDayOfMonth(),0,0,0);
+        
+        
+        if(fechaInicioC.compareTo(fechaFinC)>=0){
+            JOptionPane.showMessageDialog(this, "Ingrese un periodo de fechas válido");
+            return false;
+        }
+        
+        if(modeloListaInt.getSize()<1){
+            JOptionPane.showMessageDialog(this, "Debe haber al menos 1 integrantes");
+            return false;
+        }
+        
+        return true;
+        
+    }
+    
+    private void borrarElementoListaInt(Profesor valor){
+        if(modeloListaInt.contains(valor)){
+            modeloListaInt.removeElement(valor);
+
+            return;
+        }
+         
+        for(int e = 0; e < modeloListaInt.getSize(); e++){
+            Profesor prof = (Profesor) modeloListaInt.get(e);
+            if(prof.getNombre().equalsIgnoreCase(valor.getNombre()) && prof.getApellidos().equalsIgnoreCase(valor.getApellidos())){
+                modeloListaInt.remove(e);
+                
+                return;
+            }
+        }
+        
+        JOptionPane.showMessageDialog(this, "El profesor seleccionado NO está en la lista de integrantes");
+    }
+    
+    private boolean agregarElementoListaIntegrantes(Profesor v){  
+        if(modeloListaInt.contains(v)){
+            JOptionPane.showMessageDialog(this, "El profesor seleccionado ya esta en la lista");
+            return false;
+        }
+        ProfesorProyecto profProy = new ProfesorProyecto();        
+        modeloListaInt.addElement(v);        
+        return true;
+    }
+    
+    private void limpiar(){
+        txtNumeroSecuencia.setText("");
+        txtTitulo.setText("");
+        cboTipo.setSelectedItem("Selecciona tipo");
+        txtNombreCongreso.setText("");
+        cboTipoCongreso.setSelectedItem("Selecciona tipo");
+        txtLugarCelebracion.setText("");
+        txtPais.setText("");
+        txtEditorialCongreso.setText("");
+        txtNombreRevista.setText("");
+        txtEditorialRevista.setText("");
+        txtVolumen.setText("");
+        txtNumero.setText("");
+        txtCantidadPaginas.setText("");
+        fechaInicio.setText("");
+        fechaFinal.setText("");
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -149,7 +843,54 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonAgregarIntegrante;
+    private javax.swing.JButton botonCancelar;
+    private javax.swing.JButton botonEliminarIntegrante;
+    private javax.swing.JButton botonPublicar;
+    private javax.swing.JButton botonVolver;
+    private javax.swing.JComboBox<String> cboTipo;
+    private javax.swing.JComboBox<String> cboTipoCongreso;
+    private com.github.lgooddatepicker.components.DatePicker fechaFinal;
+    private com.github.lgooddatepicker.components.DatePicker fechaInicio;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList<String> lstIntegrantes;
+    private javax.swing.JPanel panelCongreso;
+    private javax.swing.JPanel panelRevista;
     private javax.swing.JScrollPane scroll;
+    private javax.swing.JTable tblProfesores;
     private javax.swing.JTable tblProyectos;
+    private javax.swing.JTextField txtCantidadPaginas;
+    private javax.swing.JTextField txtEditorialCongreso;
+    private javax.swing.JTextField txtEditorialRevista;
+    private javax.swing.JTextField txtLugarCelebracion;
+    private javax.swing.JTextField txtNombreCongreso;
+    private javax.swing.JTextField txtNombreRevista;
+    private javax.swing.JTextField txtNumero;
+    private javax.swing.JTextField txtNumeroSecuencia;
+    private javax.swing.JTextField txtPais;
+    private javax.swing.JTextField txtTitulo;
+    private javax.swing.JTextField txtVolumen;
     // End of variables declaration//GEN-END:variables
 }

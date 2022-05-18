@@ -6,6 +6,7 @@
 package interfaces;
 
 import Entidades.Proyecto;
+import Entidades.Publicacion;
 import java.util.Date;
 import java.util.List;
 

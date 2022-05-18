@@ -6,6 +6,7 @@
 package BOs;
 
 import Entidades.Proyecto;
+import Entidades.Publicacion;
 import daos.DaosFactory;
 import interfaces.IProyectoBO;
 import interfaces.IProyectoDAO;

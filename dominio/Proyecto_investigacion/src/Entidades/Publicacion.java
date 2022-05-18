@@ -14,8 +14,6 @@ import java.util.List;
 public class Publicacion {
     protected int numeroSecuencia;
     protected String titulo;
-    protected Proyecto proyecto;
-    protected List<LineaInvestigacion> lineas;
 
     public Publicacion() {
     }
@@ -41,25 +39,9 @@ public class Publicacion {
         this.titulo = titulo;
     }
 
-    public Proyecto getListaProfesores() {
-        return proyecto;
-    }
-
-    public void setListaProfesores(Proyecto listaProfesoresda) {
-        this.proyecto = listaProfesoresda;
-    }
-
-    public List<LineaInvestigacion> getLineas() {
-        return lineas;
-    }
-
-    public void setLineas(List<LineaInvestigacion> lineas) {
-        this.lineas = lineas;
-    }
-
     @Override
     public String toString() {
-        return "Publicacion{" + "numeroSecuencia=" + numeroSecuencia + ", titulo=" + titulo + ", listaProfesores=" + proyecto + ", lineas=" + lineas + '}';
+        return "Publicacion{" + "numeroSecuencia=" + numeroSecuencia + ", titulo=" + titulo + ", listaProfesores=";
     }
     
     

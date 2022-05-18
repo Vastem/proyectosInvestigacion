@@ -67,7 +67,8 @@ public class ProyectoDAO implements IProyectoDAO{
                 .append("lineasInvestigacion", proyecto.getLineasInvestigacion())
                 .append("profesoresProyecto", proyecto.getProfesoresProyecto())
                 .append("investigadorPrincipal", proyecto.getInvestigadorPrincipal());
-
+//                .append("publicacionesCongreso", proyecto.getPublicacionesCongreso(0))
+//                .append("publicacionesRevista", proyecto.getPublicacionesRevista());
         coleccion.updateOne(filtro, new Document("$set", cambios));
         return true;
     }
@@ -76,9 +77,9 @@ public class ProyectoDAO implements IProyectoDAO{
     public List<Proyecto> consultarTodos() {
         MongoCollection <Proyecto> coleccion = this.getColecion();
         List<Proyecto> lPr = new LinkedList<>();
-        coleccion.find().into(lPr);
+        return coleccion.find().into(lPr);
 
-        return lPr;
+       //return lPr;
     }
     
     public List<Proyecto> consultarCodigo(String codigo) {

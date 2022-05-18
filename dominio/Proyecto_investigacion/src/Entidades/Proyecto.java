@@ -5,6 +5,7 @@
  */
 package Entidades;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -26,8 +27,12 @@ public class Proyecto {
     protected List<ProfesorProyecto> profesoresProyecto;
     protected Doctor investigadorPrincipal;
     protected List<LineaInvestigacion> lineasInvestigacion;
+    protected List<PublicacionCongreso> publicacionesCongreso;
+    protected List<PublicacionRevista> publicacionesRevista;
     
-    public Proyecto() {
+    public Proyecto() {        
+        publicacionesCongreso = new ArrayList();
+        publicacionesRevista = new ArrayList();
     }
 
     public Proyecto(String nombre) {
@@ -167,6 +172,33 @@ public class Proyecto {
         this.lineasInvestigacion = lineasInvestigacion;
     }
 
+    public List<PublicacionCongreso> getPublicacionesCongreso() {
+        return publicacionesCongreso;
+    }
+    
+    public PublicacionCongreso getPublicacionesCongreso(int index) {
+        return publicacionesCongreso.get(index);
+    }
+
+    public void setPublicacionesCongreso(List<PublicacionCongreso> publicacionesCongreso) {
+        this.publicacionesCongreso = publicacionesCongreso;
+    }
+    
+    public void setPublicacionesCongreso(PublicacionCongreso publicacion) {
+        this.publicacionesCongreso.add(publicacion);
+    }
+
+    public List<PublicacionRevista> getPublicacionesRevista() {
+        return publicacionesRevista;
+    }
+
+    public void setPublicacionesRevista(List<PublicacionRevista> publicacionesRevista) {
+        this.publicacionesRevista = publicacionesRevista;
+    }    
+    
+    public void setPublicacionesRevista(PublicacionRevista publicacion) {
+        this.publicacionesRevista.add(publicacion);
+    }
     
     
     @Override
@@ -199,7 +231,7 @@ public class Proyecto {
     
     @Override
     public String toString() {
-        return "Proyecto{" + "codigo=" + codigo + ", nombre=" + nombre + ", acronimo=" + acronimo + ", presupuesto=" + presupuesto + ", programaInvestigacion=" + programaInvestigacion + ", desarrolloFinanza=" + desarrolloFinanza + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + ", descripcionObjeto=" + descripcionObjeto + ", profesoresProyecto=" + profesoresProyecto + ", investigadorPrincipal=" + investigadorPrincipal + '}';
+        return nombre + ", " + acronimo;
     }
     
     

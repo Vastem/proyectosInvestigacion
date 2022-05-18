@@ -18,10 +18,7 @@ public class PublicacionCongreso extends Publicacion{
     protected String lugarCelebracion;
     protected String pais;
     protected String editorial;
-    protected enum tipo{
-        Internacional,
-        Nacional
-    }
+    protected String tipo;
 
     public PublicacionCongreso(int numeroSecuencia, String titulo) {
         super(numeroSecuencia, titulo);
@@ -54,6 +51,14 @@ public class PublicacionCongreso extends Publicacion{
 
     public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = fechaInicio;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public Date getFechaFin() {
