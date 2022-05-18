@@ -77,9 +77,9 @@ public class ProyectoDAO implements IProyectoDAO{
         MongoCollection <Proyecto> coleccion = this.getColecion();
         List<Proyecto> lPr = new LinkedList<>();
         coleccion.find().into(lPr);
-        if(lPr.isEmpty()){
-             return null;
-         }
+//        if(lPr.isEmpty()){
+//             return null;
+//         }
         return lPr;
     }
     
