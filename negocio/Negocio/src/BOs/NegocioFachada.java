@@ -59,6 +59,15 @@ public class NegocioFachada{
             
     }
     
+    public void guardarPublicacion(Proyecto proyecto){
+        if(proyectoBO.consultarTodos().contains(proyecto)){
+            proyectoBO.actualizarProyecto(proyecto);
+            return;
+        }
+        JOptionPane.showMessageDialog(null, "","Precaución",JOptionPane.ERROR_MESSAGE);
+            
+    }
+  
     public void eliminarProyecto(Proyecto proyecto){
         if(proyectoBO.consultarTodos().contains(proyecto)){
             proyectoBO.eliminarProyecto(proyecto);
@@ -67,6 +76,9 @@ public class NegocioFachada{
         JOptionPane.showMessageDialog(null, "","Precaución",JOptionPane.ERROR_MESSAGE);
     }
     
+    public void agregarPublicacion(Proyecto proyecto, String titulo){
+        proyectoBO.agregarPublicacion(proyecto, titulo);
+    }
     
     public List<Programa> consultarTodosProgramas(){
         return programaBO.consultarTodos();
@@ -147,4 +159,6 @@ public class NegocioFachada{
         }
         return false;
     }
+    
+    
 }

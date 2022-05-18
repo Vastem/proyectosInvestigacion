@@ -27,16 +27,15 @@ public class Proyecto {
     protected List<ProfesorProyecto> profesoresProyecto;
     protected Doctor investigadorPrincipal;
     protected List<LineaInvestigacion> lineasInvestigacion;
-    protected List<PublicacionCongreso> publicacionesCongreso;
-    protected List<PublicacionRevista> publicacionesRevista;
+    protected List<Publicacion> publicaciones;
     
     public Proyecto() {        
-        publicacionesCongreso = new ArrayList();
-        publicacionesRevista = new ArrayList();
+        this.publicaciones = new ArrayList();
     }
 
     public Proyecto(String nombre) {
         this.nombre = nombre;
+        this.publicaciones = new ArrayList();
     }
 
     public Proyecto(String codigo, String nombre, String acronimo, float presupuesto, Programa programaInvestigacion, String desarrolloFinanza, Date fechaInicio, Date fechaFin, String descripcionObjeto) {
@@ -49,10 +48,9 @@ public class Proyecto {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.descripcionObjeto = descripcionObjeto;
+        this.publicaciones = new ArrayList();
     }
 
-    
-    
     public Proyecto(String codigo, String nombre, String acronimo, float presupuesto, Programa programaInvestigacion, String desarrolloFinanza, String telefono, Date fechaInicio, Date fechaFin, String descripcionObjeto, List<ProfesorProyecto> profesoresProyecto, Doctor investigadorPrincipal) {
         this.codigo = codigo;
         this.nombre = nombre;
@@ -65,6 +63,7 @@ public class Proyecto {
         this.descripcionObjeto = descripcionObjeto;
         this.profesoresProyecto = profesoresProyecto;
         this.investigadorPrincipal = investigadorPrincipal;
+        this.publicaciones = new ArrayList();
     }
 
 //    public List<LineaInvestigacion> getLineaInvestigacion() {
@@ -74,6 +73,18 @@ public class Proyecto {
 //    public void setLineasInvestigacion(List<LineaInvestigacion> lineasInvestigacion) {
 //        this.lineasInvestigacion = lineasInvestigacion;
 //    }
+
+    public List<Publicacion> getPublicaciones() {
+        return publicaciones;
+    }
+
+    public void setPublicaciones(List<Publicacion> publicaciones) {
+        this.publicaciones = publicaciones;
+    }
+    
+    public void insertarPublicacion(Publicacion publicacion) {
+        this.publicaciones.add(publicacion);
+    }
     
     public String getCodigo() {
         return codigo;
@@ -172,33 +183,33 @@ public class Proyecto {
         this.lineasInvestigacion = lineasInvestigacion;
     }
 
-    public List<PublicacionCongreso> getPublicacionesCongreso() {
-        return publicacionesCongreso;
-    }
-    
-    public PublicacionCongreso getPublicacionesCongreso(int index) {
-        return publicacionesCongreso.get(index);
-    }
-
-    public void setPublicacionesCongreso(List<PublicacionCongreso> publicacionesCongreso) {
-        this.publicacionesCongreso = publicacionesCongreso;
-    }
-    
-    public void setPublicacionesCongreso(PublicacionCongreso publicacion) {
-        this.publicacionesCongreso.add(publicacion);
-    }
-
-    public List<PublicacionRevista> getPublicacionesRevista() {
-        return publicacionesRevista;
-    }
-
-    public void setPublicacionesRevista(List<PublicacionRevista> publicacionesRevista) {
-        this.publicacionesRevista = publicacionesRevista;
-    }    
-    
-    public void setPublicacionesRevista(PublicacionRevista publicacion) {
-        this.publicacionesRevista.add(publicacion);
-    }
+//    public List<PublicacionCongreso> getPublicacionesCongreso() {
+//        return publicacionesCongreso;
+//    }
+//    
+//    public PublicacionCongreso getPublicacionesCongreso(int index) {
+//        return publicacionesCongreso.get(index);
+//    }
+//
+//    public void setPublicacionesCongreso(List<PublicacionCongreso> publicacionesCongreso) {
+//        this.publicacionesCongreso = publicacionesCongreso;
+//    }
+//    
+//    public void setPublicacionesCongreso(PublicacionCongreso publicacion) {
+//        this.publicacionesCongreso.add(publicacion);
+//    }
+//
+//    public List<PublicacionRevista> getPublicacionesRevista() {
+//        return publicacionesRevista;
+//    }
+//
+//    public void setPublicacionesRevista(List<PublicacionRevista> publicacionesRevista) {
+//        this.publicacionesRevista = publicacionesRevista;
+//    }    
+//    
+//    public void setPublicacionesRevista(PublicacionRevista publicacion) {
+//        this.publicacionesRevista.add(publicacion);
+//    }
     
     
     @Override

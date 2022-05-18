@@ -27,7 +27,6 @@ public class ProyectoBO implements IProyectoBO{
 
     @Override
     public boolean agregarProyecto(Proyecto proyecto) {
-        
         if(proyectoDao.agregar(proyecto)){
             JOptionPane.showMessageDialog(null, "El proyecto se agregó correctamente");
             return true;
@@ -72,9 +71,20 @@ public class ProyectoBO implements IProyectoBO{
         return proyectoDao.consultarPrograma(programa);
     }
 
-    
     public List<Proyecto> consultarFechas(Date fechaInicio, Date fechaFin){
         return proyectoDao.consultarFechas(fechaInicio, fechaFin);
+    }
+    
+    public List<Proyecto> consultarPublicacion(String titulo){
+        return proyectoDao.consultarPublicacion(titulo);
+    }
+    
+    public boolean agregarPublicacion(Proyecto p, String titulo){
+        if(consultarPublicacion(titulo) != null){
+            JOptionPane.showMessageDialog(null, "La publicacion no se pudo agregar","Precaución",JOptionPane.ERROR_MESSAGE);   
+            return false;
+        }
+        return actualizarProyecto(p);
     }
     
 }

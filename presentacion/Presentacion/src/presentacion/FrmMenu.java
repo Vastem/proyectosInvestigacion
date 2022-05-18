@@ -35,7 +35,6 @@ public class FrmMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnRegistrarProfesor.setText("Registrar profesor");
         btnRegistrarProfesor.addActionListener(new java.awt.event.ActionListener() {
@@ -43,7 +42,6 @@ public class FrmMenu extends javax.swing.JFrame {
                 btnRegistrarProfesorActionPerformed(evt);
             }
         });
-        getContentPane().add(btnRegistrarProfesor, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 179, 55));
 
         btnBuscarProyecto.setText("Buscar proyecto");
         btnBuscarProyecto.addActionListener(new java.awt.event.ActionListener() {
@@ -51,7 +49,6 @@ public class FrmMenu extends javax.swing.JFrame {
                 btnBuscarProyectoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnBuscarProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, 179, 54));
 
         btnAgregarPublicacion.setText("Agregar publicacion");
         btnAgregarPublicacion.addActionListener(new java.awt.event.ActionListener() {
@@ -59,7 +56,6 @@ public class FrmMenu extends javax.swing.JFrame {
                 btnAgregarPublicacionActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAgregarPublicacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 170, 179, 55));
 
         btnRegistrarProyecto.setText("Registrar proyecto");
         btnRegistrarProyecto.addActionListener(new java.awt.event.ActionListener() {
@@ -67,10 +63,43 @@ public class FrmMenu extends javax.swing.JFrame {
                 btnRegistrarProyectoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnRegistrarProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, 179, 54));
 
         ea.setIcon(new javax.swing.ImageIcon(getClass().getResource("/presentacion/panorama_3.png"))); // NOI18N
-        getContentPane().add(ea, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 310));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(ea, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnRegistrarProyecto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnRegistrarProfesor)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBuscarProyecto))
+                    .addComponent(btnAgregarPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(225, 225, 225))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(ea, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 12, Short.MAX_VALUE)
+                        .addComponent(btnBuscarProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnRegistrarProfesor)
+                            .addComponent(btnRegistrarProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAgregarPublicacion))
+        );
 
         pack();
         setLocationRelativeTo(null);

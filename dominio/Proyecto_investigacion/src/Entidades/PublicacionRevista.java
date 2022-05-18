@@ -90,32 +90,6 @@ public class PublicacionRevista extends Publicacion{
         this.titulo = titulo;
     }
 
-    public Proyecto getListaProfesores() {
-        return proyecto;
-    }
-
-    public void setListaProfesores(Proyecto listaProfesoresda) {
-        this.proyecto = listaProfesoresda;
-    }
-
-    public List<LineaInvestigacion> getLineas() {
-        return lineas;
-    }
-
-    public void setLineas(List<LineaInvestigacion> lineas) {
-        this.lineas = lineas;
-    }
-
-    public Proyecto getProyecto() {
-        return proyecto;
-    }
-
-    public void setProyecto(Proyecto proyecto) {
-        this.proyecto = proyecto;
-    }
-    
-    
-
     @Override
     public String toString() {
         return "EnRevista{" + "nombreRevista=" + nombreRevista + ", editorial=" + editorial + ", volumen=" + volumen + ", numero=" + numero + ", cantidadPaginas=" + cantidadPaginas + '}';

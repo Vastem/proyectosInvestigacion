@@ -93,6 +93,24 @@ public class PublicacionCongreso extends Publicacion{
         this.editorial = editorial;
     }
 
+    public int getNumeroSecuencia() {
+        return numeroSecuencia;
+    }
+
+    public void setNumeroSecuencia(int numeroSecuencia) {
+        this.numeroSecuencia = numeroSecuencia;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+      
+    
     @Override
     public String toString() {
         return "EnCongreso{" + "nombreCongreso=" + nombreCongreso + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + ", lugarCelebracion=" + lugarCelebracion + ", pais=" + pais + ", editorial=" + editorial + '}';

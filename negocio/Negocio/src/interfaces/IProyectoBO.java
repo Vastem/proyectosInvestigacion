@@ -25,5 +25,6 @@ public interface IProyectoBO {
     public List<Proyecto> consultarAcronimo(String acronimo);
     public List<Proyecto> consultarPrograma(String programa);
     public List<Proyecto> consultarFechas(Date fechaInicio, Date fechaFin);
-    
+    public List<Proyecto> consultarPublicacion(String titulo);
+    public boolean agregarPublicacion(Proyecto p, String titulo);
 }

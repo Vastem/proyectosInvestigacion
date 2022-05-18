@@ -14,14 +14,26 @@ import java.util.List;
 public class Publicacion {
     protected int numeroSecuencia;
     protected String titulo;
+    protected List<Profesor> profesores;
 
     public Publicacion() {
+        
     }
 
     public Publicacion(int numeroSecuencia, String titulo) {
         this.numeroSecuencia = numeroSecuencia;
         this.titulo = titulo;
     }
+
+    public List<Profesor> getProfesores() {
+        return profesores;
+    }
+
+    public void setProfesores(List<Profesor> profesores) {
+        this.profesores = profesores;
+    }
+    
+    
     
     public int getNumeroSecuencia() {
         return numeroSecuencia;

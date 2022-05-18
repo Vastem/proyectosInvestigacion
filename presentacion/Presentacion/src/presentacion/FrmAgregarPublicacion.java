@@ -600,7 +600,9 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
             if (cboTipo.getSelectedItem() == "Congreso") {
                 publicacionCongreso = new PublicacionCongreso();
                 
+                publicacionCongreso.setTitulo(txtTitulo.getText());
                 publicacionCongreso.setNumeroSecuencia(Integer.parseInt(txtNumeroSecuencia.getText()));
+                
                 publicacionCongreso.setTipo(txtTitulo.getText());
                 publicacionCongreso.setNombreCongreso(txtNombreCongreso.getText());
                 publicacionCongreso.setTipo((String) cboTipoCongreso.getSelectedItem());
@@ -615,21 +617,42 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
                 
                 publicacionCongreso.setFechaInicio(fechaInicioC.getTime());
                 publicacionCongreso.setFechaFin(fechaFinC.getTime());
-                proyecto.setPublicacionesCongreso(publicacionCongreso);
+                
+                List<Profesor> profesores = new ArrayList();
+                
+                for(int i = 0; i < modeloListaInt.getSize(); i++){
+                    profesores.add((Profesor) modeloListaInt.get(i));
+                }
+                
+                publicacionCongreso.setProfesores(profesores);
+                
+                proyecto.insertarPublicacion(publicacionCongreso);
                 
             } else if (cboTipo.getSelectedItem() == "Revista") {
                 publicacionRevista = new PublicacionRevista();
+                
+                publicacionRevista.setNumeroSecuencia(Integer.parseInt(txtNumeroSecuencia.getText()));
+                publicacionRevista.setTitulo(txtTitulo.getText());
                 
                 publicacionRevista.setNombreRevista(txtNombreRevista.getText());
                 publicacionRevista.setEditorial(txtEditorialRevista.getText());
                 publicacionRevista.setVolumen(Integer.parseInt(txtVolumen.getText()));
                 publicacionRevista.setNumero(Integer.parseInt(txtNumero.getText()));
                 publicacionRevista.setCantidadPaginas(Integer.parseInt(txtCantidadPaginas.getText()));
-                proyecto.setPublicacionesRevista(publicacionRevista);
+                
+                List<Profesor> profesores = new ArrayList();
+            
+                for(int i = 0; i < modeloListaInt.getSize(); i++){
+                    profesores.add((Profesor) modeloListaInt.get(i));
+                }
+                
+                publicacionRevista.setProfesores(profesores);
+                
+                proyecto.insertarPublicacion(publicacionRevista);
 
             }
 
-            negFac.actualizarProyecto(proyecto);
+            negFac.agregarPublicacion(proyecto,txtTitulo.getText());
         }
               
         
@@ -739,18 +762,20 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
     }
     
     private boolean validarFormato(){
-                
-        Calendar fechaInicioC= Calendar.getInstance();
-        fechaInicioC.set(fechaInicio.getDate().getYear(), fechaInicio.getDate().getMonthValue()-1, fechaInicio.getDate().getDayOfMonth(),0,0,0);
-        Calendar fechaFinC= Calendar.getInstance();
-        fechaFinC.set(fechaFinal.getDate().getYear(), fechaFinal.getDate().getMonthValue()-1, fechaFinal.getDate().getDayOfMonth(),0,0,0);
-        
-        
-        if(fechaInicioC.compareTo(fechaFinC)>=0){
-            JOptionPane.showMessageDialog(this, "Ingrese un periodo de fechas válido");
-            return false;
+             
+        if(cboTipo.getSelectedItem() == "Congreso"){
+            Calendar fechaInicioC= Calendar.getInstance();
+            fechaInicioC.set(fechaInicio.getDate().getYear(), fechaInicio.getDate().getMonthValue()-1, fechaInicio.getDate().getDayOfMonth(),0,0,0);
+            Calendar fechaFinC= Calendar.getInstance();
+            fechaFinC.set(fechaFinal.getDate().getYear(), fechaFinal.getDate().getMonthValue()-1, fechaFinal.getDate().getDayOfMonth(),0,0,0);
+
+
+            if(fechaInicioC.compareTo(fechaFinC)>=0){
+                JOptionPane.showMessageDialog(this, "Ingrese un periodo de fechas válido");
+                return false;
+            }
         }
-        
+
         if(modeloListaInt.getSize()<1){
             JOptionPane.showMessageDialog(this, "Debe haber al menos 1 integrantes");
             return false;

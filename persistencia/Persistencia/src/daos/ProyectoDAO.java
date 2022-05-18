@@ -66,9 +66,8 @@ public class ProyectoDAO implements IProyectoDAO{
                 .append("descripcionObjeto", proyecto.getDescripcionObjeto())
                 .append("lineasInvestigacion", proyecto.getLineasInvestigacion())
                 .append("profesoresProyecto", proyecto.getProfesoresProyecto())
-                .append("investigadorPrincipal", proyecto.getInvestigadorPrincipal());
-//                .append("publicacionesCongreso", proyecto.getPublicacionesCongreso(0))
-//                .append("publicacionesRevista", proyecto.getPublicacionesRevista());
+                .append("investigadorPrincipal", proyecto.getInvestigadorPrincipal())
+                .append("publicaciones", proyecto.getPublicaciones());
         coleccion.updateOne(filtro, new Document("$set", cambios));
         return true;
     }
@@ -132,4 +131,14 @@ public class ProyectoDAO implements IProyectoDAO{
          }
          return lPr;
     }
+    
+    public List<Proyecto> consultarPublicacion(String titulo) {
+        MongoCollection <Proyecto> coleccion = this.getColecion();
+        List<Proyecto> lPr = coleccion.aggregate(Arrays.asList( new Document("$match", new Document("publicaciones.titulo", titulo)))).into(new ArrayList());
+        if(lPr.isEmpty()){
+             return null;
+         }
+        return lPr;
+    }
+    
 }
