@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author Vastem
  */
-public class EnCongreso extends Publicacion{
+public class PublicacionCongreso extends Publicacion{
     protected String nombreCongreso;
     protected Date fechaInicio;
     protected Date fechaFin;
@@ -23,14 +23,14 @@ public class EnCongreso extends Publicacion{
         Nacional
     }
 
-    public EnCongreso(int numeroSecuencia, String titulo) {
+    public PublicacionCongreso(int numeroSecuencia, String titulo) {
         super(numeroSecuencia, titulo);
     }
 
-    public EnCongreso() {
+    public PublicacionCongreso() {
     }
     
-    public EnCongreso(int numeroSecuencia, String titulo, String nombreCongreso, Date fechaInicio, Date fechaFin, String lugarCelebracion, String pais, String editorial) {
+    public PublicacionCongreso(int numeroSecuencia, String titulo, String nombreCongreso, Date fechaInicio, Date fechaFin, String lugarCelebracion, String pais, String editorial) {
         super(numeroSecuencia, titulo);
         this.nombreCongreso = nombreCongreso;
         this.fechaInicio = fechaInicio;

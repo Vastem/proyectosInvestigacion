@@ -26,7 +26,7 @@ public class NoDoctorDAO implements INoDoctorDAO{
     
     public NoDoctorDAO(IConexionDB con){
         this.con = con;                      
-        this.bd = con.crearConexion();
+        this.bd = con.getInstanceConexion();
     }
     
     private MongoCollection <NoDoctor>getColecion(){

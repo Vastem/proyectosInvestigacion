@@ -25,7 +25,7 @@ public class LineaInvestigacionDAO implements ILineaInvestigacionDAO{
 
     public LineaInvestigacionDAO(IConexionDB con) {
         this.con = con;                      
-        this.bd = con.crearConexion();
+        this.bd = con.getInstanceConexion();
     }
     
     private MongoCollection <LineaInvestigacion>getColecion(){

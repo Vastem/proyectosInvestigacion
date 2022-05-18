@@ -24,7 +24,7 @@ public class ProgramaDAO implements IProgramaDAO{
     
     public ProgramaDAO(IConexionDB con) {
         this.con = con;                      
-        this.bd = con.crearConexion();
+        this.bd = con.getInstanceConexion();
     }
     
     private MongoCollection <Programa>getColecion(){

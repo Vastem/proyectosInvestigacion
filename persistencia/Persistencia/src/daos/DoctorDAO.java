@@ -29,7 +29,7 @@ public class DoctorDAO implements IDoctorDAO{
     
     public DoctorDAO(IConexionDB con){
         this.con = con;                      
-        this.bd = con.crearConexion();
+        this.bd = con.getInstanceConexion();
     }
 
     public DoctorDAO() {

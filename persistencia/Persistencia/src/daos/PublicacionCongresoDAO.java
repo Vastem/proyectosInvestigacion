@@ -5,7 +5,7 @@
  */
 package daos;
 
-import Entidades.EnCongreso;
+import Entidades.PublicacionCongreso;
 import Entidades.NoDoctor;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -20,31 +20,31 @@ import java.util.List;
 public class PublicacionCongresoDAO implements IPublicacionCongresoDAO{
     private MongoDatabase bd;
     
-    private MongoCollection <EnCongreso>getColecion(){
-        return this.bd.getCollection("congreso", EnCongreso.class);
+    private MongoCollection <PublicacionCongreso>getColecion(){
+        return this.bd.getCollection("congreso", PublicacionCongreso.class);
     }
     
     @Override
-    public boolean agregar(EnCongreso congreso) {
-        MongoCollection <EnCongreso> coleccion = this.getColecion();
+    public boolean agregar(PublicacionCongreso congreso) {
+        MongoCollection <PublicacionCongreso> coleccion = this.getColecion();
         coleccion.insertOne(congreso);
         return true;
     }
 
     @Override
-    public boolean eliminar(EnCongreso congreso) {
+    public boolean eliminar(PublicacionCongreso congreso) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean actualizar(EnCongreso congreso) {
+    public boolean actualizar(PublicacionCongreso congreso) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<EnCongreso> cosultarTodos() {
-        MongoCollection <EnCongreso> coleccion = this.getColecion();
-        List<EnCongreso> lCongreso = new LinkedList<>();
+    public List<PublicacionCongreso> cosultarTodos() {
+        MongoCollection <PublicacionCongreso> coleccion = this.getColecion();
+        List<PublicacionCongreso> lCongreso = new LinkedList<>();
         coleccion.find().into(lCongreso);
         return lCongreso;
     }

@@ -5,7 +5,7 @@
  */
 package interfaces;
 
-import Entidades.EnCongreso;
+import Entidades.PublicacionCongreso;
 import java.util.List;
 
 /**
@@ -13,8 +13,8 @@ import java.util.List;
  * @author Vastem
  */
 public interface IPublicacionCongresoDAO {
-    public boolean agregar(EnCongreso congreso);
-    public boolean eliminar(EnCongreso congreso);
-    public boolean actualizar(EnCongreso congreso);
-    public List<EnCongreso> cosultarTodos();
+    public boolean agregar(PublicacionCongreso congreso);
+    public boolean eliminar(PublicacionCongreso congreso);
+    public boolean actualizar(PublicacionCongreso congreso);
+    public List<PublicacionCongreso> cosultarTodos();
 }

@@ -5,7 +5,7 @@
  */
 package interfaces;
 
-import Entidades.EnRevista;
+import Entidades.PublicacionRevista;
 import java.util.List;
 
 /**
@@ -13,8 +13,8 @@ import java.util.List;
  * @author Vastem
  */
 public interface IPublicacionRevistaDAO {
-    public boolean agregar(EnRevista revista);
-    public boolean eliminar(EnRevista revista);
-    public boolean actualizar(EnRevista revista);
-    public List<EnRevista> cosultarTodos();
+    public boolean agregar(PublicacionRevista revista);
+    public boolean eliminar(PublicacionRevista revista);
+    public boolean actualizar(PublicacionRevista revista);
+    public List<PublicacionRevista> cosultarTodos();
 }

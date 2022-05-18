@@ -18,25 +18,33 @@ import org.bson.codecs.pojo.PojoCodecProvider;
 
 public class ConexionDB implements IConexionDB{
     private static IConexionDB conexion;
+    private static MongoDatabase bd;
     
     private static final String HOST = "localhost";
     private static final int PUERTO = 27017;
     private static final String BASE_DATOS = "proyectos_Investigacion";
     
     
-    private ConexionDB() {}
     
+    private ConexionDB() {}
+ 
     public static IConexionDB getInstance() {
         if (conexion == null) {
             conexion = new ConexionDB();
         }
         return conexion;
     }
-    
-    
+
+    public MongoDatabase getInstanceConexion() {
+        if (bd == null) {
+            bd = crearConexion();
+        }
+        return bd;
+    }
+
     @Override
     public MongoDatabase crearConexion() {
-       try{
+        try {
             //CONFIGURACIÃ“N PARA QUE MONGODRIVE REALICE EL MAPEO DE POJOS AUMATICAMENTE
             CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
             
@@ -59,5 +67,5 @@ public class ConexionDB implements IConexionDB{
             return null;
         }
     }
-    
+   
 }

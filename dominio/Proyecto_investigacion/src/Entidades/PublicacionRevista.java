@@ -11,21 +11,21 @@ import java.util.List;
  *
  * @author Vastem
  */
-public class EnRevista extends Publicacion{
+public class PublicacionRevista extends Publicacion{
     protected String nombreRevista; 
     protected String editorial; 
     protected int volumen;
     protected int numero;
     protected int cantidadPaginas;
 
-    public EnRevista(int numeroSecuencia, String titulo) {
+    public PublicacionRevista(int numeroSecuencia, String titulo) {
         super(numeroSecuencia, titulo);
     }
 
-    public EnRevista() {
+    public PublicacionRevista() {
     }
     
-    public EnRevista(int numeroSecuencia, String titulo, String nombreRevista, String editorial, int volumen, int numero, int cantidadPaginas) {
+    public PublicacionRevista(int numeroSecuencia, String titulo, String nombreRevista, String editorial, int volumen, int numero, int cantidadPaginas) {
         super(numeroSecuencia, titulo);
         this.nombreRevista = nombreRevista;
         this.editorial = editorial;

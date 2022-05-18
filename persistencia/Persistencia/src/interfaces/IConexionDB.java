@@ -13,4 +13,6 @@ import com.mongodb.client.MongoDatabase;
  */
 public interface IConexionDB {
     public MongoDatabase crearConexion();
+
+    public MongoDatabase getInstanceConexion();
 }
