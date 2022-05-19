@@ -178,7 +178,7 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
         jLabel1.setText("Agregar publicación");
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
-        jLabel2.setText("Numero de secuencia");
+        jLabel2.setText("Número de secuencia");
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         jLabel3.setText("Título");
@@ -290,7 +290,7 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
 
         jLabel8.setText("Lugar celebración");
 
-        jLabel9.setText("Pais");
+        jLabel9.setText("País");
 
         jLabel10.setText("Editorial");
 
