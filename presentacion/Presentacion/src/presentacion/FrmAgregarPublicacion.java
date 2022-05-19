@@ -9,6 +9,7 @@ import BOs.NegocioFachada;
 import Entidades.Profesor;
 import Entidades.ProfesorProyecto;
 import Entidades.Proyecto;
+import Entidades.Publicacion;
 import Entidades.PublicacionCongreso;
 import Entidades.PublicacionRevista;
 import interfaces.INegocioFachada;
@@ -640,6 +641,7 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
             if (cboTipo.getSelectedItem() == "Congreso") {
                 publicacionCongreso = new PublicacionCongreso();
                 
+                publicacionCongreso.setId(null);
                 publicacionCongreso.setTitulo(txtTitulo.getText());
                 publicacionCongreso.setNumeroSecuencia(Integer.parseInt(txtNumeroSecuencia.getText()));
                 
@@ -666,11 +668,21 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
                 
                 publicacionCongreso.setProfesores(profesores);
                 
-                proyecto.insertarPublicacion(publicacionCongreso);
+                if(negFac.consultarPublicacion(publicacionCongreso.getTitulo())){
+                    JOptionPane.showMessageDialog(null, "Publicacion repetida","Precaución",JOptionPane.ERROR_MESSAGE);   
+                    return;
+                }
+                
+                negFac.agregarPublicacionCongreso(publicacionCongreso);
+                
+                List<Publicacion> agregar = negFac.consultarTituloCongreso(publicacionCongreso.getTitulo());
+                
+                proyecto.insertarPublicacion(agregar.get(0));
                 
             } else if (cboTipo.getSelectedItem() == "Revista") {
                 publicacionRevista = new PublicacionRevista();
                 
+                publicacionRevista.setId(null);
                 publicacionRevista.setNumeroSecuencia(Integer.parseInt(txtNumeroSecuencia.getText()));
                 publicacionRevista.setTitulo(txtTitulo.getText());
                 
@@ -688,11 +700,20 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
                 
                 publicacionRevista.setProfesores(profesores);
                 
-                proyecto.insertarPublicacion(publicacionRevista);
-
+                if(negFac.consultarPublicacion(publicacionRevista.getTitulo())){
+                    JOptionPane.showMessageDialog(null, "Publicacion repetida","Precaución",JOptionPane.ERROR_MESSAGE);   
+                    return;
+                }
+                
+                negFac.agregarPublicacionRevista(publicacionRevista);
+                
+                List<Publicacion> agregar = negFac.consultarTituloRevista(publicacionRevista.getTitulo());
+                
+                proyecto.insertarPublicacion(agregar.get(0));
             }
 
             negFac.agregarPublicacion(proyecto,txtTitulo.getText());
+            JOptionPane.showMessageDialog(null, "Se agregó la publicación","",JOptionPane.INFORMATION_MESSAGE);
             limpiar();
         }
               

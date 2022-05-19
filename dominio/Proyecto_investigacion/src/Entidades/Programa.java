@@ -6,12 +6,14 @@
 package Entidades;
 
 import java.util.Objects;
+import org.bson.types.ObjectId;
 
 /**
  *
  * @author Usuario
  */
 public class Programa {
+    protected ObjectId id;
     protected String nombre;
 
     public Programa() {
@@ -21,6 +23,16 @@ public class Programa {
         this.nombre = nombre;
     }
 
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+
+    
+    
     public String getNombre() {
         return nombre;
     }

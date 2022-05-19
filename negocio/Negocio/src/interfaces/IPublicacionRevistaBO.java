@@ -6,15 +6,15 @@
 package interfaces;
 
 import Entidades.Publicacion;
-import Entidades.PublicacionCongreso;
+import Entidades.PublicacionRevista;
 import java.util.List;
 
 /**
  *
  * @author Vastem
  */
-public interface IPublicacionCongresoDAO {
-    public boolean agregar(PublicacionCongreso congreso);
+public interface IPublicacionRevistaBO {
+    public boolean agregar(PublicacionRevista revista);
     public List<Publicacion> cosultarTodos();
     public List<Publicacion> consultarTitulo(String titulo);
 }

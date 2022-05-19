@@ -83,10 +83,8 @@ public class ProyectoBO implements IProyectoBO{
     
     public boolean agregarPublicacion(Proyecto p, String titulo){
         if(consultarPublicacion(titulo) != null){
-            JOptionPane.showMessageDialog(null, "La publicacion no se pudo agregar","Precaución",JOptionPane.ERROR_MESSAGE);   
             return false;
         }
-        JOptionPane.showMessageDialog(null, "Se agregó la publicación","",JOptionPane.INFORMATION_MESSAGE);
         return actualizarProyecto(p);
     }
     

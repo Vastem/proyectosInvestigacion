@@ -230,6 +230,7 @@ public class FrmRegistrarProfesor extends javax.swing.JFrame {
     private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
         if (validacionCampos()) {
             if (doctorComboBox.getSelectedItem() == "Doctor") {
+                doctor.setId(null);
                 doctor.setNombre(txtNombre.getText());
                 doctor.setApellidos(txtApellidos.getText());
                 doctor.setDespacho(txtDespacho.getText());
@@ -238,6 +239,7 @@ public class FrmRegistrarProfesor extends javax.swing.JFrame {
                     limpiarCampos();
                 }
             } else if (doctorComboBox.getSelectedItem() == "No Doctor") {
+                noDoctor.setId(null);
                 noDoctor.setNombre(txtNombre.getText());
                 noDoctor.setApellidos(txtApellidos.getText());
                 noDoctor.setDespacho(txtDespacho.getText());

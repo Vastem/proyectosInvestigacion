@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Vastem
  */
-public interface IPublicacionCongresoDAO {
+public interface IPublicacionCongresoBO {
     public boolean agregar(PublicacionCongreso congreso);
     public List<Publicacion> cosultarTodos();
     public List<Publicacion> consultarTitulo(String titulo);

@@ -11,6 +11,8 @@ import interfaces.ILineaInvestigacionDAO;
 import interfaces.INoDoctorDAO;
 import interfaces.IProgramaDAO;
 import interfaces.IProyectoDAO;
+import interfaces.IPublicacionCongresoDAO;
+import interfaces.IPublicacionRevistaDAO;
 
 /**
  *
@@ -37,5 +39,13 @@ public class DaosFactory {
     
     public static INoDoctorDAO createNoDoctorDAO(){
         return new NoDoctorDAO(conexion);
+    }
+    
+    public static IPublicacionRevistaDAO createPublicacionRevistaDAO(){
+        return new PublicacionRevistaDAO(conexion);
+    }
+    
+    public static IPublicacionCongresoDAO createPublicacionCongresoDAO(){
+        return new PublicacionCongresoDAO(conexion);
     }
 }

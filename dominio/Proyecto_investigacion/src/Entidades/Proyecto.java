@@ -74,6 +74,8 @@ public class Proyecto {
 //        this.lineasInvestigacion = lineasInvestigacion;
 //    }
 
+    
+    
     public List<Publicacion> getPublicaciones() {
         return publicaciones;
     }
@@ -133,7 +135,6 @@ public class Proyecto {
     public void setDesarrolloFinanza(String desarrolloFinanza) {
         this.desarrolloFinanza = desarrolloFinanza;
     }
-
    
     public Date getFechaInicio() {
         return fechaInicio;

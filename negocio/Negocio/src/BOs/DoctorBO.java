@@ -26,8 +26,6 @@ public class DoctorBO implements IDoctorBO{
         perFac = new PersistenciaFachada();
     }
 
-    
-    
     @Override
     public boolean agregar(Doctor doctor) {
         if(perFac.agregar(doctor)){

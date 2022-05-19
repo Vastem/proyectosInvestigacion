@@ -10,6 +10,8 @@ import interfaces.ILineaInvestigacionBO;
 import interfaces.INoDoctorBO;
 import interfaces.IProgramaBO;
 import interfaces.IProyectoBO;
+import interfaces.IPublicacionCongresoBO;
+import interfaces.IPublicacionRevistaBO;
 
 /**
  *
@@ -37,5 +39,12 @@ public class FabricaBOs {
         return new LineaInvestigacionBO();
     }
     
+    public static IPublicacionRevistaBO createPublicacionRevistaBO(){
+        return new PublicacionRevistaBO();
+    }
+    
+    public static IPublicacionCongresoBO createPublicacionCongresoBO(){
+        return new PublicacionCongresoBO();
+    }
     
 }

@@ -5,6 +5,7 @@
  */
 package interfaces;
 
+import Entidades.Publicacion;
 import Entidades.PublicacionRevista;
 import java.util.List;
 
@@ -14,7 +15,6 @@ import java.util.List;
  */
 public interface IPublicacionRevistaDAO {
     public boolean agregar(PublicacionRevista revista);
-    public boolean eliminar(PublicacionRevista revista);
-    public boolean actualizar(PublicacionRevista revista);
-    public List<PublicacionRevista> cosultarTodos();
+    public List<Publicacion> cosultarTodos();
+    public List<Publicacion> consultarTitulo(String titulo);
 }

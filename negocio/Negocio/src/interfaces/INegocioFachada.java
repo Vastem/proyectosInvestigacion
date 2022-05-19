@@ -11,6 +11,9 @@ import Entidades.NoDoctor;
 import Entidades.Profesor;
 import Entidades.Programa;
 import Entidades.Proyecto;
+import Entidades.Publicacion;
+import Entidades.PublicacionCongreso;
+import Entidades.PublicacionRevista;
 import java.util.Date;
 import java.util.List;
 
@@ -38,4 +41,16 @@ public interface INegocioFachada {
     public boolean agregarDoctor(Doctor doctor);
     public boolean actualizarNoDoctor(NoDoctor NoDoctor);
     
+    public List<Publicacion> consultarTodosRevista();
+    
+    public List<Publicacion> consultarTodosCongreso();
+    
+    public boolean agregarPublicacionRevista(PublicacionRevista revista);
+    
+    public boolean agregarPublicacionCongreso(PublicacionCongreso congreso);
+    
+    public List<Publicacion> consultarTituloRevista(String titulo);
+    
+    public List<Publicacion> consultarTituloCongreso(String titulo);
+    public boolean consultarPublicacion(String titulo);
 }

@@ -11,6 +11,9 @@ import Entidades.NoDoctor;
 import Entidades.Profesor;
 import Entidades.Programa;
 import Entidades.Proyecto;
+import Entidades.Publicacion;
+import Entidades.PublicacionCongreso;
+import Entidades.PublicacionRevista;
 import java.util.Date;
 import java.util.List;
 
@@ -55,4 +58,10 @@ public interface IPersistenciaFachada {
     
     public List<LineaInvestigacion> cosultarTodosLineaInv();
     
+    public boolean agregar(PublicacionRevista revista);
+    public boolean agregar(PublicacionCongreso congreso);
+    public List<Publicacion> cosultarTodosPublicacionRevista();
+    public List<Publicacion> cosultarTodosPublicacionCongreso();
+    public List<Publicacion> cosultarTituloRevista(String titulo);
+    public List<Publicacion> cosultarTituloCongreso(String titulo);
 }

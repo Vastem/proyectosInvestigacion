@@ -105,7 +105,7 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
         }
         
         for(int a = 0; a < p.getProfesoresProyecto().size(); a++){
-            modeloListaInt.addElement(p.getProfesoresProyecto().get(a).getProfesor());
+            modeloListaInt.addElement(p.getProfesoresProyecto().get(a));
             integrantes.add(p.getProfesoresProyecto().get(a));
         }
     }
@@ -841,16 +841,16 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
     private void borrarElementoListaInt(Profesor valor){
         if(modeloListaInt.contains(valor)){
             modeloListaInt.removeElement(valor);
-            integrantes.remove(new ProfesorProyecto(valor));
             return;
         }
          
         for(int e = 0; e < modeloListaInt.getSize(); e++){
-            Profesor prof = (Profesor) modeloListaInt.get(e);
-            if(prof.getNombre().equalsIgnoreCase(valor.getNombre()) && prof.getApellidos().equalsIgnoreCase(valor.getApellidos())){
+            ProfesorProyecto temp = (ProfesorProyecto) modeloListaInt.get(e);
+            Profesor prof = temp.getProfesor();
+            if(prof.getId().equals(valor.getId())){
                 modeloListaInt.remove(e);
                 for(int i = 0; i < integrantes.size(); i++){
-                    if(integrantes.get(i).getProfesor().getNombre().equalsIgnoreCase(prof.getNombre()) && integrantes.get(i).getProfesor().getApellidos().equalsIgnoreCase(prof.getApellidos())){
+                    if(integrantes.get(i).getProfesor().getId().equals(valor.getId())){
                         integrantes.remove(i);
                     }
                 }
@@ -866,6 +866,20 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "El profesor seleccionado ya esta en la lista");
             return false;
         }
+        else{
+            for(int i =0;i < modeloListaInt.size();i++){
+                ProfesorProyecto a= (ProfesorProyecto) modeloListaInt.get(i);
+                Profesor temp = a.getProfesor();
+                if(temp.getId().equals(v.getId())){
+                    JOptionPane.showMessageDialog(this, "El profesor seleccionado ya esta en la lista");
+                    return false;
+                }
+            }
+            
+        }
+            
+        
+        
         
         //Agregar profesorProyecto a la lista
         Calendar fechaInicio= Calendar.getInstance();
@@ -875,7 +889,7 @@ public class FrmRegistrarProyecto extends javax.swing.JFrame {
         
         ProfesorProyecto profProy = new ProfesorProyecto(v,fechaInicio.getTime() , fechaFin.getTime());
         
-        modeloListaInt.addElement(v);
+        modeloListaInt.addElement(profProy);
         integrantes.add(profProy);
         
         txtFechaInicioInt.setText("");

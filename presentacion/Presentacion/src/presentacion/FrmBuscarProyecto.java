@@ -251,10 +251,12 @@ public class FrmBuscarProyecto extends javax.swing.JFrame {
         
         if(validarVacio() && validarFormatos()){
             setTablaProyectos();
+            
         }
         
         if(opcionComboBox.getSelectedItem()== "Programa de Investigacion"){
             botonBuscar.setEnabled(false);
+            txtCampoBuscar.setVisible(true);
         }
     }//GEN-LAST:event_botonBuscarActionPerformed
 

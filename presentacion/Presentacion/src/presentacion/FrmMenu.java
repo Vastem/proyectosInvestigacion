@@ -5,17 +5,23 @@
  */
 package presentacion;
 
+import BOs.NegocioFachada;
+import interfaces.INegocioFachada;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Vastem
  */
 public class FrmMenu extends javax.swing.JFrame {
-
+    INegocioFachada negFac;
+    
     /**
      * Creates new form FrmMenu
      */
     public FrmMenu() {
         initComponents();
+        negFac = new NegocioFachada();
     }
 
     /**
@@ -71,17 +77,17 @@ public class FrmMenu extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(36, Short.MAX_VALUE)
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAgregarPublicacion, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnRegistrarProfesor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ea)
+                    .addComponent(btnRegistrarProfesor)
+                    .addComponent(btnAgregarPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBuscarProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
-                    .addComponent(btnRegistrarProyecto))
-                .addContainerGap())
+                .addComponent(ea)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnRegistrarProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnBuscarProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -93,13 +99,10 @@ public class FrmMenu extends javax.swing.JFrame {
                 .addComponent(btnRegistrarProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(65, 65, 65))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(205, 205, 205)
-                        .addComponent(btnAgregarPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(67, 67, 67)
-                        .addComponent(btnRegistrarProfesor, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(67, 67, 67)
+                .addComponent(btnRegistrarProfesor, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68)
+                .addComponent(btnAgregarPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -120,15 +123,26 @@ public class FrmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarProyectoActionPerformed
 
     private void btnBuscarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProyectoActionPerformed
-        FrmBuscarProyecto bp = new FrmBuscarProyecto();
-        bp.setVisible(true);
-        dispose();
+        if(negFac.consultarTodosProyectos().size() > 0){
+            FrmBuscarProyecto bp = new FrmBuscarProyecto();
+            bp.setVisible(true);
+            dispose();
+        }else{
+            JOptionPane.showMessageDialog(null, "No existen proyectos registrados","Precaución",JOptionPane.ERROR_MESSAGE);
+        
+        }
     }//GEN-LAST:event_btnBuscarProyectoActionPerformed
 
     private void btnAgregarPublicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPublicacionActionPerformed
-        FrmAgregarPublicacion ap = new FrmAgregarPublicacion();
-        ap.setVisible(true);
-        dispose();
+        if(negFac.consultarTodosProyectos().size() > 0){
+            FrmAgregarPublicacion ap = new FrmAgregarPublicacion();
+            ap.setVisible(true);
+            dispose();
+        }else{
+            JOptionPane.showMessageDialog(null, "No existen proyectos registrados","Precaución",JOptionPane.ERROR_MESSAGE);
+        
+        }
+            
     }//GEN-LAST:event_btnAgregarPublicacionActionPerformed
 
     /**

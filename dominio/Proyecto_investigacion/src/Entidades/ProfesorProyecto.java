@@ -8,6 +8,7 @@ package Entidades;
 
 import java.util.Date;
 import java.util.Objects;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -82,7 +83,7 @@ public class ProfesorProyecto {
 
     @Override
     public String toString() {
-        return "ProfesorProyecto{" + "profesor=" + profesor + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + '}';
+        return profesor + ", Desde:" + fechaInicio.toLocaleString() + ", Hasta:" + fechaFin.toLocaleString();
     }
     
 }

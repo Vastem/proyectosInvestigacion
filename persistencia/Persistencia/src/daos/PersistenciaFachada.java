@@ -11,12 +11,17 @@ import Entidades.NoDoctor;
 import Entidades.Profesor;
 import Entidades.Programa;
 import Entidades.Proyecto;
+import Entidades.Publicacion;
+import Entidades.PublicacionCongreso;
+import Entidades.PublicacionRevista;
 import interfaces.IDoctorDAO;
 import interfaces.ILineaInvestigacionDAO;
 import interfaces.INoDoctorDAO;
 import interfaces.IPersistenciaFachada;
 import interfaces.IProgramaDAO;
 import interfaces.IProyectoDAO;
+import interfaces.IPublicacionCongresoDAO;
+import interfaces.IPublicacionRevistaDAO;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +35,8 @@ public class PersistenciaFachada implements IPersistenciaFachada{
     INoDoctorDAO noDoctorDAO;
     ILineaInvestigacionDAO lineaInvDAO;
     IProgramaDAO programaDAO; 
+    IPublicacionRevistaDAO revistaDAO;
+    IPublicacionCongresoDAO congresoDAO;
 
     public PersistenciaFachada() {
         proyectoDAO=DaosFactory.createProyectoDAO();
@@ -37,6 +44,8 @@ public class PersistenciaFachada implements IPersistenciaFachada{
         noDoctorDAO=DaosFactory.createNoDoctorDAO();
         lineaInvDAO=DaosFactory.createLineaInvestigacionDAO();
         programaDAO=DaosFactory.createProgramaDAO();
+        revistaDAO=DaosFactory.createPublicacionRevistaDAO();
+        congresoDAO=DaosFactory.createPublicacionCongresoDAO();
     }
 
     @Override
@@ -126,4 +135,29 @@ public class PersistenciaFachada implements IPersistenciaFachada{
     public List<LineaInvestigacion> cosultarTodosLineaInv() {
         return lineaInvDAO.cosultarTodos();
     }
+    
+    public boolean agregar(PublicacionRevista revista) {
+        return revistaDAO.agregar(revista);
+    }
+    
+    public boolean agregar(PublicacionCongreso congreso) {
+        return congresoDAO.agregar(congreso);
+    }
+    
+    public List<Publicacion> cosultarTodosPublicacionRevista() {
+        return revistaDAO.cosultarTodos();
+    }
+    
+    public List<Publicacion> cosultarTodosPublicacionCongreso() {
+        return congresoDAO.cosultarTodos();
+    }
+    
+    public List<Publicacion> cosultarTituloCongreso(String titulo) {
+        return congresoDAO.consultarTitulo(titulo);
+    }
+    
+    public List<Publicacion> cosultarTituloRevista(String titulo) {
+        return revistaDAO.consultarTitulo(titulo);
+    }
+    
 }

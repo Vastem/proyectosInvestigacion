@@ -11,13 +11,17 @@ import Entidades.NoDoctor;
 import Entidades.Profesor;
 import Entidades.Programa;
 import Entidades.Proyecto;
+import Entidades.Publicacion;
 import Entidades.PublicacionCongreso;
+import Entidades.PublicacionRevista;
 import interfaces.IDoctorBO;
 import interfaces.ILineaInvestigacionBO;
 import interfaces.INegocioFachada;
 import interfaces.INoDoctorBO;
 import interfaces.IProgramaBO;
 import interfaces.IProyectoBO;
+import interfaces.IPublicacionCongresoBO;
+import interfaces.IPublicacionRevistaBO;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -32,7 +36,8 @@ public class NegocioFachada implements INegocioFachada{
     INoDoctorBO noDoctorBO;
     ILineaInvestigacionBO lineaInvBO;
     IProgramaBO programaBO; 
-    
+    IPublicacionRevistaBO revistaBO;
+    IPublicacionCongresoBO congresoBO;
 
     public NegocioFachada() {
         proyectoBO=FabricaBOs.createProyectoBO();
@@ -40,6 +45,8 @@ public class NegocioFachada implements INegocioFachada{
         noDoctorBO=FabricaBOs.createNoDoctorBO();
         programaBO=FabricaBOs.createProgramaBO();
         lineaInvBO=FabricaBOs.createLineaInvBO();
+        revistaBO=FabricaBOs.createPublicacionRevistaBO();
+        congresoBO=FabricaBOs.createPublicacionCongresoBO();
     }
    
     public void agregarProyecto(Proyecto proyecto){
@@ -148,6 +155,41 @@ public class NegocioFachada implements INegocioFachada{
             return true;
         }
         return false;
+    }
+    
+    public List<Publicacion> consultarTodosRevista(){
+        return revistaBO.cosultarTodos();
+    }
+    
+    public List<Publicacion> consultarTodosCongreso(){
+        return congresoBO.cosultarTodos();
+    }
+    
+    public boolean agregarPublicacionRevista(PublicacionRevista revista){
+        if(consultarTodosRevista().contains(revista))return false;
+        else if(revistaBO.agregar(revista)) return true;
+        return false;
+    }
+    
+    public boolean agregarPublicacionCongreso(PublicacionCongreso congreso){
+        if(consultarTodosCongreso().contains(congreso))return false;
+        else if(congresoBO.agregar(congreso)) return true;
+        return false;
+    }
+    
+    public List<Publicacion> consultarTituloRevista(String titulo){
+        return revistaBO.consultarTitulo(titulo);
+    }
+    
+    public List<Publicacion> consultarTituloCongreso(String titulo){
+        return congresoBO.consultarTitulo(titulo);
+    }
+    
+    public boolean consultarPublicacion(String titulo){
+        if(proyectoBO.consultarPublicacion(titulo) != null){
+            return false;
+        }
+        return true;
     }
     
 }

@@ -13,6 +13,7 @@ import java.util.List;
  * @author Vastem
  */
 public class Profesor {
+    protected ObjectId id;
     protected String nombre;
     protected String apellidos;
     protected String despacho;
@@ -23,12 +24,14 @@ public class Profesor {
     public Profesor() {
     }
 
+    public Profesor(ObjectId id) {
+        this.id = id;
+    }
+    
     public Profesor(String nombre, String apellidos) {
         this.nombre = nombre;
         this.apellidos = apellidos;
     }
-
-    
     
     public Profesor(String nombre, String apellidos, String despacho, String telefono) {
         this.nombre = nombre;
@@ -36,8 +39,6 @@ public class Profesor {
         this.despacho = despacho;
         this.telefono = telefono;
     }
-
-    
     
     public Profesor(String nombre, String apellidos, String despacho, String telefono, List<Proyecto> proyectos, List<LineaInvestigacion> lineas) {
         this.nombre = nombre;
@@ -48,7 +49,13 @@ public class Profesor {
         this.lineas = lineas;
     }
 
-    
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
     
     public String getNombre() {
         return nombre;

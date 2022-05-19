@@ -6,12 +6,14 @@
 package Entidades;
 
 import java.util.List;
+import org.bson.types.ObjectId;
 
 /**
  *
  * @author Vastem
  */
 public class Publicacion {
+    protected ObjectId id;
     protected int numeroSecuencia;
     protected String titulo;
     protected List<Profesor> profesores;
@@ -25,6 +27,16 @@ public class Publicacion {
         this.titulo = titulo;
     }
 
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+
+    
+    
     public List<Profesor> getProfesores() {
         return profesores;
     }
