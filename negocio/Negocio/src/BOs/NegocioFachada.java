@@ -186,10 +186,10 @@ public class NegocioFachada implements INegocioFachada{
     }
     
     public boolean consultarPublicacion(String titulo){
-        if(proyectoBO.consultarPublicacion(titulo) != null){
-            return false;
+        if(proyectoBO.consultarPublicacion(titulo) == null){
+            return true;
         }
-        return true;
+        return false;
     }
     
 }

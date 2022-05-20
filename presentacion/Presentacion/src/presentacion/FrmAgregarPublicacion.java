@@ -668,7 +668,7 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
                 
                 publicacionCongreso.setProfesores(profesores);
                 
-                if(negFac.consultarPublicacion(publicacionCongreso.getTitulo())){
+                if(negFac.consultarPublicacion(publicacionCongreso.getTitulo()) == false){
                     JOptionPane.showMessageDialog(null, "Publicacion repetida","Precaución",JOptionPane.ERROR_MESSAGE);   
                     return;
                 }
@@ -700,7 +700,7 @@ public class FrmAgregarPublicacion extends javax.swing.JFrame {
                 
                 publicacionRevista.setProfesores(profesores);
                 
-                if(negFac.consultarPublicacion(publicacionRevista.getTitulo())){
+                if(negFac.consultarPublicacion(publicacionRevista.getTitulo()) == false){
                     JOptionPane.showMessageDialog(null, "Publicacion repetida","Precaución",JOptionPane.ERROR_MESSAGE);   
                     return;
                 }
